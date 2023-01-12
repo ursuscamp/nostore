@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="popup.css">
-    <script type="module" src="popup.js"></script>
 </head>
 <body>
-    <strong>Hello World!</strong>
+    <form id="priv-key-form">
+        <label for="priv-key">Private Key</label>
+        <input type="password" id="priv-key" name="priv-key" />
+        <button type="submit">Save</button>
+    </form>
+    
+    <script src="popup.js"></script>
 </body>
 </html>

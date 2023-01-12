@@ -20,7 +20,7 @@
 
     "content_scripts": [{
         "js": [ "content.js" ],
-        "matches": [ "*://example.com/*" ]
+        "matches": [ "<all_urls>" ]
     }],
 
     "action": {
@@ -35,5 +35,12 @@
         }
     },
 
-    "permissions": [ ]
+    "permissions": [ "storage" ],
+    
+    "web_accessible_resources": [
+            {
+                "resources": ["nostr.js"],
+                "matches": ["<all_urls>"]
+            }
+    ]
 }
