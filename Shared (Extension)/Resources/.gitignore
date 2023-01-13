@@ -1,4 +1,0 @@
-node_modules/
-*.build.js*
-.parcel-cache/
-dist/

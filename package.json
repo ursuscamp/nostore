@@ -6,17 +6,17 @@
     "background.js",
     "content.js",
     "nostr.js",
-    "popup.js"
+    "popup.html"
   ],
   "scripts": {
-    "build": "parcel build",
-    "watch": "parcel watch",
+    "build": "./build.js",
+    "watch": "./build.js watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "nostr-tools": "^1.1.1",
-    "parcel": "^2.8.2"
+    "esbuild": "^0.16.17",
+    "nostr-tools": "^1.1.1"
   }
 }

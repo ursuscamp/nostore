@@ -15,11 +15,12 @@
     },
 
     "background": {
-        "service_worker": "dist/background.js"
+        "service_worker": "background.build.js",
+        "type": "module"
     },
 
     "content_scripts": [{
-        "js": [ "dist/content.js" ],
+        "js": [ "content.build.js" ],
         "matches": [ "<all_urls>" ]
     }],
 
@@ -39,7 +40,7 @@
     
     "web_accessible_resources": [
             {
-                "resources": ["dist/nostr.js"],
+                "resources": ["nostr.build.js", "popup.build.js"],
                 "matches": ["<all_urls>"]
             }
     ]
