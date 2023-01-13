@@ -15,11 +15,11 @@
     },
 
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "dist/background.js"
     },
 
     "content_scripts": [{
-        "js": [ "content.js" ],
+        "js": [ "dist/content.js" ],
         "matches": [ "<all_urls>" ]
     }],
 
@@ -39,7 +39,7 @@
     
     "web_accessible_resources": [
             {
-                "resources": ["nostr.js"],
+                "resources": ["dist/nostr.js"],
                 "matches": ["<all_urls>"]
             }
     ]

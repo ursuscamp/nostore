@@ -47,6 +47,8 @@
 		941B03FB296FA90400CA291E /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = 941B03AA296FA90400CA291E /* popup.js */; };
 		941B040D296FAD6900CA291E /* nostr.js in Resources */ = {isa = PBXBuildFile; fileRef = 941B040C296FAD6900CA291E /* nostr.js */; };
 		941B040E296FAD6900CA291E /* nostr.js in Resources */ = {isa = PBXBuildFile; fileRef = 941B040C296FAD6900CA291E /* nostr.js */; };
+		941B04102971030300CA291E /* dist in Resources */ = {isa = PBXBuildFile; fileRef = 941B040F2971030300CA291E /* dist */; };
+		941B04112971030300CA291E /* dist in Resources */ = {isa = PBXBuildFile; fileRef = 941B040F2971030300CA291E /* dist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +125,7 @@
 		941B03DC296FA90400CA291E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		941B03DD296FA90400CA291E /* nostore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = nostore.entitlements; sourceTree = "<group>"; };
 		941B040C296FAD6900CA291E /* nostr.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = nostr.js; sourceTree = "<group>"; };
+		941B040F2971030300CA291E /* dist */ = {isa = PBXFileReference; lastKnownFileType = folder; path = dist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +206,7 @@
 		941B03A2296FA90400CA291E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				941B040F2971030300CA291E /* dist */,
 				941B03A3296FA90400CA291E /* _locales */,
 				941B03A4296FA90400CA291E /* images */,
 				941B03A5296FA90400CA291E /* manifest.json */,
@@ -420,6 +424,7 @@
 			files = (
 				941B03F2296FA90400CA291E /* background.js in Resources */,
 				941B03F8296FA90400CA291E /* popup.css in Resources */,
+				941B04102971030300CA291E /* dist in Resources */,
 				941B03F6296FA90400CA291E /* popup.html in Resources */,
 				941B040D296FAD6900CA291E /* nostr.js in Resources */,
 				941B03EE296FA90400CA291E /* images in Resources */,
@@ -436,6 +441,7 @@
 			files = (
 				941B03F3296FA90400CA291E /* background.js in Resources */,
 				941B03F9296FA90400CA291E /* popup.css in Resources */,
+				941B04112971030300CA291E /* dist in Resources */,
 				941B03F7296FA90400CA291E /* popup.html in Resources */,
 				941B040E296FAD6900CA291E /* nostr.js in Resources */,
 				941B03EF296FA90400CA291E /* images in Resources */,

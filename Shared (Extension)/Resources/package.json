@@ -1,0 +1,22 @@
+{
+  "name": "nostore",
+  "version": "1.0.0",
+  "description": "",
+  "source": [
+    "background.js",
+    "content.js",
+    "nostr.js",
+    "popup.js"
+  ],
+  "scripts": {
+    "build": "parcel build",
+    "watch": "parcel watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nostr-tools": "^1.1.1",
+    "parcel": "^2.8.2"
+  }
+}

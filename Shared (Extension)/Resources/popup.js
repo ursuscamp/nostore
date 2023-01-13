@@ -2,6 +2,8 @@ async function savePrivateKey(event) {
     event.preventDefault();
     let privKey = document.getElementById('priv-key');
     browser.storage.local.set({ "priv-key": privKey.value });
+    console.log('setting private key');
+    await browser.runtime.sendMessage({greeting: 'hello'});
 }
 
 async function getPrivateKey() {
