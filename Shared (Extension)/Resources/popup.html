@@ -8,16 +8,22 @@
 <body x-data="popup">
     <div class="profiles">
         <label for="profile">Profile</label>
-        <select x-model="profile" name="profile" id="profile" @change="getPrivKeyForProfile()">
-            <template x-for="prof in profiles">
-                <option :value="prof" x-text="prof"></option>
+        <select x-model="activeProfile" name="profile" id="profile" @change="getPrivKeyForProfile()">
+            <template x-for="(prof, index) in profiles">
+                <option x-text="prof.name" :value="index"></option>
             </template>
         </select>
+        <button @click="newProfile">New</button>
     </div>
 
+    <div class="profile-name">
+        <label for="profile-name">Profile Name</label>
+        <input type="text" id="profile-name" x-model="profile.name">
+    </div>
+    
     <div class="key">
         <label for="priv-key">Private Key</label>
-        <input id="priv-key" x-model="privKey" :type="visibleKey ? 'text' : 'password'" width="65">
+        <input id="priv-key" x-model="profile.privKey" :type="visibleKey ? 'text' : 'password'">
     </div>
 
     <div class="buttons">
@@ -25,13 +31,18 @@
         <button @click="saveKey()">Save</button>
     </div>
 
-    <div class="allowed-sites" x-show="allowedSites.length > 0">
+    <div x-show="hasValidPubKey">
+        <label for="pub-key">Pub Key:</label>
+        <input type="text" id="pub-key" x-model="pubKey" disabled>
+    </div>
+
+    <div class="allowed-sites" x-show="hosts.length > 0">
         <h3>Allowed Sites</h3>
         <table>
-            <template x-for="(site, index) in allowedSites" :key="site.site">
+            <template x-for="(host, index) in hosts" :key="host.host">
                 <tr>
-                    <td class="allowed" x-text="site.allowed ? 'Yes' : 'No'"></td>
-                    <td x-text="site.site"></td>
+                    <td class="allowed" x-text="host.allowed ? 'Yes' : 'No'"></td>
+                    <td x-text="host.host"></td>
                     <td><button @click="deleteSite(index)">Delete</button></td>
                 </tr>
             </template>

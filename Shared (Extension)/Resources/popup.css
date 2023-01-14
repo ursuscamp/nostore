@@ -9,7 +9,16 @@ body {
     font-family: system-ui;
 }
 
-#priv-key {
+label {
+    display: inline-block;
+    width: 100px;
+}
+
+input {
+    width: 32em;
+}
+
+#priv-key, #pub-key {
     font-family: monospace;
 }
 
