@@ -6,10 +6,12 @@ Alpine.data('popup', () => ({
     profiles: [],
     profile: '',
     visibleKey: false,
+    allowedSites: [],
 
     async init() {
         await this.getProfiles();
         await this.getPrivKeyForProfile();
+        await this.getAllowedSites();
     },
 
     saveKey() {
@@ -23,6 +25,19 @@ Alpine.data('popup', () => ({
 
     async getPrivKeyForProfile() {
         this.privKey = this.profile;
+    },
+
+    async getAllowedSites() {
+        this.allowedSites = [
+            {site: 'yosupp.app', allowed: true},
+            {site: 'iris.to', allowed: false},
+        ];
+    },
+
+    async deleteSite(index) {
+        let newSites = [...this.allowedSites];
+        newSites.splice(index, 1);
+        this.allowedSites = newSites;
     }
 }));
 

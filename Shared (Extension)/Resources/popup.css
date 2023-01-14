@@ -9,6 +9,10 @@ body {
     font-family: system-ui;
 }
 
+#priv-key {
+    font-family: monospace;
+}
+
 .profiles label {
     width: 80px;
     display: inline-block;
@@ -20,6 +24,22 @@ body {
 
 .key {
     margin-bottom: 15px;
+}
+
+.buttons {
+    margin-bottom: 15px;
+}
+
+td:first-child {
+    width: 50px;
+}
+
+td:nth-child(2) {
+    width: 100px;
+}
+
+tr {
+    margin-bottom: 10px;
 }
 
 /* @media (prefers-color-scheme: dark) {} */

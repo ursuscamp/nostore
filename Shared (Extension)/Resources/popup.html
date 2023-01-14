@@ -17,12 +17,25 @@
 
     <div class="key">
         <label for="priv-key">Private Key</label>
-        <input x-model="privKey" :type="visibleKey ? 'text' : 'password'">
+        <input id="priv-key" x-model="privKey" :type="visibleKey ? 'text' : 'password'" width="65">
     </div>
 
     <div class="buttons">
         <button @click="visibleKey = !visibleKey" x-text="visibleKey ? 'Hide' : 'Show'"></button>
         <button @click="saveKey()">Save</button>
+    </div>
+
+    <div class="allowed-sites" x-show="allowedSites.length > 0">
+        <h3>Allowed Sites</h3>
+        <table>
+            <template x-for="(site, index) in allowedSites" :key="site.site">
+                <tr>
+                    <td class="allowed" x-text="site.allowed ? 'Yes' : 'No'"></td>
+                    <td x-text="site.site"></td>
+                    <td><button @click="deleteSite(index)">Delete</button></td>
+                </tr>
+            </template>
+        </table>
     </div>
 </body>
 </html>

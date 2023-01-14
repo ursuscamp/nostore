@@ -1,5 +1,3 @@
-console.log("hello from nostr module");
-
 window.nostr = {
     async getPublicKey() {
         console.log("getting public key!");
