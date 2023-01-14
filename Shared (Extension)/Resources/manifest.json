@@ -43,5 +43,9 @@
                 "resources": ["nostr.build.js", "popup.build.js"],
                 "matches": ["<all_urls>"]
             }
-    ]
+    ],
+
+    "content_security_policy": {
+        "extension_pages": "script-src 'self' 'unsafe-eval'"
+    }
 }

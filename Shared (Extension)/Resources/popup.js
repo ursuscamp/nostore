@@ -1,23 +1,30 @@
-async function savePrivateKey(event) {
-    event.preventDefault();
-    let privKey = document.getElementById('priv-key');
-    browser.storage.local.set({ "priv-key": privKey.value });
-    console.log('setting private key');
-    await browser.runtime.sendMessage({greeting: 'hello'});
-}
+import Alpine from "alpinejs";
+window.Alpine = Alpine;
 
-async function getPrivateKey() {
-    let key = await browser.storage.local.get("priv-key");
-    return key["priv-key"];
-}
+Alpine.data('popup', () => ({
+    privKey: '',
+    profiles: [],
+    profile: '',
+    visibleKey: false,
 
-async function setPrivKeyInput() {
-    let privKey = await getPrivateKey();
+    async init() {
+        await this.getProfiles();
+        await this.getPrivKeyForProfile();
+    },
 
-    if (privKey) {
-        document.getElementById("priv-key").value = privKey;
+    saveKey() {
+        console.log(`Saving key ${this.privKey}`);
+    },
+
+    async getProfiles() {
+        this.profiles = ['Default', 'Extra'];
+        this.profile = 'Default';
+    },
+
+    async getPrivKeyForProfile() {
+        this.privKey = this.profile;
     }
-}
+}));
 
-document.getElementById("priv-key-form").addEventListener("submit", savePrivateKey);
-setPrivKeyInput();
+
+Alpine.start();

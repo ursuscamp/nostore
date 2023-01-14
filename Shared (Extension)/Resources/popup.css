@@ -9,6 +9,17 @@ body {
     font-family: system-ui;
 }
 
-@media (prefers-color-scheme: dark) {
-    /* Dark Mode styles go here. */
+.profiles label {
+    width: 80px;
+    display: inline-block;
 }
+
+.profiles {
+    margin-bottom: 15px;
+}
+
+.key {
+    margin-bottom: 15px;
+}
+
+/* @media (prefers-color-scheme: dark) {} */

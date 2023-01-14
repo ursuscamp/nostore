@@ -3,20 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="popup.css">
+    <script defer src="popup.build.js"></script>
 </head>
-<body>
-    <form id="priv-key-form">
+<body x-data="popup">
+    <div class="profiles">
         <label for="profile">Profile</label>
-        <select id="profile">
-            <option value="Default">Default</option>
-            <option value="Next">Next</option>
+        <select x-model="profile" name="profile" id="profile" @change="getPrivKeyForProfile()">
+            <template x-for="prof in profiles">
+                <option :value="prof" x-text="prof"></option>
+            </template>
         </select>
-        <br/>
+    </div>
+
+    <div class="key">
         <label for="priv-key">Private Key</label>
-        <input type="password" id="priv-key" name="priv-key" />
-        <button type="submit">Save</button>
-    </form>
-    
-    <script src="popup.build.js"></script>
+        <input x-model="privKey" :type="visibleKey ? 'text' : 'password'">
+    </div>
+
+    <div class="buttons">
+        <button @click="visibleKey = !visibleKey" x-text="visibleKey ? 'Hide' : 'Show'"></button>
+        <button @click="saveKey()">Save</button>
+    </div>
 </body>
 </html>
