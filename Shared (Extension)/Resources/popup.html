@@ -8,7 +8,7 @@
 <body x-data="popup">
     <div class="profiles">
         <label for="profile">Profile</label>
-        <select x-model="activeProfile" name="profile" id="profile" @change="getPrivKeyForProfile()">
+        <select x-model="profileIndex" name="profile" id="profile" @change="setProfileIndex()">
             <template x-for="(prof, index) in profiles">
                 <option x-text="prof.name" :value="index"></option>
             </template>

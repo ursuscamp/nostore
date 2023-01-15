@@ -4,12 +4,12 @@ window.Alpine = Alpine;
 Alpine.data('popup', () => ({
     pubKey: '',
     profiles: [{name: 'Default', privKey: '', hosts: []}],
-    activeProfile: 0,
+    profileIndex: 0,
     visibleKey: false,
 
     async init() {
         await this.getProfiles();
-        await this.getPrivKeyForProfile();
+        await this.getPubKey();
     },
 
     async saveKey() {
@@ -18,15 +18,15 @@ Alpine.data('popup', () => ({
 
     async getProfiles() {
         this.profiles = await browser.runtime.sendMessage({kind: 'getProfiles'});
-        this.activeProfile = await browser.runtime.sendMessage({kind: 'getActiveProfile'});
+        this.profileIndex = await browser.runtime.sendMessage({kind: 'getProfileIndex'});
     },
 
-    async getPrivKeyForProfile() {
+    async setProfileIndex() {
+        await browser.runtime.sendMessage({kind: 'setProfileIndex', payload: this.profileIndex});
         await this.getPubKey();
     },
 
     async deleteSite(index) {
-        confirm("hello");
         let newSites = [...this.hosts];
         newSites.splice(index, 1);
         this.hosts = newSites;
@@ -34,15 +34,14 @@ Alpine.data('popup', () => ({
 
     async getPubKey() {
         this.pubKey = await browser.runtime.sendMessage({kind: 'getPubKey', payload: this.profile.privKey});
-        console.log('Pub key: ', this.pubKey);
     },
 
     async newProfile() {
         let newKey = await browser.runtime.sendMessage({kind: 'newKey'});
         const newProfile = {name: 'New Profile', privKey: newKey};
         this.profiles.push(newProfile);
-        this.activeProfile = this.profiles.length - 1;
-        browser.notifications.create('confirm-me', {type: "basic", message: "New private key generated"});
+        this.profileIndex = this.profiles.length - 1;
+        await this.setProfileIndex();
     },
 
     get hasValidPubKey() {
@@ -50,7 +49,7 @@ Alpine.data('popup', () => ({
     },
 
     get profile() {
-        return this.profiles[this.activeProfile];
+        return this.profiles[this.profileIndex];
     },
 
     get hosts() {
@@ -58,7 +57,7 @@ Alpine.data('popup', () => ({
     },
 
     set hosts(value) {
-        this.profiles[this.activeProfile].hosts = value;
+        this.profiles[this.profileIndex].hosts = value;
     }
 }));
 
