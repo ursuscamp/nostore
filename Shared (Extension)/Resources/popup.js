@@ -42,6 +42,7 @@ Alpine.data('popup', () => ({
         const newProfile = {name: 'New Profile', privKey: newKey};
         this.profiles.push(newProfile);
         this.activeProfile = this.profiles.length - 1;
+        browser.notifications.create('confirm-me', {type: "basic", message: "New private key generated"});
     },
 
     get hasValidPubKey() {
