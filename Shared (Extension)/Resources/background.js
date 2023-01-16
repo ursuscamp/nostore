@@ -1,4 +1,4 @@
-import { generatePrivateKey , getPublicKey } from "nostr-tools";
+import { generatePrivateKey, getPublicKey } from "nostr-tools";
 
 const storage = browser.storage.local;
 
@@ -9,25 +9,36 @@ browser.runtime.onMessage.addListener(async (message, _sender, sendResponse) => 
         case 'init':
             await initialize();
             break;
-        case 'getProfiles':
-            let names = await getProfileNames();
-            sendResponse(names);
-            break;
-        case 'getProfileIndex':
-            sendResponse(await getProfileIndex());
-            break;
         case 'setProfileIndex':
             await setProfileIndex(message.payload);
             break;
-        case 'getActiveProfile':
-            let ap = await currentProfile();
-            sendResponse(ap);
+        case 'getProfileIndex':
+            let profileIndex = await getProfileIndex();
+            sendResponse(profileIndex);
             break;
-        case 'newKey':
-            sendResponse(generatePrivateKey());
+        case 'getPrivKey':
+            let privKey = await getPrivKey();
+            sendResponse(privKey);
+            break;
+        case 'getPubKey':
+            let pubKey = await getPubKey();
+            sendResponse(pubKey);
+            break;
+        case 'getHosts':
+            let hosts = await getHosts();
+            sendResponse(hosts);
+            break;
+        case 'getName':
+            let name = await getName();
+            sendResponse(name);
+            break;
+        case 'getProfileNames':
+            let profileNames = await getProfileNames();
+            sendResponse(profileNames);
             break;
         case 'newProfile':
-            sendResponse(await newProfile());
+            let newIndex = await newProfile();
+            sendResponse(newIndex);
             break;
         default:
             break;
@@ -39,8 +50,8 @@ async function get(item) {
 }
 
 async function getOrSetDefault(key, def) {
-    let val = storage.get(key)[key];
-    if (!val) {
+    let val = (await storage.get(key))[key];
+    if (val == null || val == undefined) {
         await storage.set({[key]: def});
         return def;
     }
@@ -53,32 +64,43 @@ async function initialize() {
     await getOrSetDefault('profiles', [{name: 'Default', privKey: generatePrivateKey(), hosts: []}]);
 }
 
-async function getProfileIndex() {
-    return (await storage.get('profileIndex')).profileIndex;
+async function getPrivKey() {
+    let profile = await currentProfile();
+    return profile.privKey;
+}
+
+async function getPubKey() {
+    let privKey = await getPrivKey();
+    return getPublicKey(privKey);
+}
+
+async function getHosts() {
+    let profile = await currentProfile();
+    return profile.hosts;
+}
+
+async function getName() {
+    let profile = await currentProfile();
+    return profile.name;
+}
+
+async function getProfileNames() {
+    let profiles = await get('profiles');
+    return profiles.map(p => p.name);
 }
 
 async function setProfileIndex(profileIndex) {
     await storage.set({profileIndex});
 }
 
-async function currentProfile() {
-    let index = (await storage.get('profileIndex')).profileIndex;
-    let profiles = (await storage.get('profiles')).profiles;
-
-    if (!profiles || !profiles[index]) {
-        let newProfile = {name: 'Default', privKey: generatePrivateKey(), hosts: []};
-        await storage.set({profileIndex: 0});
-        await storage.set({profiles: [newProfile]});
-        return newProfile;
-    }
-
-    return profiles[index];
+async function getProfileIndex() {
+    return await get('profileIndex');
 }
 
-async function getProfileNames() {
-    let profiles = (await storage.get({profiles: []})).profiles;
-    console.log('Profiles: ', profiles);
-    return profiles.map(p => p.name);
+async function currentProfile() {
+    let index = await get('profileIndex');
+    let profiles = await get('profiles');
+    return profiles[index];
 }
 
 async function newProfile() {
@@ -86,5 +108,5 @@ async function newProfile() {
     const newProfile = {name: 'New Profile', privKey: generatePrivateKey(), hosts: []};
     profiles.push(newProfile);
     await storage.set({profiles});
-    return profiles.index - 1;
+    return profiles.length - 1;
 }

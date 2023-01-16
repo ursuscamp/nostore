@@ -2,77 +2,83 @@ import Alpine from "alpinejs";
 window.Alpine = Alpine;
 
 Alpine.data('popup', () => ({
+    privKey: '',
     pubKey: '',
-    profiles: [],
+    hosts: [],
+    name: '',
+    profileNames: ['Default'],
     profileIndex: 0,
-    activeProfile: {hosts: []},
     visibleKey: false,
 
     async init() {
         console.log("Initializing backend.");
         await browser.runtime.sendMessage({kind: 'init'});
-        console.log('Getting profile list.')
-        await this.getProfiles();
-        console.log('Getting active profile.');
-        await this.getActiveProfile();
-        console.log('Getting pub key.');
+
+        this.$watch('profileIndex', async () => {
+            await this.setProfileIndex();
+            await this.refreshProfile();
+        });
+
+        // Even though getProfileIndex will immediately trigger a profile refresh, we still
+        // need to do an initial profile refresh first. This will pull the latest data from
+        // the background scripts. Specifically, this pulls the list of profile names,
+        // otherwise it generates a rendering error where it may not show the correct selected
+        // profile when first loading the popup.
+        await this.refreshProfile();
+        await this.getProfileIndex();
+    },
+
+    async refreshProfile() {
+        await this.getPrivKey();
         await this.getPubKey();
-        console.log('profiles: ', this.profiles);
-    },
-
-    async saveKey() {},
-
-    async setProfileByIndex(index) {
-        this.profileIndex = index;
-        await this.resetProfile();
-    },
-
-    async resetProfile() {
-        await this.setProfileIndex();
-        await this.getActiveProfile();
-        await this.getPubKey();
-        await this.getProfiles();
-    },
-    
-    async getActiveProfile() {
-        this.activeProfile = await browser.runtime.sendMessage({kind: 'getActiveProfile'});
-    },
-
-    async getProfiles() {
-        this.profiles = await browser.runtime.sendMessage({kind: 'getProfiles'});
-        this.profileIndex = await browser.runtime.sendMessage({kind: 'getProfileIndex'});
+        await this.getHosts();
+        await this.getName();
+        await this.getProfileNames();
     },
 
     async setProfileIndex() {
-        await browser.runtime.sendMessage({kind: 'setProfileIndex', payload: this.profileIndex});
+        // Becauset the popup state resets every time it open, we use null as a guard. That way
+        // whenever the user opens the popup, it doesn't automatically reset the current profile
+        if (this.profileIndex !== null) {
+            await browser.runtime.sendMessage({kind: 'setProfileIndex', payload: this.profileIndex});
+        }
     },
 
-    async deleteSite(index) {
-        let newSites = [...this.hosts];
-        newSites.splice(index, 1);
-        this.hosts = newSites;
+    async getPrivKey() {
+        this.privKey = await browser.runtime.sendMessage({kind: 'getPrivKey'});
     },
 
     async getPubKey() {
-        this.pubKey = await browser.runtime.sendMessage({kind: 'getPubKey', payload: this.activeProfile.privKey});
+        this.pubKey = await browser.runtime.sendMessage({kind: 'getPubKey'});
+    },
+
+    async getHosts() {
+        this.hosts = await browser.runtime.sendMessage({kind: 'getHosts'});
+    },
+
+    async getProfileNames() {
+        this.profileNames = await browser.runtime.sendMessage({kind: 'getProfileNames'});
+    },
+
+    async getName() {
+        this.name = await browser.runtime.sendMessage({kind: 'getName'});
+    },
+
+    async getProfileIndex() {
+        this.profileIndex = await browser.runtime.sendMessage({kind: 'getProfileIndex'});
     },
 
     async newProfile() {
-        const newIndex = await browser.runtime.sendMessage({kind: 'newProfile'});
-        await this.setProfileByIndex(newIndex);
+        let newIndex = await browser.runtime.sendMessage({kind: 'newProfile'});
+        await this.refreshProfile();
+        this.profileIndex = newIndex;
     },
+
+    // Properties
 
     get hasValidPubKey() {
         return typeof(this.pubKey) === 'string' && this.pubKey.length > 0;
     },
-
-    get hosts() {
-        return this.activeProfile.hosts;
-    },
-
-    set hosts(value) {
-        this.activeProfile.hosts = value;
-    }
 }));
 
 
