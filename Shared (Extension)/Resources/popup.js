@@ -9,6 +9,7 @@ Alpine.data('popup', () => ({
     profileNames: ['Default'],
     profileIndex: 0,
     visibleKey: false,
+    confirmClear: false,
 
     async init() {
         console.log("Initializing backend.");
@@ -72,6 +73,19 @@ Alpine.data('popup', () => ({
         let newIndex = await browser.runtime.sendMessage({kind: 'newProfile'});
         await this.refreshProfile();
         this.profileIndex = newIndex;
+    },
+
+    async saveProfile() {
+        let {name, privKey, hosts} = this;
+        let profile = {name, privKey, hosts};
+        await browser.runtime.sendMessage({kind: 'saveProfile', payload: profile});
+        await this.refreshProfile();
+    },
+
+    async clearData() {
+        await browser.runtime.sendMessage({kind: 'clearData'});
+        await this.init(); // Re-initialize after clearing
+        this.confirmClear = false;
     },
 
     // Properties

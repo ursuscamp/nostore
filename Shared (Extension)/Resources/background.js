@@ -40,6 +40,12 @@ browser.runtime.onMessage.addListener(async (message, _sender, sendResponse) => 
             let newIndex = await newProfile();
             sendResponse(newIndex);
             break;
+        case 'saveProfile':
+            await saveProfile(message.payload);
+            break;
+        case 'clearData':
+            await browser.storage.local.clear();
+            break;
         default:
             break;
     }
@@ -109,4 +115,11 @@ async function newProfile() {
     profiles.push(newProfile);
     await storage.set({profiles});
     return profiles.length - 1;
+}
+
+async function saveProfile(profile) {
+    let index = await getProfileIndex();
+    let profiles = await get('profiles');
+    profiles[index] = profile;
+    await storage.set({profiles});
 }
