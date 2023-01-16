@@ -3,17 +3,39 @@ window.Alpine = Alpine;
 
 Alpine.data('popup', () => ({
     pubKey: '',
-    profiles: [{name: 'Default', privKey: '', hosts: []}],
+    profiles: [],
     profileIndex: 0,
+    activeProfile: {hosts: []},
     visibleKey: false,
 
     async init() {
+        console.log("Initializing backend.");
+        await browser.runtime.sendMessage({kind: 'init'});
+        console.log('Getting profile list.')
         await this.getProfiles();
+        console.log('Getting active profile.');
+        await this.getActiveProfile();
+        console.log('Getting pub key.');
         await this.getPubKey();
+        console.log('profiles: ', this.profiles);
     },
 
-    async saveKey() {
+    async saveKey() {},
+
+    async setProfileByIndex(index) {
+        this.profileIndex = index;
+        await this.resetProfile();
+    },
+
+    async resetProfile() {
+        await this.setProfileIndex();
+        await this.getActiveProfile();
         await this.getPubKey();
+        await this.getProfiles();
+    },
+    
+    async getActiveProfile() {
+        this.activeProfile = await browser.runtime.sendMessage({kind: 'getActiveProfile'});
     },
 
     async getProfiles() {
@@ -23,7 +45,6 @@ Alpine.data('popup', () => ({
 
     async setProfileIndex() {
         await browser.runtime.sendMessage({kind: 'setProfileIndex', payload: this.profileIndex});
-        await this.getPubKey();
     },
 
     async deleteSite(index) {
@@ -33,31 +54,24 @@ Alpine.data('popup', () => ({
     },
 
     async getPubKey() {
-        this.pubKey = await browser.runtime.sendMessage({kind: 'getPubKey', payload: this.profile.privKey});
+        this.pubKey = await browser.runtime.sendMessage({kind: 'getPubKey', payload: this.activeProfile.privKey});
     },
 
     async newProfile() {
-        let newKey = await browser.runtime.sendMessage({kind: 'newKey'});
-        const newProfile = {name: 'New Profile', privKey: newKey};
-        this.profiles.push(newProfile);
-        this.profileIndex = this.profiles.length - 1;
-        await this.setProfileIndex();
+        const newIndex = await browser.runtime.sendMessage({kind: 'newProfile'});
+        await this.setProfileByIndex(newIndex);
     },
 
     get hasValidPubKey() {
         return typeof(this.pubKey) === 'string' && this.pubKey.length > 0;
     },
 
-    get profile() {
-        return this.profiles[this.profileIndex];
-    },
-
     get hosts() {
-        return this.profile.hosts;
+        return this.activeProfile.hosts;
     },
 
     set hosts(value) {
-        this.profiles[this.profileIndex].hosts = value;
+        this.activeProfile.hosts = value;
     }
 }));
 

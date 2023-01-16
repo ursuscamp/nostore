@@ -10,7 +10,7 @@
         <label for="profile">Profile</label>
         <select x-model="profileIndex" name="profile" id="profile" @change="setProfileIndex()">
             <template x-for="(prof, index) in profiles">
-                <option x-text="prof.name" :value="index"></option>
+                <option x-text="prof" :value="index"></option>
             </template>
         </select>
         <button @click="newProfile">New</button>
@@ -18,12 +18,12 @@
 
     <div class="profile-name">
         <label for="profile-name">Profile Name</label>
-        <input type="text" id="profile-name" x-model="profile.name">
+        <input type="text" id="profile-name" x-model="activeProfile.name">
     </div>
     
     <div class="key">
         <label for="priv-key">Private Key</label>
-        <input id="priv-key" x-model="profile.privKey" :type="visibleKey ? 'text' : 'password'">
+        <input id="priv-key" x-model="activeProfile.privKey" :type="visibleKey ? 'text' : 'password'">
     </div>
 
     <div class="buttons">
