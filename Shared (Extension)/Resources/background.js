@@ -1,12 +1,6 @@
-import { generatePrivateKey, getPublicKey } from "nostr-tools";
+import { generatePrivateKey, getPublicKey, signEvent } from "nostr-tools";
 
 const storage = browser.storage.local;
-
-browser.runtime.onMessageExternal.addListener(async (message, sender, sendResponse) => {
-    console.log('External message: ', message);
-    console.log('External sender: ', sender);
-    sendResponse('Goodbye!');
-});
 
 browser.runtime.onMessage.addListener(async (message, _sender, sendResponse) => {
     console.log(message);
@@ -54,6 +48,10 @@ browser.runtime.onMessage.addListener(async (message, _sender, sendResponse) => 
             break;
         case 'deleteProfile':
             await deleteProfile();
+            break;
+        case 'signEvent':
+            let event = await signEvent_(message.payload);
+            sendResponse(event);
             break;
         default:
             break;
@@ -139,4 +137,11 @@ async function deleteProfile() {
     profiles.splice(index, 1);
     let profileIndex = Math.max(index - 1, 0);
     await storage.set({profiles, profileIndex});
+}
+
+async function signEvent_(event) {
+    event = {...event};
+    let privKey = await getPrivKey();
+    event.sig = signEvent(event, privKey);
+    return event;
 }
