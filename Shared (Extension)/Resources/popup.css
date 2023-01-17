@@ -2,8 +2,9 @@
     color-scheme: light dark;
 }
 
+
 body {
-    width: 500px;
+    width: 300px;
     padding: 10px;
 
     font-family: system-ui;
@@ -15,7 +16,7 @@ label {
 }
 
 input {
-    width: 32em;
+    width: 100%;
 }
 
 #priv-key, #pub-key {
