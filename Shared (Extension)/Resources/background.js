@@ -46,6 +46,9 @@ browser.runtime.onMessage.addListener(async (message, _sender, sendResponse) => 
         case 'clearData':
             await browser.storage.local.clear();
             break;
+        case 'deleteProfile':
+            await deleteProfile();
+            break;
         default:
             break;
     }
@@ -122,4 +125,12 @@ async function saveProfile(profile) {
     let profiles = await get('profiles');
     profiles[index] = profile;
     await storage.set({profiles});
+}
+
+async function deleteProfile() {
+    let index = await getProfileIndex();
+    let profiles = await get('profiles');
+    profiles.splice(index, 1);
+    let profileIndex = Math.max(index - 1, 0);
+    await storage.set({profiles, profileIndex});
 }

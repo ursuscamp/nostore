@@ -9,12 +9,16 @@
 <body x-data="popup">
     <div class="profiles">
         <label for="profile">Profile</label>
-        <select x-model.number="profileIndex" name="profile" id="profile">
-            <template x-for="(prof, index) in profileNames" :key="index">
-                <option x-text="prof" :value="index"></option>
-            </template>
-        </select>
-        <button @click="newProfile">New</button>
+        <div class="profile-buttons">
+            <select x-model.number="profileIndex" name="profile" id="profile">
+                <template x-for="(prof, index) in profileNames" :key="index">
+                    <option x-text="prof" :value="index"></option>
+                </template>
+            </select>
+            <button @click="newProfile">New</button>
+            <button @click="confirmDelete = true" x-show="!confirmDelete" :disabled="profileNames.length <= 1">Delete</button>
+            <button @click="await deleteProfile()" x-show="confirmDelete">Confirm Delete</button>
+        </div>
     </div>
 
     <div class="profile-name">

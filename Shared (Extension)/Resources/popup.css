@@ -19,6 +19,10 @@ input {
     width: 100%;
 }
 
+.profile-buttons {
+    width: 100%;
+}
+
 #priv-key, #pub-key {
     font-family: monospace;
 }
@@ -29,6 +33,10 @@ input {
 }
 
 .profiles {
+    margin-bottom: 15px;
+}
+
+.profile-name {
     margin-bottom: 15px;
 }
 

@@ -10,6 +10,7 @@ Alpine.data('popup', () => ({
     profileIndex: 0,
     visibleKey: false,
     confirmClear: false,
+    confirmDelete: false,
 
     async init() {
         console.log("Initializing backend.");
@@ -86,6 +87,12 @@ Alpine.data('popup', () => ({
         await browser.runtime.sendMessage({kind: 'clearData'});
         await this.init(); // Re-initialize after clearing
         this.confirmClear = false;
+    },
+
+    async deleteProfile() {
+        await browser.runtime.sendMessage({kind: 'deleteProfile'});
+        await this.init();
+        this.confirmDelete = false;
     },
 
     // Properties
