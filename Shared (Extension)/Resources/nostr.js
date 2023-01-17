@@ -1,7 +1,13 @@
 window.nostr = {
-    async getPublicKey() {
-        console.log("getting public key!");
-        return "285d4ca25cbe209832aa15a4b94353b877a2fe6c3b94dee1a4c8bc36770304db";
+    requests: {},
+
+    getPublicKey() {
+        let reqId = Math.random().toString();
+        return new Promise((resolve, _reject) => {
+            this.requests[reqId] = resolve;
+            console.log(`Event ${reqId}: Requesting public key.`);
+            window.postMessage({kind: 'getPublicKey', reqId}, '*');
+        });
     },
     
     async signEvent(event) {
@@ -10,3 +16,14 @@ window.nostr = {
         return "signed event";
     }
 }
+
+window.addEventListener('message', (message) => {
+    let {kind, reqId, payload} = message.data;
+
+    if (kind !== 'publicKey')
+        return;
+    
+    console.log(`Event ${reqId}: Received public key ${payload}.`);
+    window.nostr.requests[reqId](payload);
+    delete window.nostr.requests[reqId];
+});

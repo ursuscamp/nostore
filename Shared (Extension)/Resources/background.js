@@ -2,6 +2,12 @@ import { generatePrivateKey, getPublicKey } from "nostr-tools";
 
 const storage = browser.storage.local;
 
+browser.runtime.onMessageExternal.addListener(async (message, sender, sendResponse) => {
+    console.log('External message: ', message);
+    console.log('External sender: ', sender);
+    sendResponse('Goodbye!');
+});
+
 browser.runtime.onMessage.addListener(async (message, _sender, sendResponse) => {
     console.log(message);
 
