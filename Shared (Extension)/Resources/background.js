@@ -1,4 +1,4 @@
-import { generatePrivateKey, getPublicKey, signEvent } from "nostr-tools";
+import { generatePrivateKey, getPublicKey, signEvent, nip04 } from "nostr-tools";
 
 const storage = browser.storage.local;
 
@@ -52,6 +52,14 @@ browser.runtime.onMessage.addListener(async (message, _sender, sendResponse) => 
         case 'signEvent':
             let event = await signEvent_(message.payload);
             sendResponse(event);
+            break;
+        case 'nip04.encrypt':
+            let cipherText = await nip04Encrypt(message.payload);
+            sendResponse(cipherText);
+            break;
+        case 'nip04.decrypt':
+            let plainText = await nip04Decrypt(message.payload);
+            sendResponse(plainText);
             break;
         default:
             break;
@@ -144,4 +152,14 @@ async function signEvent_(event) {
     let privKey = await getPrivKey();
     event.sig = signEvent(event, privKey);
     return event;
+}
+
+async function nip04Encrypt({pubKey, plainText}) {
+    let privKey = await getPrivKey();
+    return nip04.encrypt(privKey, pubKey, plainText);
+}
+
+async function nip04Decrypt({pubKey, cipherText}) {
+    let privKey = await getPrivKey();
+    return nip04.decrypt(privKey, pubKey, cipherText);
 }

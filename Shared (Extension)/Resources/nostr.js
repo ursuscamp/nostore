@@ -16,13 +16,25 @@ window.nostr = {
             console.log(`Event ${reqId}: ${kind}, payload: `, payload);
             window.postMessage({kind, reqId, payload}, '*');
         });
+    },
+
+
+    nip04: {
+        async encrypt(pubKey, plainText) {
+            return await window.nostr.broadcast('nip04.encrypt', {pubKey, plainText});
+        },
+
+        async decrypt(pubKey, cipherText) {
+            return await window.nostr.broadcast('nip04.decrypt', {pubKey, cipherText});
+        }
     }
 }
 
 window.addEventListener('message', (message) => {
+    const validEvents = ['getPubKey', 'signEvent', 'nip04.encrypt', 'nip04.decrypt'].map(e => `return_${e}`);
     let {kind, reqId, payload} = message.data;
 
-    if (kind !== 'return_getPubKey' && kind !== 'return_signEvent')
+    if (!validEvents.includes(kind))
         return;
     
     console.log(`Event ${reqId}: Received payload:`, payload);
