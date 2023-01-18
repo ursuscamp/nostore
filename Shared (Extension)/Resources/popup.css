@@ -60,4 +60,10 @@ tr {
     margin-bottom: 10px;
 }
 
+.disclaimer {
+    margin-top: 15px;
+    font-size: 50%;
+    color: green;
+}
+
 /* @media (prefers-color-scheme: dark) {} */
