@@ -2,16 +2,16 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
+   width="512mm"
+   height="512mm"
+   viewBox="0 0 512 512"
    version="1.1"
    id="svg19420"
    inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
    sodipodi:docname="logo4.svg"
-   inkscape:export-filename="Icon.png"
-   inkscape:export-xdpi="219.57001"
-   inkscape:export-ydpi="219.57001"
+   inkscape:export-filename="Icon-512.png"
+   inkscape:export-xdpi="25.4"
+   inkscape:export-ydpi="25.4"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -28,13 +28,13 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="1.0419544"
-     inkscape:cx="396.85039"
-     inkscape:cy="472.66945"
+     inkscape:zoom="0.18419325"
+     inkscape:cx="578.19709"
+     inkscape:cy="1691.1586"
      inkscape:window-width="1390"
      inkscape:window-height="1205"
-     inkscape:window-x="598"
-     inkscape:window-y="137"
+     inkscape:window-x="1130"
+     inkscape:window-y="161"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <defs
@@ -52,7 +52,7 @@
          id="stop32592" />
     </linearGradient>
     <filter
-       style="color-interpolation-filters:sRGB;"
+       style="color-interpolation-filters:sRGB"
        inkscape:label="Drop Shadow"
        id="filter31335"
        x="-0.1052643"
@@ -96,14 +96,14 @@
        x2="59.016499"
        y2="110.36299"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.99516257,0,0,1.131192,0.3401126,-15.540886)" />
+       gradientTransform="matrix(6.1195071,0,0,6.9559866,-309.94468,-655.54084)" />
     <filter
-       style="color-interpolation-filters:sRGB;"
+       style="color-interpolation-filters:sRGB"
        inkscape:label="Drop Shadow"
        id="filter33388"
        x="-0.17635188"
        y="-0.17635188"
-       width="1.3891589"
+       width="1.3891588"
        height="1.3800451">
       <feFlood
          flood-opacity="0.498039"
@@ -169,13 +169,13 @@
     <filter
        inkscape:menu="Shadows and Glows"
        inkscape:menu-tooltip="Cut out, add inner shadow and colorize some parts of an image"
-       style="color-interpolation-filters:sRGB;"
+       style="color-interpolation-filters:sRGB"
        inkscape:label="Emergence"
        id="filter33529"
        x="-0.19822499"
        y="-0.19822499"
-       width="1.4648034"
-       height="1.4648034">
+       width="1.4648035"
+       height="1.4648035">
       <feColorMatrix
          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.21 0.72 0.07 0 0 "
          result="result1"
@@ -238,7 +238,7 @@
          id="feComposite33527" />
     </filter>
     <filter
-       style="color-interpolation-filters:sRGB;"
+       style="color-interpolation-filters:sRGB"
        inkscape:label="Drop Shadow"
        id="filter33777"
        x="-0.11620085"
@@ -277,43 +277,61 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-70.308464,-118.45911)"
+     sodipodi:insensitive="true">
     <rect
-       style="fill:url(#linearGradient32596);fill-opacity:1;stroke:none;stroke-width:1.061;stroke-dasharray:none;stroke-opacity:1"
-       id="rect20738"
-       width="67"
-       height="67"
-       x="70.308464"
-       y="118.45911"
+       style="display:inline;fill:url(#linearGradient32596);fill-opacity:1;stroke:none;stroke-width:6.52437;stroke-dasharray:none;stroke-opacity:1"
+       id="rect2768"
+       width="412"
+       height="412"
+       x="120.30846"
+       y="168.45911"
        ry="0"
-       rx="10.449207" />
+       rx="0"
+       inkscape:label="Sharp Rectangle" />
+    <rect
+       style="display:none;fill:url(#linearGradient32596);fill-opacity:1;stroke:none;stroke-width:6.52437;stroke-dasharray:none;stroke-opacity:1"
+       id="rect20738"
+       width="412"
+       height="412"
+       x="120.30846"
+       y="168.45911"
+       ry="0"
+       rx="64.254829"
+       inkscape:label="Rounded Rectangle" />
     <circle
        style="display:inline;fill:#ffcaff;fill-opacity:1;stroke:#b500c2;stroke-width:3;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter33777)"
        id="path19910"
        cx="105"
        cy="148.5"
        r="21.944761"
-       transform="matrix(0.97583706,0,0,0.97017394,0.95523745,7.5972237)" />
+       transform="matrix(6.0006697,0,0,5.9658457,-306.16213,-513.25873)"
+       sodipodi:insensitive="true"
+       inkscape:label="Drop Shadow" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.3203px;font-family:Marion;-inkscape-font-specification:Marion;fill:#000000;stroke:#b500c2;stroke-width:4.64413;stroke-dasharray:none;stroke-opacity:1"
-       x="89.38324"
-       y="164.25351"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:241.79px;font-family:Marion;-inkscape-font-specification:Marion;fill:#000000;stroke:#b500c2;stroke-width:28.5579;stroke-dasharray:none;stroke-opacity:1"
+       x="236.52455"
+       y="451.99136"
        id="text19426"
-       transform="scale(0.99655164,1.0034603)"><tspan
+       transform="scale(0.99655164,1.0034603)"
+       sodipodi:insensitive="true"
+       inkscape:label="Big N"><tspan
          sodipodi:role="line"
          id="tspan19424"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Marion;-inkscape-font-specification:Marion;stroke:#b500c2;stroke-width:4.64413;stroke-dasharray:none;stroke-opacity:1"
-         x="89.38324"
-         y="164.25351">N</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Marion;-inkscape-font-specification:Marion;stroke:#b500c2;stroke-width:28.5579;stroke-dasharray:none;stroke-opacity:1"
+         x="236.52455"
+         y="451.99136">N</tspan></text>
     <circle
        id="path33830"
-       style="fill:#000000;stroke:#000000;stroke-width:0.264583"
-       cx="131.88164"
-       cy="123.99857"
+       style="fill:#000000;stroke:#000000;stroke-width:1.62699"
+       cx="448.9375"
+       cy="152.52269"
        r="0"
-       inkscape:export-filename="Icon.png"
-       inkscape:export-xdpi="219.57001"
-       inkscape:export-ydpi="219.57001" />
+       inkscape:export-filename="Icon-128.png"
+       inkscape:export-xdpi="48.525375"
+       inkscape:export-ydpi="48.525375"
+       sodipodi:insensitive="true" />
   </g>
 </svg>
