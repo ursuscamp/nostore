@@ -1,4 +1,4 @@
-import { generatePrivateKey, getPublicKey, signEvent, nip04 } from "nostr-tools";
+import { generatePrivateKey, getPublicKey, signEvent, nip04, nip19 } from "nostr-tools";
 
 const storage = browser.storage.local;
 
@@ -133,6 +133,9 @@ async function newProfile() {
 }
 
 async function saveProfile(profile) {
+    if (profile.privKey.startsWith('nsec')) {
+        profile.privKey = nip19.decode(profile.privKey).data;
+    }
     let index = await getProfileIndex();
     let profiles = await get('profiles');
     profiles[index] = profile;
