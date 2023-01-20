@@ -60,8 +60,11 @@ tr {
     margin-bottom: 10px;
 }
 
-.disclaimer {
+.help {
     margin-top: 15px;
+}
+
+.disclaimer {
     font-size: 50%;
     color: green;
 }
