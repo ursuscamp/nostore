@@ -2,6 +2,16 @@ import { generatePrivateKey, getPublicKey, signEvent, nip04, nip19 } from "nostr
 
 const storage = browser.storage.local;
 
+browser.runtime.onInstalled.addListener(({reason}) => {
+    console.log('install handler run');
+    if (['install'].includes(reason)) {
+      console.log('install handler create tab');
+      browser.tabs.create({
+        url: 'https://ursus.camp/nostore'
+      })
+    }
+});
+
 browser.runtime.onMessage.addListener(async (message, _sender, sendResponse) => {
     console.log(message);
 
