@@ -31,8 +31,8 @@ Alpine.data('popup', () => ({
     },
 
     async refreshProfile() {
-        await this.getPrivKey();
-        await this.getPubKey();
+        await this.getNsecKey();
+        await this.getNpubKey();
         await this.getHosts();
         await this.getName();
         await this.getProfileNames();
@@ -46,12 +46,14 @@ Alpine.data('popup', () => ({
         }
     },
 
-    async getPrivKey() {
-        this.privKey = await browser.runtime.sendMessage({kind: 'getPrivKey'});
+    async getNsecKey() {
+        this.privKey = await browser.runtime.sendMessage({kind: 'getNsecKey'});
+        console.log('privKey: ', this.privKey);
     },
-
-    async getPubKey() {
-        this.pubKey = await browser.runtime.sendMessage({kind: 'getPubKey'});
+    
+    async getNpubKey() {
+        this.pubKey = await browser.runtime.sendMessage({kind: 'getNpubKey'});
+        console.log('pubKey: ', this.pubKey);
     },
 
     async getHosts() {
@@ -60,14 +62,17 @@ Alpine.data('popup', () => ({
 
     async getProfileNames() {
         this.profileNames = await browser.runtime.sendMessage({kind: 'getProfileNames'});
+        console.log('Profile Names: ', this.profileNames);
     },
 
     async getName() {
         this.name = await browser.runtime.sendMessage({kind: 'getName'});
+        console.log('Name: ', this.name);
     },
 
     async getProfileIndex() {
         this.profileIndex = await browser.runtime.sendMessage({kind: 'getProfileIndex'});
+        console.log('Profile Index: ', this.profileIndex);
     },
 
     async newProfile() {

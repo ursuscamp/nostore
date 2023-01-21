@@ -16,9 +16,13 @@ browser.runtime.onMessage.addListener(async (message, _sender, sendResponse) => 
             let profileIndex = await getProfileIndex();
             sendResponse(profileIndex);
             break;
-        case 'getPrivKey':
-            let privKey = await getPrivKey();
-            sendResponse(privKey);
+        case 'getNsecKey':
+            let nsecKey = await getNsecKey();
+            sendResponse(nsecKey);
+            break;
+        case 'getNpubKey':
+            let npubKey = await getNpubKey();
+            sendResponse(npubKey);
             break;
         case 'getPubKey':
             let pubKey = await getPubKey();
@@ -85,14 +89,28 @@ async function initialize() {
     await getOrSetDefault('profiles', [{name: 'Default', privKey: generatePrivateKey(), hosts: []}]);
 }
 
+async function getNsecKey() {
+    let profile = await currentProfile();
+    return profile.nsecKey;
+}
+
 async function getPrivKey() {
     let profile = await currentProfile();
     return profile.privKey;
 }
 
+async function getNpubKey() {
+    let pubKey = await getPubKey();
+    console.log('pubKey: ', pubKey);
+    let npubKey = nip19.npubEncode(pubKey);
+    console.log('npub key: ', npubKey);
+    return npubKey;
+}
+
 async function getPubKey() {
     let privKey = await getPrivKey();
-    return getPublicKey(privKey);
+    let pubKey = getPublicKey(privKey);
+    return pubKey;
 }
 
 async function getHosts() {
@@ -121,6 +139,8 @@ async function getProfileIndex() {
 async function currentProfile() {
     let index = await get('profileIndex');
     let profiles = await get('profiles');
+    let currentProfile = profiles[index];
+    currentProfile.nsecKey = nip19.nsecEncode(currentProfile.privKey);
     return profiles[index];
 }
 
