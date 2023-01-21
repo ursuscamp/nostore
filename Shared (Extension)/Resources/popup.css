@@ -12,7 +12,7 @@ body {
 
 label {
     display: inline-block;
-    width: 100px;
+    width: 200px;
 }
 
 input {
@@ -25,11 +25,6 @@ input {
 
 #priv-key, #pub-key {
     font-family: monospace;
-}
-
-.profiles label {
-    width: 80px;
-    display: inline-block;
 }
 
 .profiles {
