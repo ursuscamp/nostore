@@ -19,6 +19,8 @@ Alpine.data('popup', () => ({
         this.$watch('profileIndex', async () => {
             await this.setProfileIndex();
             await this.refreshProfile();
+            this.confirmClear = false;
+            this.confirmDelete = false;
         });
 
         // Even though getProfileIndex will immediately trigger a profile refresh, we still
