@@ -9,6 +9,10 @@ window.nostr = {
         return await this.broadcast('signEvent', event);
     },
 
+    async getRelays() {
+        return await this.broadcast('getRelays');
+    },
+
     broadcast(kind, payload) {
         let reqId = Math.random().toString();
         return new Promise((resolve, _reject) => {
@@ -31,7 +35,7 @@ window.nostr = {
 }
 
 window.addEventListener('message', (message) => {
-    const validEvents = ['getPubKey', 'signEvent', 'nip04.encrypt', 'nip04.decrypt'].map(e => `return_${e}`);
+    const validEvents = ['getPubKey', 'signEvent', 'getRelays', 'nip04.encrypt', 'nip04.decrypt'].map(e => `return_${e}`);
     let {kind, reqId, payload} = message.data;
 
     if (!validEvents.includes(kind))

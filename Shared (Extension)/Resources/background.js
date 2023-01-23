@@ -78,6 +78,9 @@ browser.runtime.onMessage.addListener(async (message, _sender, sendResponse) => 
             let plainText = await nip04Decrypt(message.payload);
             sendResponse(plainText);
             break;
+        case 'getRelays':
+            sendResponse({});
+            break;
         default:
             break;
     }

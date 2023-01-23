@@ -3,7 +3,7 @@ script.setAttribute('src', browser.runtime.getURL('nostr.build.js'));
 document.body.appendChild(script);
 
 window.addEventListener('message', async (message) => {
-  const validEvents = ['getPubKey', 'signEvent', 'nip04.encrypt', 'nip04.decrypt'];
+  const validEvents = ['getPubKey', 'signEvent', 'getRelays', 'nip04.encrypt', 'nip04.decrypt'];
   let {kind, reqId, payload} = message.data;
   if (!validEvents.includes(kind))
     return;
