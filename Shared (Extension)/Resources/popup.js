@@ -4,8 +4,10 @@ window.Alpine = Alpine;
 Alpine.data('popup', () => ({
     privKey: '',
     pubKey: '',
+    pristinePrivKey: '',
     hosts: [],
     name: '',
+    pristineName: '',
     profileNames: ['Default'],
     profileIndex: 0,
     visibleKey: false,
@@ -50,12 +52,11 @@ Alpine.data('popup', () => ({
 
     async getNsecKey() {
         this.privKey = await browser.runtime.sendMessage({kind: 'getNsecKey'});
-        console.log('privKey: ', this.privKey);
+        this.pristinePrivKey = this.privKey;
     },
     
     async getNpubKey() {
         this.pubKey = await browser.runtime.sendMessage({kind: 'getNpubKey'});
-        console.log('pubKey: ', this.pubKey);
     },
 
     async getHosts() {
@@ -64,17 +65,15 @@ Alpine.data('popup', () => ({
 
     async getProfileNames() {
         this.profileNames = await browser.runtime.sendMessage({kind: 'getProfileNames'});
-        console.log('Profile Names: ', this.profileNames);
     },
 
     async getName() {
         this.name = await browser.runtime.sendMessage({kind: 'getName'});
-        console.log('Name: ', this.name);
+        this.pristineName = this.name;
     },
 
     async getProfileIndex() {
         this.profileIndex = await browser.runtime.sendMessage({kind: 'getProfileIndex'});
-        console.log('Profile Index: ', this.profileIndex);
     },
 
     async newProfile() {
@@ -107,6 +106,10 @@ Alpine.data('popup', () => ({
     get hasValidPubKey() {
         return typeof(this.pubKey) === 'string' && this.pubKey.length > 0;
     },
+
+    get needsSaving() {
+        return (this.privKey !== this.pristinePrivKey || this.name !== this.pristineName);
+    }
 }));
 
 
