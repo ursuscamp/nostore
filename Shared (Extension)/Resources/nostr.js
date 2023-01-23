@@ -13,6 +13,12 @@ window.nostr = {
         return await this.broadcast('getRelays');
     },
 
+    // This is here for Alby comatibility. This is not part of the NIP-07 standard.
+    // I have found at least one site, nostr.band, which expects it to be present.
+    async enable() {
+        return {enabled: true}
+    },
+
     broadcast(kind, payload) {
         let reqId = Math.random().toString();
         return new Promise((resolve, _reject) => {
