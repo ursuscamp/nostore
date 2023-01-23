@@ -4,7 +4,7 @@ window.nostr = {
     async getPublicKey() {
         return await this.broadcast('getPubKey');
     },
-    
+
     async signEvent(event) {
         return await this.broadcast('signEvent', event);
     },
@@ -16,7 +16,7 @@ window.nostr = {
     // This is here for Alby comatibility. This is not part of the NIP-07 standard.
     // I have found at least one site, nostr.band, which expects it to be present.
     async enable() {
-        return {enabled: true}
+        return { enabled: true };
     },
 
     broadcast(kind, payload) {
@@ -24,29 +24,39 @@ window.nostr = {
         return new Promise((resolve, _reject) => {
             this.requests[reqId] = resolve;
             console.log(`Event ${reqId}: ${kind}, payload: `, payload);
-            window.postMessage({kind, reqId, payload}, '*');
+            window.postMessage({ kind, reqId, payload }, '*');
         });
     },
 
-
     nip04: {
         async encrypt(pubKey, plainText) {
-            return await window.nostr.broadcast('nip04.encrypt', {pubKey, plainText});
+            return await window.nostr.broadcast('nip04.encrypt', {
+                pubKey,
+                plainText,
+            });
         },
 
         async decrypt(pubKey, cipherText) {
-            return await window.nostr.broadcast('nip04.decrypt', {pubKey, cipherText});
-        }
-    }
-}
+            return await window.nostr.broadcast('nip04.decrypt', {
+                pubKey,
+                cipherText,
+            });
+        },
+    },
+};
 
-window.addEventListener('message', (message) => {
-    const validEvents = ['getPubKey', 'signEvent', 'getRelays', 'nip04.encrypt', 'nip04.decrypt'].map(e => `return_${e}`);
-    let {kind, reqId, payload} = message.data;
+window.addEventListener('message', message => {
+    const validEvents = [
+        'getPubKey',
+        'signEvent',
+        'getRelays',
+        'nip04.encrypt',
+        'nip04.decrypt',
+    ].map(e => `return_${e}`);
+    let { kind, reqId, payload } = message.data;
 
-    if (!validEvents.includes(kind))
-        return;
-    
+    if (!validEvents.includes(kind)) return;
+
     console.log(`Event ${reqId}: Received payload:`, payload);
     window.nostr.requests[reqId](payload);
     delete window.nostr.requests[reqId];

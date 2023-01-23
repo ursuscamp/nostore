@@ -19,5 +19,8 @@
     "alpinejs": "^3.10.5",
     "esbuild": "^0.16.17",
     "nostr-tools": "^1.1.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.3"
   }
 }

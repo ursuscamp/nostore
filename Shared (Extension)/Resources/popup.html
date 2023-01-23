@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="stylesheet" href="popup.css">
     <script defer src="popup.build.js"></script>
 </head>
+
 <body x-data="popup">
     <div class="profiles">
         <label for="profile">Active Profile</label>
@@ -16,7 +18,8 @@
                 </template>
             </select>
             <button @click="newProfile">New</button>
-            <button @click="confirmDelete = true" x-show="!confirmDelete" :disabled="profileNames.length <= 1">Delete</button>
+            <button @click="confirmDelete = true" x-show="!confirmDelete"
+                :disabled="profileNames.length <= 1">Delete</button>
             <button @click="await deleteProfile()" x-show="confirmDelete">Confirm Delete</button>
         </div>
     </div>
@@ -25,7 +28,7 @@
         <label for="profile-name">Profile Name</label>
         <input type="text" id="profile-name" x-model="name">
     </div>
-    
+
     <div class="key">
         <label for="priv-key">Private Key</label>
         <input id="priv-key" x-model="privKey" :type="visibleKey ? 'text' : 'password'">
@@ -59,10 +62,11 @@
     <div class="help">
         <button @click='window.open("https://ursus.camp/nostore", "_blank")'>Get Help</button>
     </div>
-    
+
     <div class="disclaimer">
         No user data is collected or transmitted.
         All private keys are stored in the extension's sequestered local browser storage.
     </div>
 </body>
+
 </html>
