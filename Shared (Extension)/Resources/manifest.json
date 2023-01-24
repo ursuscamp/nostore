@@ -36,6 +36,9 @@
             "72": "images/toolbar-72.png"
         }
     },
+    "options_ui": {
+        "page": "options.html"
+    },
     "permissions": [
         "storage"
     ],
