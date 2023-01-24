@@ -4,11 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="options.build.css">
   <script defer src="options.build.js"></script>
+
 </head>
 
-<body>
-  <h1>Settings</h1>
+<body x-data="options" class="text-fuchsia-900 bg-fuchsia-400">
+  <h1 class="text-6xl font-bold">Settings</h1>
+  <p x-text="msg"></p>
 </body>
 
 </html>

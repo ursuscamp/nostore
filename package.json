@@ -11,6 +11,7 @@
   "scripts": {
     "build": "./build.js",
     "watch": "./build.js watch",
+    "watch-tailwind": "tailwindcss -i './Shared (Extension)/Resources/options.css' -o 'Shared (Extension)/Resources/options.build.css' --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -21,6 +22,7 @@
     "nostr-tools": "^1.1.1"
   },
   "devDependencies": {
-    "prettier": "^2.8.3"
+    "prettier": "^2.8.3",
+    "tailwindcss": "^3.2.4"
   }
 }

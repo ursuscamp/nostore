@@ -46,7 +46,9 @@
         {
             "resources": [
                 "nostr.build.js",
-                "popup.build.js"
+                "popup.build.js",
+                "options.build.js",
+                "options.build.css"
             ],
             "matches": [
                 "<all_urls>"
