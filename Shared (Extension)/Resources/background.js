@@ -10,7 +10,8 @@ const storage = browser.storage.local;
 
 browser.runtime.onInstalled.addListener(async ({ reason }) => {
     // I would like to be able to skip this for development purposes
-    let ignoreHook = (await storage.get('ignoreInstallHook')).ignoreInstallHook;
+    let ignoreHook = (await storage.get({ ignoreInstallHook: false }))
+        .ignoreInstallHook;
     if (ignoreHook === true) {
         return;
     }

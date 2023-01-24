@@ -11,7 +11,13 @@
 
 <body x-data="options" class="text-fuchsia-900 bg-fuchsia-400">
   <h1 class="text-6xl font-bold">Settings</h1>
-  <p x-text="msg"></p>
+
+  <select x-model.number="profileIndex" name="profiles" id="profiles">
+    <template x-for="(profileName, index) in profileNames" :key="profileName">
+      <option x-text="profileName" :value="index"></option>
+    </template>
+  </select>
+
 </body>
 
 </html>
