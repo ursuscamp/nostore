@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply rounded-lg p-1.5 bg-fuchsia-900 text-fuchsia-400 hover:bg-fuchsia-800 hover:text-fuchsia-300 active:bg-fuchsia-700 active:text-fuchsia-200;
+  }
+
+  .input {
+    @apply bg-fuchsia-200 text-fuchsia-800 rounded-lg p-1.5;
+  }
+}
