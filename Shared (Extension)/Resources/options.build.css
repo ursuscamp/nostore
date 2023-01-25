@@ -711,6 +711,17 @@ select {
   color: rgb(134 25 143 / var(--tw-text-opacity));
 }
 
+[type="checkbox"] {
+  height: 1.25rem;
+  width: 1.25rem;
+  border-radius: 9999px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(245 208 254 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(134 25 143 / var(--tw-text-opacity));
+  accent-color: #f5d0fe;
+}
+
 .visible {
   visibility: visible;
 }

@@ -30,10 +30,12 @@
     <template x-for="(relay, index) in relays" :key="index">
       <tr>
         <td class="p-2 w-1/3" x-text="relay.url"></td>
-        <td class="p-2 text-center"><input type="checkbox" x-model="relay.read"
-            @change="await saveRelaysForProfile(index)"></td>
-        <td class="p-2 text-center"><input type="checkbox" x-model="relay.write"
-            @change="await saveRelaysForProfile(index)"></td>
+        <td class="p-2 text-center">
+          <input type="checkbox" x-model="relay.read" @change="await saveRelaysForProfile(index)">
+        </td>
+        <td class="p-2 text-center">
+          <input type="checkbox" x-model="relay.write" @change="await saveRelaysForProfile(index)">
+        </td>
         <td class="p-2 text-center">
           <button class="btn" @click="await deleteRelay(index)">Delete</button>
         </td>

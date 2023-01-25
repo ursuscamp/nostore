@@ -10,4 +10,8 @@
   .input {
     @apply bg-fuchsia-200 text-fuchsia-800 rounded-lg p-1.5;
   }
+
+  [type="checkbox"] {
+    @apply text-fuchsia-800 bg-fuchsia-200 rounded-full accent-fuchsia-200 w-5 h-5;
+  }
 }
