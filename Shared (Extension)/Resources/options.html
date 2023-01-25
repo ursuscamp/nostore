@@ -39,7 +39,8 @@
     </template>
   </table>
 
-  <input x-model="newRelay" type="text"> <button @click="await addRelay()">Add</button>
+  <input x-model="newRelay" type="text" @keyup.enter="await addRelay()"> <button @click="await addRelay()">Add</button>
+  <div class="text-red-500 font-bold" x-show="urlError.length > 0" x-text="urlError"></div>
 
 </body>
 
