@@ -87,7 +87,8 @@ browser.runtime.onMessage.addListener(
                 sendResponse(plainText);
                 break;
             case 'getRelays':
-                sendResponse({});
+                let relays = await getRelays();
+                sendResponse(relays);
                 break;
             case 'getRelaysForProfile':
                 let profileRelays = await getRelaysForProfile(message.payload);
@@ -224,6 +225,16 @@ async function nip04Encrypt({ pubKey, plainText }) {
 async function nip04Decrypt({ pubKey, cipherText }) {
     let privKey = await getPrivKey();
     return nip04.decrypt(privKey, pubKey, cipherText);
+}
+
+async function getRelays() {
+    let profile = await currentProfile();
+    let relays = {};
+    let profileRelays = profile.relays || [];
+    profileRelays.forEach(relay => {
+        relays[relay.url] = { read: relay.read, write: relay.write };
+    });
+    return relays;
 }
 
 async function getRelaysForProfile(profileIndex) {
