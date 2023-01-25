@@ -557,6 +557,10 @@ video {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
 .border {
   border-width: 1px;
 }
@@ -564,6 +568,27 @@ video {
 .bg-fuchsia-400 {
   --tw-bg-opacity: 1;
   background-color: rgb(232 121 249 / var(--tw-bg-opacity));
+}
+
+.bg-fuchsia-900 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(112 26 117 / var(--tw-bg-opacity));
+}
+
+.p-44 {
+  padding: 11rem;
+}
+
+.p-40 {
+  padding: 10rem;
+}
+
+.p-32 {
+  padding: 8rem;
+}
+
+.p-1 {
+  padding: 0.25rem;
 }
 
 .text-5xl {
@@ -607,10 +632,23 @@ video {
   color: rgb(112 26 117 / var(--tw-text-opacity));
 }
 
+.text-fuchsia-400 {
+  --tw-text-opacity: 1;
+  color: rgb(232 121 249 / var(--tw-text-opacity));
+}
+
 .shadow {
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.outline-1 {
+  outline-width: 1px;
+}
+
+.outline-4 {
+  outline-width: 4px;
 }
 
 .ring {
@@ -639,4 +677,29 @@ video {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+
+.hover\:bg-fuchsia-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(192 38 211 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-fuchsia-800:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(134 25 143 / var(--tw-bg-opacity));
+}
+
+.hover\:text-fuchsia-300:hover {
+  --tw-text-opacity: 1;
+  color: rgb(240 171 252 / var(--tw-text-opacity));
+}
+
+.active\:bg-fuchsia-700:active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(162 28 175 / var(--tw-bg-opacity));
+}
+
+.active\:text-fuchsia-200:active {
+  --tw-text-opacity: 1;
+  color: rgb(245 208 254 / var(--tw-text-opacity));
 }

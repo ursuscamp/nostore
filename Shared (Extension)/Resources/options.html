@@ -9,7 +9,7 @@
 
 </head>
 
-<body x-data="options" class="text-fuchsia-900 bg-fuchsia-400">
+<body x-data="options" class="text-fuchsia-900 bg-fuchsia-400 p-32">
   <h1 class="text-6xl font-bold">Settings</h1>
 
   <select x-model.number="profileIndex" name="profiles" id="profiles">
@@ -17,6 +17,29 @@
       <option x-text="profileName" :value="index"></option>
     </template>
   </select>
+
+  <h2 class="text-5xl font-bold">Relays</h2>
+
+  <table>
+    <thead>
+      <td>URL</td>
+      <td>Read</td>
+      <td>Write</td>
+      <td>Actions</td>
+    </thead>
+    <template x-for="(relay, index) in relays" :key="index">
+      <tr>
+        <td x-text="relay.url"></td>
+        <td><input type="checkbox" x-model="relay.read" @change="await saveRelaysForProfile(index)"></td>
+        <td><input type="checkbox" x-model="relay.write" @change="await saveRelaysForProfile(index)"></td>
+        <td><button
+            class="rounded-lg p-1 bg-fuchsia-900 text-fuchsia-400 hover:bg-fuchsia-800 hover:text-fuchsia-300 active:bg-fuchsia-700 active:text-fuchsia-200"
+            @click="await deleteRelay(index)">Delete</button></td>
+      </tr>
+    </template>
+  </table>
+
+  <input x-model="newRelay" type="text"> <button @click="await addRelay()">Add</button>
 
 </body>
 
