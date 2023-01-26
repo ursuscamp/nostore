@@ -22,6 +22,7 @@ require('esbuild')
         outdir: './Shared (Extension)/Resources',
         sourcemap: 'inline',
         bundle: true,
+        minify: true,
         watch,
     })
     .catch(() => process.exit(1));
