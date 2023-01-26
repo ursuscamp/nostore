@@ -47,6 +47,9 @@
   <button class="btn" @click="await addRelay()">Add</button>
   <div class="text-red-500 font-bold" x-show="urlError.length > 0" x-text="urlError"></div>
 
+  <div class="mt-6">
+    <button class="btn" @click="window.close()">Close</button>
+  </div>
 </body>
 
 </html>
