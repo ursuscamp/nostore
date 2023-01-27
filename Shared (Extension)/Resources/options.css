@@ -14,4 +14,8 @@
   .checkbox {
     @apply text-fuchsia-800 bg-fuchsia-200 rounded-full accent-fuchsia-200 w-4 h-4 lg:w-5 lg:h-5;
   }
+
+  .section {
+    @apply border-2 border-fuchsia-700 rounded-lg p-5 mt-6 shadow-md;
+  }
 }
