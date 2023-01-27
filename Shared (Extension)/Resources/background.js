@@ -27,6 +27,9 @@ browser.runtime.onMessage.addListener(
         console.log(message);
 
         switch (message.kind) {
+            case 'log':
+                console.log('Background Log: ', message.payload);
+                break;
             case 'init':
                 await initialize();
                 break;
@@ -101,6 +104,7 @@ browser.runtime.onMessage.addListener(
             default:
                 break;
         }
+        return false;
     }
 );
 
@@ -121,7 +125,12 @@ async function getOrSetDefault(key, def) {
 async function initialize() {
     await getOrSetDefault('profileIndex', 0);
     await getOrSetDefault('profiles', [
-        { name: 'Default', privKey: generatePrivateKey(), hosts: [] },
+        {
+            name: 'Default',
+            privKey: generatePrivateKey(),
+            hosts: [],
+            relays: [],
+        },
     ]);
 }
 

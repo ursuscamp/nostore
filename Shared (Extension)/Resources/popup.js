@@ -1,3 +1,5 @@
+console.log('test!');
+
 import Alpine from 'alpinejs';
 window.Alpine = Alpine;
 
@@ -61,11 +63,15 @@ Alpine.data('popup', () => ({
     },
 
     async getNpubKey() {
-        this.pubKey = await browser.runtime.sendMessage({ kind: 'getNpubKey' });
+        this.pubKey = await browser.runtime.sendMessage({
+            kind: 'getNpubKey',
+        });
     },
 
     async getHosts() {
-        this.hosts = await browser.runtime.sendMessage({ kind: 'getHosts' });
+        this.hosts = await browser.runtime.sendMessage({
+            kind: 'getHosts',
+        });
     },
 
     async getProfileNames() {
@@ -113,6 +119,11 @@ Alpine.data('popup', () => ({
         await browser.runtime.sendMessage({ kind: 'deleteProfile' });
         await this.init();
         this.confirmDelete = false;
+    },
+
+    async openOptions() {
+        await browser.runtime.openOptionsPage();
+        window.close();
     },
 
     // Properties

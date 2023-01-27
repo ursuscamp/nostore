@@ -61,7 +61,7 @@
 
     <div class="help">
         <button @click='window.open("https://ursus.camp/nostore", "_blank")'>Get Help</button>
-        <button @click="browser.runtime.openOptionsPage()">Advanced</button>
+        <button @click="await openOptions()">Advanced</button>
     </div>
 
     <div class="disclaimer">

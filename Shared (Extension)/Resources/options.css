@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 @layer components {
-  .btn {
-    @apply rounded-lg p-1.5 bg-fuchsia-900 text-fuchsia-400 hover:bg-fuchsia-800 hover:text-fuchsia-300 active:bg-fuchsia-700 active:text-fuchsia-200;
+  .button {
+    @apply rounded-lg p-1 lg:p-1.5 bg-fuchsia-900 hover:bg-fuchsia-800  active:bg-fuchsia-700 text-fuchsia-200 w-24 text-center;
   }
 
   .input {
-    @apply bg-fuchsia-200 text-fuchsia-800 rounded-lg p-1.5;
+    @apply bg-fuchsia-200 text-fuchsia-800 rounded-lg p-1 lg:p-1.5 focus:border-fuchsia-800;
   }
 
-  [type="checkbox"] {
-    @apply text-fuchsia-800 bg-fuchsia-200 rounded-full accent-fuchsia-200 w-5 h-5;
+  .checkbox {
+    @apply text-fuchsia-800 bg-fuchsia-200 rounded-full accent-fuchsia-200 w-4 h-4 lg:w-5 lg:h-5;
   }
 }

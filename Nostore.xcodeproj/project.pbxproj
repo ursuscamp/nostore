@@ -81,6 +81,8 @@
 		948C69E3297F891F00FB3574 /* options.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 948C69E1297F891F00FB3574 /* options.build.js */; };
 		948C69E5297F8BA600FB3574 /* options.build.css in Resources */ = {isa = PBXBuildFile; fileRef = 948C69E4297F8BA600FB3574 /* options.build.css */; };
 		948C69E6297F8BA600FB3574 /* options.build.css in Resources */ = {isa = PBXBuildFile; fileRef = 948C69E4297F8BA600FB3574 /* options.build.css */; };
+		948C69E82982DFE900FB3574 /* background.html in Resources */ = {isa = PBXBuildFile; fileRef = 948C69E72982DFE900FB3574 /* background.html */; };
+		948C69E92982DFE900FB3574 /* background.html in Resources */ = {isa = PBXBuildFile; fileRef = 948C69E72982DFE900FB3574 /* background.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -174,6 +176,7 @@
 		948C69DC297F88A200FB3574 /* options.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = options.js; sourceTree = "<group>"; };
 		948C69E1297F891F00FB3574 /* options.build.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = options.build.js; sourceTree = "<group>"; };
 		948C69E4297F8BA600FB3574 /* options.build.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = options.build.css; sourceTree = "<group>"; };
+		948C69E72982DFE900FB3574 /* background.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = background.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,6 +276,7 @@
 				941B03A8296FA90400CA291E /* popup.html */,
 				941B03A9296FA90400CA291E /* popup.css */,
 				941B03AA296FA90400CA291E /* popup.js */,
+				948C69E72982DFE900FB3574 /* background.html */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -495,6 +499,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				941B0413297110F100CA291E /* background.build.js in Resources */,
+				948C69E82982DFE900FB3574 /* background.html in Resources */,
 				948C69DF297F88A200FB3574 /* options.js in Resources */,
 				948C69DD297F88A200FB3574 /* options.css in Resources */,
 				941B03F2296FA90400CA291E /* background.js in Resources */,
@@ -528,6 +533,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				941B0414297110F100CA291E /* background.build.js in Resources */,
+				948C69E92982DFE900FB3574 /* background.html in Resources */,
 				948C69E0297F88A200FB3574 /* options.js in Resources */,
 				948C69DE297F88A200FB3574 /* options.css in Resources */,
 				941B03F3296FA90400CA291E /* background.js in Resources */,

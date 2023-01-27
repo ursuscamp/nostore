@@ -12,8 +12,7 @@
         "512": "images/icon-512.png"
     },
     "background": {
-        "service_worker": "background.build.js",
-        "type": "module"
+        "page": "background.html"
     },
     "content_scripts": [
         {
@@ -48,7 +47,8 @@
                 "nostr.build.js",
                 "popup.build.js",
                 "options.build.js",
-                "options.build.css"
+                "options.build.css",
+                "options.html"
             ],
             "matches": [
                 "<all_urls>"

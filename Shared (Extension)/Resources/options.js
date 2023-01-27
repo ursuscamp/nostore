@@ -9,6 +9,7 @@ Alpine.data('options', () => ({
     urlError: '',
 
     async init() {
+        await browser.runtime.getBackgroundPage();
         await this.getProfileNames();
         await this.getRelaysForProfile();
 
