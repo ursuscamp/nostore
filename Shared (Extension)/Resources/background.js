@@ -7,6 +7,7 @@ import {
 } from 'nostr-tools';
 
 const storage = browser.storage.local;
+const log = msg => console.log('Background: ', msg);
 
 browser.runtime.onInstalled.addListener(async ({ reason }) => {
     // I would like to be able to skip this for development purposes
@@ -24,11 +25,14 @@ browser.runtime.onInstalled.addListener(async ({ reason }) => {
 
 browser.runtime.onMessage.addListener(
     async (message, _sender, sendResponse) => {
-        console.log(message);
+        log(message);
 
         switch (message.kind) {
             case 'log':
-                console.log('Background Log: ', message.payload);
+                console.log(
+                    message.payload.module ? `${module}: ` : '',
+                    message.payload.msg
+                );
                 break;
             case 'init':
                 await initialize();
@@ -146,9 +150,7 @@ async function getPrivKey() {
 
 async function getNpubKey() {
     let pubKey = await getPubKey();
-    console.log('pubKey: ', pubKey);
     let npubKey = nip19.npubEncode(pubKey);
-    console.log('npub key: ', npubKey);
     return npubKey;
 }
 

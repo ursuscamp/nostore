@@ -1,7 +1,8 @@
-console.log('test!');
-
+import { bglog } from './utils';
 import Alpine from 'alpinejs';
 window.Alpine = Alpine;
+
+const log = msg => bglog(msg, 'popup');
 
 Alpine.data('popup', () => ({
     privKey: '',
@@ -17,7 +18,7 @@ Alpine.data('popup', () => ({
     confirmDelete: false,
 
     async init() {
-        console.log('Initializing backend.');
+        log('Initializing backend.');
         await browser.runtime.sendMessage({ kind: 'init' });
 
         this.$watch('profileIndex', async () => {
