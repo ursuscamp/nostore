@@ -1,4 +1,5 @@
 import Alpine from 'alpinejs';
+import { getProfileNames } from './utils';
 
 const RECOMMENDED_RELAYS = [
     new URL('wss://relay.damus.io'),
@@ -46,7 +47,7 @@ Alpine.data('options', () => ({
     },
 
     async refreshProfile() {
-        await this.getProfileNames();
+        await this.loadProfileNames();
         await this.getProfileName();
         await this.getNsec();
         await this.getNpub();
@@ -56,18 +57,15 @@ Alpine.data('options', () => ({
 
     // Profile functions
 
-    async getProfileNames() {
-        this.profileNames = await browser.runtime.sendMessage({
-            kind: 'getProfileNames',
-        });
+    async loadProfileNames() {
+        this.profileNames = await getProfileNames();
     },
 
     async getProfileName() {
-        this.profileName = await browser.runtime.sendMessage({
-            kind: 'getNameForProfile',
-            payload: this.profileIndex,
-        });
-        this.pristineProfileName = this.profileName;
+        let names = await getProfileNames();
+        let name = names[this.profileIndex];
+        this.profileName = name;
+        this.pristineProfileName = name;
     },
 
     async getActiveIndex() {
@@ -80,7 +78,7 @@ Alpine.data('options', () => ({
         let newIndex = await browser.runtime.sendMessage({
             kind: 'newProfile',
         });
-        await this.getProfileNames();
+        await this.loadProfileNames();
         this.profileIndex = newIndex;
     },
 
@@ -105,7 +103,7 @@ Alpine.data('options', () => ({
             kind: 'saveProfileName',
             payload: [this.profileIndex, this.profileName],
         });
-        await this.getProfileNames();
+        await this.loadProfileNames();
         await this.refreshProfile();
     },
 
