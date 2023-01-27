@@ -1,4 +1,9 @@
-import { bglog } from './utils';
+import {
+    bglog,
+    getProfileNames,
+    setProfileIndex,
+    getProfileIndex,
+} from './utils';
 import Alpine from 'alpinejs';
 window.Alpine = Alpine;
 
@@ -13,40 +18,33 @@ Alpine.data('popup', () => ({
         await browser.runtime.sendMessage({ kind: 'init' });
 
         this.$watch('profileIndex', async () => {
-            await this.getProfileNames();
+            await this.loadNames();
             await this.setProfileIndex();
         });
 
-        // Even though getProfileIndex will immediately trigger a profile refresh, we still
+        // Even though loadProfileIndex will immediately trigger a profile refresh, we still
         // need to do an initial profile refresh first. This will pull the latest data from
         // the background scripts. Specifically, this pulls the list of profile names,
         // otherwise it generates a rendering error where it may not show the correct selected
         // profile when first loading the popup.
-        await this.getProfileNames();
-        await this.getProfileIndex();
+        await this.loadNames();
+        await this.loadProfileIndex();
     },
 
     async setProfileIndex() {
         // Becauset the popup state resets every time it open, we use null as a guard. That way
         // whenever the user opens the popup, it doesn't automatically reset the current profile
         if (this.profileIndex !== null) {
-            await browser.runtime.sendMessage({
-                kind: 'setProfileIndex',
-                payload: this.profileIndex,
-            });
+            await setProfileIndex(this.profileIndex);
         }
     },
 
-    async getProfileNames() {
-        this.profileNames = await browser.runtime.sendMessage({
-            kind: 'getProfileNames',
-        });
+    async loadNames() {
+        this.profileNames = await getProfileNames();
     },
 
-    async getProfileIndex() {
-        this.profileIndex = await browser.runtime.sendMessage({
-            kind: 'getProfileIndex',
-        });
+    async loadProfileIndex() {
+        this.profileIndex = await getProfileIndex();
     },
 
     async openOptions() {
