@@ -5,27 +5,16 @@ window.Alpine = Alpine;
 const log = msg => bglog(msg, 'popup');
 
 Alpine.data('popup', () => ({
-    privKey: '',
-    pubKey: '',
-    pristinePrivKey: '',
-    hosts: [],
-    name: '',
-    pristineName: '',
     profileNames: ['Default'],
     profileIndex: 0,
-    visibleKey: false,
-    confirmClear: false,
-    confirmDelete: false,
 
     async init() {
         log('Initializing backend.');
         await browser.runtime.sendMessage({ kind: 'init' });
 
         this.$watch('profileIndex', async () => {
+            await this.getProfileNames();
             await this.setProfileIndex();
-            await this.refreshProfile();
-            this.confirmClear = false;
-            this.confirmDelete = false;
         });
 
         // Even though getProfileIndex will immediately trigger a profile refresh, we still
@@ -33,16 +22,8 @@ Alpine.data('popup', () => ({
         // the background scripts. Specifically, this pulls the list of profile names,
         // otherwise it generates a rendering error where it may not show the correct selected
         // profile when first loading the popup.
-        await this.refreshProfile();
-        await this.getProfileIndex();
-    },
-
-    async refreshProfile() {
-        await this.getNsecKey();
-        await this.getNpubKey();
-        await this.getHosts();
-        await this.getName();
         await this.getProfileNames();
+        await this.getProfileIndex();
     },
 
     async setProfileIndex() {
@@ -56,34 +37,10 @@ Alpine.data('popup', () => ({
         }
     },
 
-    async getNsecKey() {
-        this.privKey = await browser.runtime.sendMessage({
-            kind: 'getNsecKey',
-        });
-        this.pristinePrivKey = this.privKey;
-    },
-
-    async getNpubKey() {
-        this.pubKey = await browser.runtime.sendMessage({
-            kind: 'getNpubKey',
-        });
-    },
-
-    async getHosts() {
-        this.hosts = await browser.runtime.sendMessage({
-            kind: 'getHosts',
-        });
-    },
-
     async getProfileNames() {
         this.profileNames = await browser.runtime.sendMessage({
             kind: 'getProfileNames',
         });
-    },
-
-    async getName() {
-        this.name = await browser.runtime.sendMessage({ kind: 'getName' });
-        this.pristineName = this.name;
     },
 
     async getProfileIndex() {
@@ -92,52 +49,9 @@ Alpine.data('popup', () => ({
         });
     },
 
-    async newProfile() {
-        let newIndex = await browser.runtime.sendMessage({
-            kind: 'newProfile',
-        });
-        await this.refreshProfile();
-        this.profileIndex = newIndex;
-    },
-
-    async saveProfile() {
-        let { name, privKey, hosts } = this;
-        let profile = { name, privKey, hosts };
-        await browser.runtime.sendMessage({
-            kind: 'saveProfile',
-            payload: profile,
-        });
-        await this.refreshProfile();
-    },
-
-    async clearData() {
-        await browser.runtime.sendMessage({ kind: 'clearData' });
-        await this.init(); // Re-initialize after clearing
-        this.confirmClear = false;
-    },
-
-    async deleteProfile() {
-        await browser.runtime.sendMessage({ kind: 'deleteProfile' });
-        await this.init();
-        this.confirmDelete = false;
-    },
-
     async openOptions() {
         await browser.runtime.openOptionsPage();
         window.close();
-    },
-
-    // Properties
-
-    get hasValidPubKey() {
-        return typeof this.pubKey === 'string' && this.pubKey.length > 0;
-    },
-
-    get needsSaving() {
-        return (
-            this.privKey !== this.pristinePrivKey ||
-            this.name !== this.pristineName
-        );
     },
 }));
 

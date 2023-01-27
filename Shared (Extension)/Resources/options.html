@@ -17,37 +17,42 @@
     <label for="profiles">Profile</label>
     <br>
     <select class="input" x-model.number="profileIndex" id="profiles">
-      <template x-for="(profileName, index) in profileNames" :key="profileName">
-        <option x-text="profileName" :value="index"></option>
+      <template x-for="(name, index) in profileNames" :key="index">
+        <option x-text="name" :value="index"></option>
       </template>
     </select>
+    <button class="button" @click="await newProfile()">New</button>
+    <button class="button" @click="confirmDelete = true" x-show="!confirmDelete">Delete</button>
+    <button class="button" @click="deleteProfile" x-show="confirmDelete">Confirm Delete</button>
   </div>
 
   <!-- KEYS -->
   <div class="section">
     <h2 class="section-header">Keys</h2>
+    <form @submit.prevent="saveProfile">
+      <div class="mt-3">
+        <label for="profile-name">Profile Name</label>
+        <br>
+        <input x-model="profileName" type="text" class="input" autocapitalize="off" autocomplete="off" spellcheck="off">
+      </div>
 
-    <div class="mt-3">
-      <label for="profile-name">Profile Name</label>
-      <br>
-      <input x-model="profileName" type="text" class="input">
-    </div>
+      <div class="mt-3">
+        <label for="priv-key">Private Key</label>
+        <br>
+        <input x-model="privKey" type="text" class="input" autocapitalize="off" autocomplete="off" spellcheck="off">
+      </div>
 
-    <div class="mt-3">
-      <label for="priv-key">Private Key</label>
-      <br>
-      <input x-model="privKey" type="text" class="input">
-    </div>
+      <div class="mt-3">
+        <label for="pub-key">Public Key</label>
+        <br>
+        <input x-model="pubKey" type="text" class="input" disabled>
+      </div>
 
-    <div class="mt-3">
-      <label for="pub-key">Public Key</label>
-      <br>
-      <input x-model="pubKey" type="text" class="input" disabled>
-    </div>
+      <div class="mt-3">
+        <button class="button" :disabled="!needsSave" @click="saveProfile">Save</button>
+      </div>
+    </form>
 
-    <div class="mt-3">
-      <button class="button" :disabled="!needsSave">Save</button>
-    </div>
   </div>
 
   <!-- RELAYS -->
@@ -102,6 +107,8 @@
 
   <div class="mt-6">
     <button class="button" @click="window.close()">Close</button>
+    <button class="button" @click="confirmClear = true" x-show="!confirmClear">Clear Data</button>
+    <button class="button" @click="clearData" x-show="confirmClear">Confirm Clear</button>
   </div>
 </body>
 

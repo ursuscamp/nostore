@@ -7,8 +7,10 @@ const RECOMMENDED_RELAYS = [
     new URL('wss://relay.snort.social'),
 ];
 
+const log = console.log;
+
 Alpine.data('options', () => ({
-    profileNames: ['Default'],
+    profileNames: ['Poop'],
     profileIndex: 0,
     profileName: '',
     pristineProfileName: '',
@@ -19,34 +21,110 @@ Alpine.data('options', () => ({
     newRelay: '',
     urlError: '',
     recommendedRelay: '',
+    confirmDelete: false,
+    confirmClear: false,
 
-    async init() {
-        await this.refreshInfo();
+    async init(watch = true) {
+        log('Initialize backend.');
+        await browser.runtime.sendMessage({ kind: 'init' });
 
-        this.$watch('profileIndex', async () => {
-            await this.refreshInfo();
-        });
+        if (watch) {
+            this.$watch('profileIndex', async () => {
+                await this.refreshProfile();
+            });
 
-        this.$watch('recommendedRelay', async () => {
-            if (this.recommendedRelay.length == 0) return;
-            await this.addRelay(this.recommendedRelay);
-            this.recommendedRelay = '';
-        });
+            this.$watch('recommendedRelay', async () => {
+                if (this.recommendedRelay.length == 0) return;
+                await this.addRelay(this.recommendedRelay);
+                this.recommendedRelay = '';
+            });
+        }
+
+        log('Setting active index.');
+        await this.getActiveIndex();
+        await this.refreshProfile();
     },
 
-    async refreshInfo() {
+    async refreshProfile() {
         await this.getProfileNames();
-        await this.getNameForProfile();
-        await this.getPrivKeyForProfile();
-        await this.getPubKeyForProfile();
-        await this.getRelaysForProfile();
+        await this.getProfileName();
+        await this.getNsec();
+        await this.getNpub();
+        this.confirmClear = false;
+        this.confirmDelete = false;
     },
+
+    // Profile functions
 
     async getProfileNames() {
         this.profileNames = await browser.runtime.sendMessage({
             kind: 'getProfileNames',
         });
     },
+
+    async getProfileName() {
+        this.profileName = await browser.runtime.sendMessage({
+            kind: 'getNameForProfile',
+            payload: this.profileIndex,
+        });
+        this.pristineProfileName = this.profileName;
+    },
+
+    async getActiveIndex() {
+        this.profileIndex = await browser.runtime.sendMessage({
+            kind: 'getProfileIndex',
+        });
+    },
+
+    async newProfile() {
+        let newIndex = await browser.runtime.sendMessage({
+            kind: 'newProfile',
+        });
+        await this.getProfileNames();
+        this.profileIndex = newIndex;
+    },
+
+    async deleteProfile() {
+        await browser.runtime.sendMessage({
+            kind: 'deleteProfile',
+            payload: this.profileIndex,
+        });
+        await this.init(false);
+    },
+
+    // Key functions
+
+    async saveProfile() {
+        if (!this.needsSave) return;
+
+        await browser.runtime.sendMessage({
+            kind: 'savePrivateKey',
+            payload: [this.profileIndex, this.privKey],
+        });
+        await browser.runtime.sendMessage({
+            kind: 'saveProfileName',
+            payload: [this.profileIndex, this.profileName],
+        });
+        await this.getProfileNames();
+        await this.refreshProfile();
+    },
+
+    async getNpub() {
+        this.pubKey = await browser.runtime.sendMessage({
+            kind: 'getNpub',
+            payload: this.profileIndex,
+        });
+    },
+
+    async getNsec() {
+        this.privKey = await browser.runtime.sendMessage({
+            kind: 'getNsec',
+            payload: this.profileIndex,
+        });
+        this.pristinePrivKey = this.privKey;
+    },
+
+    // Relay functions
 
     async getRelaysForProfile() {
         this.relays = await browser.runtime.sendMessage({
@@ -95,27 +173,9 @@ Alpine.data('options', () => ({
         }, 3000);
     },
 
-    async getNameForProfile() {
-        this.profileName = await browser.runtime.sendMessage({
-            kind: 'getNameForProfile',
-            payload: this.profileIndex,
-        });
-        this.pristineProfileName = this.profileName;
-    },
-
-    async getPubKeyForProfile() {
-        this.pubKey = await browser.runtime.sendMessage({
-            kind: 'getPubKeyForProfile',
-            payload: this.profileIndex,
-        });
-    },
-
-    async getPrivKeyForProfile() {
-        this.privKey = await browser.runtime.sendMessage({
-            kind: 'getPrivKeyForProfile',
-            payload: this.profileIndex,
-        });
-        this.pristinePrivKey = this.privKey;
+    async clearData() {
+        await browser.runtime.sendMessage({ kind: 'clearData' });
+        await this.init(false);
     },
 
     // Properties
