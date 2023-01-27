@@ -10,18 +10,21 @@ const RECOMMENDED_RELAYS = [
 Alpine.data('options', () => ({
     profileNames: ['Default'],
     profileIndex: 0,
+    profileName: '',
+    pristineProfileName: '',
+    privKey: '',
+    pristinePrivKey: '',
+    pubKey: '',
     relays: [],
     newRelay: '',
     urlError: '',
     recommendedRelay: '',
 
     async init() {
-        await browser.runtime.getBackgroundPage();
-        await this.getProfileNames();
-        await this.getRelaysForProfile();
+        await this.refreshInfo();
 
         this.$watch('profileIndex', async () => {
-            await this.getRelaysForProfile();
+            await this.refreshInfo();
         });
 
         this.$watch('recommendedRelay', async () => {
@@ -29,6 +32,14 @@ Alpine.data('options', () => ({
             await this.addRelay(this.recommendedRelay);
             this.recommendedRelay = '';
         });
+    },
+
+    async refreshInfo() {
+        await this.getProfileNames();
+        await this.getNameForProfile();
+        await this.getPrivKeyForProfile();
+        await this.getPubKeyForProfile();
+        await this.getRelaysForProfile();
     },
 
     async getProfileNames() {
@@ -84,6 +95,29 @@ Alpine.data('options', () => ({
         }, 3000);
     },
 
+    async getNameForProfile() {
+        this.profileName = await browser.runtime.sendMessage({
+            kind: 'getNameForProfile',
+            payload: this.profileIndex,
+        });
+        this.pristineProfileName = this.profileName;
+    },
+
+    async getPubKeyForProfile() {
+        this.pubKey = await browser.runtime.sendMessage({
+            kind: 'getPubKeyForProfile',
+            payload: this.profileIndex,
+        });
+    },
+
+    async getPrivKeyForProfile() {
+        this.privKey = await browser.runtime.sendMessage({
+            kind: 'getPrivKeyForProfile',
+            payload: this.profileIndex,
+        });
+        this.pristinePrivKey = this.privKey;
+    },
+
     // Properties
 
     get recommendedRelays() {
@@ -99,6 +133,13 @@ Alpine.data('options', () => ({
 
     get hasRecommendedRelays() {
         return this.recommendedRelays.length > 0;
+    },
+
+    get needsSave() {
+        return (
+            this.privKey !== this.pristinePrivKey ||
+            this.profileName !== this.pristineProfileName
+        );
     },
 }));
 

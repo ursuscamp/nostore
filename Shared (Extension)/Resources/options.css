@@ -8,7 +8,7 @@
   }
 
   .input {
-    @apply bg-fuchsia-200 text-fuchsia-800 rounded-lg p-1 lg:p-1.5 focus:border-fuchsia-800;
+    @apply bg-fuchsia-200 text-fuchsia-800 rounded-lg p-1 lg:p-1.5 focus:border-fuchsia-800 w-64;
   }
 
   .checkbox {
@@ -17,5 +17,9 @@
 
   .section {
     @apply border-2 border-fuchsia-700 rounded-lg p-5 mt-6 shadow-md;
+  }
+
+  .section-header {
+    @apply text-2xl lg:text-5xl font-bold;
   }
 }

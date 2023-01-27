@@ -105,6 +105,18 @@ browser.runtime.onMessage.addListener(
                 let [srfpIndex, srfpRelays] = message.payload;
                 await saveRelaysForProfile(srfpIndex, srfpRelays);
                 break;
+            case 'getNameForProfile':
+                let nameForProfile = await getNameForProfile(message.payload);
+                sendResponse(nameForProfile);
+                break;
+            case 'getPubKeyForProfile':
+                let pubKeyForProfile = await getNpubKey(message.payload);
+                sendResponse(pubKeyForProfile);
+                break;
+            case 'getPrivKeyForProfile':
+                let privKeyForProfile = await getNsecKey(message.payload);
+                sendResponse(privKeyForProfile);
+                break;
             default:
                 break;
         }
@@ -138,20 +150,27 @@ async function initialize() {
     ]);
 }
 
-async function getNsecKey() {
-    let profile = await currentProfile();
-    return profile.nsecKey;
+async function getProfile(index) {
+    let profiles = await get('profiles');
+    return profiles[index];
+}
+
+async function getNsecKey(index) {
+    let profile = await getProfile(index);
+    let nsecKey = nip19.nsecEncode(profile.privKey);
+    return nsecKey;
+}
+
+async function getNpubKey(index) {
+    let profile = await getProfile(index);
+    let pubKey = getPublicKey(profile.privKey);
+    let npubKey = nip19.npubEncode(pubKey);
+    return npubKey;
 }
 
 async function getPrivKey() {
     let profile = await currentProfile();
     return profile.privKey;
-}
-
-async function getNpubKey() {
-    let pubKey = await getPubKey();
-    let npubKey = nip19.npubEncode(pubKey);
-    return npubKey;
 }
 
 async function getPubKey() {
@@ -259,4 +278,10 @@ async function saveRelaysForProfile(profileIndex, relays) {
     let profile = profiles[profileIndex];
     profile.relays = relays;
     await storage.set({ profiles });
+}
+
+async function getNameForProfile(profileIndex) {
+    let profiles = await get('profiles');
+    let profile = profiles[profileIndex];
+    return profile.name;
 }
