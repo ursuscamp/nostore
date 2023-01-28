@@ -1,5 +1,13 @@
 import Alpine from 'alpinejs';
-import { getProfileNames } from './utils';
+import {
+    clearData,
+    deleteProfile,
+    getProfileIndex,
+    getProfileNames,
+    initialize,
+    newProfile,
+    saveProfileName,
+} from './utils';
 
 const RECOMMENDED_RELAYS = [
     new URL('wss://relay.damus.io'),
@@ -27,7 +35,7 @@ Alpine.data('options', () => ({
 
     async init(watch = true) {
         log('Initialize backend.');
-        await browser.runtime.sendMessage({ kind: 'init' });
+        await initialize();
 
         if (watch) {
             this.$watch('profileIndex', async () => {
@@ -41,13 +49,13 @@ Alpine.data('options', () => ({
             });
         }
 
-        log('Setting active index.');
-        await this.getActiveIndex();
+        await this.getProfileNames();
+        await this.getProfileIndex();
         await this.refreshProfile();
     },
 
     async refreshProfile() {
-        await this.loadProfileNames();
+        await this.getProfileNames();
         await this.getProfileName();
         await this.getNsec();
         await this.getNpub();
@@ -57,7 +65,7 @@ Alpine.data('options', () => ({
 
     // Profile functions
 
-    async loadProfileNames() {
+    async getProfileNames() {
         this.profileNames = await getProfileNames();
     },
 
@@ -68,25 +76,18 @@ Alpine.data('options', () => ({
         this.pristineProfileName = name;
     },
 
-    async getActiveIndex() {
-        this.profileIndex = await browser.runtime.sendMessage({
-            kind: 'getProfileIndex',
-        });
+    async getProfileIndex() {
+        this.profileIndex = await getProfileIndex();
     },
 
     async newProfile() {
-        let newIndex = await browser.runtime.sendMessage({
-            kind: 'newProfile',
-        });
-        await this.loadProfileNames();
+        let newIndex = await newProfile();
+        await this.getProfileNames();
         this.profileIndex = newIndex;
     },
 
     async deleteProfile() {
-        await browser.runtime.sendMessage({
-            kind: 'deleteProfile',
-            payload: this.profileIndex,
-        });
+        await deleteProfile(this.profileIndex);
         await this.init(false);
     },
 
@@ -99,11 +100,8 @@ Alpine.data('options', () => ({
             kind: 'savePrivateKey',
             payload: [this.profileIndex, this.privKey],
         });
-        await browser.runtime.sendMessage({
-            kind: 'saveProfileName',
-            payload: [this.profileIndex, this.profileName],
-        });
-        await this.loadProfileNames();
+        await saveProfileName(this.profileIndex, this.profileName);
+        await this.getProfileNames();
         await this.refreshProfile();
     },
 
@@ -172,7 +170,7 @@ Alpine.data('options', () => ({
     },
 
     async clearData() {
-        await browser.runtime.sendMessage({ kind: 'clearData' });
+        await clearData();
         await this.init(false);
     },
 

@@ -35,19 +35,8 @@ browser.runtime.onMessage.addListener(
                     message.payload.msg
                 );
                 break;
-            case 'init':
-                await initialize();
-                break;
-            case 'setProfileIndex':
-                await setProfileIndex(message.payload);
-                break;
-            case 'getProfileIndex':
-                let profileIndex = await getProfileIndex();
-                sendResponse(profileIndex);
-                break;
-            case 'getProfileNames':
-                let profileNames = await getProfileNames();
-                sendResponse(profileNames);
+            case 'generatePrivateKey':
+                sendResponse(generatePrivateKey());
                 break;
 
             // Options page
@@ -122,28 +111,6 @@ browser.runtime.onMessage.addListener(
     }
 );
 
-// General
-
-async function initialize() {
-    await getOrSetDefault('profileIndex', 0);
-    await getOrSetDefault('profiles', [
-        {
-            name: 'Default',
-            privKey: generatePrivateKey(),
-            hosts: [],
-            relays: [],
-        },
-    ]);
-}
-
-async function setProfileIndex(profileIndex) {
-    await storage.set({ profileIndex });
-}
-
-async function getProfileIndex() {
-    return await get('profileIndex');
-}
-
 // Options
 async function clearData() {
     let ignoreInstallHook = await storage.get({ ignoreInstallHook: false });
@@ -190,11 +157,6 @@ async function getPubKey() {
     return pubKey;
 }
 
-async function getProfileNames() {
-    let profiles = await get('profiles');
-    return profiles.map(p => p.name);
-}
-
 async function currentProfile() {
     let index = await getProfileIndex();
     let profiles = await get('profiles');
@@ -214,22 +176,6 @@ async function newProfile() {
     profiles.push(newProfile);
     await storage.set({ profiles });
     return profiles.length - 1;
-}
-
-async function deleteProfile(index) {
-    let profiles = await get('profiles');
-    profiles.splice(index, 1);
-    if (profiles.length == 0) {
-        await clearData(); // If we have deleted all of the profiles, let's just start fresh with all new data
-        await initialize();
-    } else {
-        // If the index deleted was the active profile, change the active profile to the next one
-        let profileIndex =
-            this.profileIndex === index
-                ? Math.max(index - 1, 0)
-                : this.profileIndex;
-        await storage.set({ profiles, profileIndex });
-    }
 }
 
 async function signEvent_(event) {
@@ -282,16 +228,6 @@ async function getNameForProfile(profileIndex) {
 
 async function get(item) {
     return (await storage.get(item))[item];
-}
-
-async function getOrSetDefault(key, def) {
-    let val = (await storage.get(key))[key];
-    if (val == null || val == undefined) {
-        await storage.set({ [key]: def });
-        return def;
-    }
-
-    return val;
 }
 
 async function getProfile(index) {
