@@ -61,9 +61,9 @@ export async function initialize() {
     await getOrSetDefault('profiles', [await generateProfile()]);
 }
 
-export async function generateProfile() {
+export async function generateProfile(name = 'Default') {
     return {
-        name: 'Default',
+        name,
         privKey: await generatePrivateKey(),
         hosts: [],
         relays: [],
@@ -86,10 +86,29 @@ export async function saveProfileName(index, profileName) {
     await storage.set({ profiles });
 }
 
+export async function savePrivateKey(index, privateKey) {
+    await browser.runtime.sendMessage({
+        kind: 'savePrivateKey',
+        payload: [index, privateKey],
+    });
+}
+
 export async function newProfile() {
     let profiles = await getProfiles();
     const newProfile = await generateProfile('New Profile');
     profiles.push(newProfile);
     await storage.set({ profiles });
     return profiles.length - 1;
+}
+
+export async function getRelays(profileIndex) {
+    let profile = await getProfile(profileIndex);
+    return profile.relays || [];
+}
+
+export async function saveRelays(profileIndex, relays) {
+    let profiles = await getProfile(profileIndex);
+    console.log('saving: ', relays);
+    profile.relays = [...relays];
+    await storage.set({ profiles });
 }

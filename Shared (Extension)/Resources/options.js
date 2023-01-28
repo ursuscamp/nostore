@@ -4,9 +4,12 @@ import {
     deleteProfile,
     getProfileIndex,
     getProfileNames,
+    getRelays,
     initialize,
     newProfile,
+    savePrivateKey,
     saveProfileName,
+    saveRelays,
 } from './utils';
 
 const RECOMMENDED_RELAYS = [
@@ -49,6 +52,8 @@ Alpine.data('options', () => ({
             });
         }
 
+        // We need to refresh the names BEFORE setting the profile index, or it won't work
+        // on init to set the correct profile.
         await this.getProfileNames();
         await this.getProfileIndex();
         await this.refreshProfile();
@@ -59,6 +64,7 @@ Alpine.data('options', () => ({
         await this.getProfileName();
         await this.getNsec();
         await this.getNpub();
+        await this.getRelays();
         this.confirmClear = false;
         this.confirmDelete = false;
     },
@@ -96,10 +102,7 @@ Alpine.data('options', () => ({
     async saveProfile() {
         if (!this.needsSave) return;
 
-        await browser.runtime.sendMessage({
-            kind: 'savePrivateKey',
-            payload: [this.profileIndex, this.privKey],
-        });
+        await savePrivateKey(this.profileIndex, this.privKey);
         await saveProfileName(this.profileIndex, this.profileName);
         await this.getProfileNames();
         await this.refreshProfile();
@@ -122,19 +125,14 @@ Alpine.data('options', () => ({
 
     // Relay functions
 
-    async getRelaysForProfile() {
-        this.relays = await browser.runtime.sendMessage({
-            kind: 'getRelaysForProfile',
-            payload: this.profileIndex,
-        });
+    async getRelays() {
+        this.relays = await getRelays(this.profileIndex);
     },
 
-    async saveRelaysForProfile() {
-        await browser.runtime.sendMessage({
-            kind: 'saveRelaysForProfile',
-            payload: [this.profileIndex, this.relays],
-        });
-        await this.getRelaysForProfile();
+    async saveRelays() {
+        console.log(this.relays);
+        await saveRelays(this.profileIndex, this.relays);
+        await this.getRelays(this.profileIndex);
         this.newRelay = '';
     },
 
@@ -150,8 +148,11 @@ Alpine.data('options', () => ({
                 this.setUrlError('URL already exists');
                 return;
             }
-            this.relays.push({ url: url.href, read: true, write: true });
-            await this.saveRelaysForProfile();
+            this.relays = [
+                ...this.relays,
+                { url: url.href, read: true, write: true },
+            ];
+            await this.saveRelays();
         } catch (error) {
             this.setUrlError('Invalid websocket URL');
         }
@@ -159,7 +160,7 @@ Alpine.data('options', () => ({
 
     async deleteRelay(index) {
         this.relays.splice(index, 1);
-        await this.saveRelaysForProfile();
+        await this.saveRelays();
     },
 
     setUrlError(message) {
@@ -168,6 +169,8 @@ Alpine.data('options', () => ({
             this.urlError = '';
         }, 3000);
     },
+
+    // General
 
     async clearData() {
         await clearData();
