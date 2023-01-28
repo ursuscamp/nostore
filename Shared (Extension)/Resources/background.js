@@ -38,17 +38,8 @@ browser.runtime.onMessage.addListener(
             case 'generatePrivateKey':
                 sendResponse(generatePrivateKey());
                 break;
-
-            // Options page
-            case 'newProfile':
-                let newIndex = await newProfile();
-                sendResponse(newIndex);
-                break;
             case 'savePrivateKey':
                 await savePrivateKey(message.payload);
-                break;
-            case 'saveProfileName':
-                await saveProfileName(message.payload);
                 break;
             case 'getNpub':
                 let npub = await getNpub(message.payload);
@@ -58,32 +49,9 @@ browser.runtime.onMessage.addListener(
                 let nsec = await getNsec(message.payload);
                 sendResponse(nsec);
                 break;
-
             case 'getPubKey':
                 let pubKey = await getPubKey();
                 sendResponse(pubKey);
-                break;
-            case 'getHosts':
-                let hosts = await getHosts();
-                sendResponse(hosts);
-                break;
-            case 'clearData':
-                await clearData();
-                break;
-            case 'deleteProfile':
-                await deleteProfile(message.payload);
-                break;
-            case 'getRelaysForProfile':
-                let profileRelays = await getRelaysForProfile(message.payload);
-                sendResponse(profileRelays);
-                break;
-            case 'saveRelaysForProfile':
-                let [srfpIndex, srfpRelays] = message.payload;
-                await saveRelaysForProfile(srfpIndex, srfpRelays);
-                break;
-            case 'getNameForProfile':
-                let nameForProfile = await getNameForProfile(message.payload);
-                sendResponse(nameForProfile);
                 break;
 
             // window.nostr
@@ -112,24 +80,12 @@ browser.runtime.onMessage.addListener(
 );
 
 // Options
-async function clearData() {
-    let ignoreInstallHook = await storage.get({ ignoreInstallHook: false });
-    await storage.clear();
-    await storage.set(ignoreInstallHook);
-}
-
 async function savePrivateKey([index, privKey]) {
     if (privKey.startsWith('nsec')) {
         privKey = nip19.decode(privKey).data;
     }
     let profiles = await get('profiles');
     profiles[index].privKey = privKey;
-    await storage.set({ profiles });
-}
-
-async function saveProfileName([index, profileName]) {
-    let profiles = await get('profiles');
-    profiles[index].name = profileName;
     await storage.set({ profiles });
 }
 
@@ -165,19 +121,6 @@ async function currentProfile() {
     return profiles[index];
 }
 
-async function newProfile() {
-    let profiles = await get('profiles');
-    const newProfile = {
-        name: 'New Profile',
-        privKey: generatePrivateKey(),
-        hosts: [],
-        relays: [],
-    };
-    profiles.push(newProfile);
-    await storage.set({ profiles });
-    return profiles.length - 1;
-}
-
 async function signEvent_(event) {
     event = { ...event };
     let privKey = await getPrivKey();
@@ -193,35 +136,6 @@ async function nip04Encrypt({ pubKey, plainText }) {
 async function nip04Decrypt({ pubKey, cipherText }) {
     let privKey = await getPrivKey();
     return nip04.decrypt(privKey, pubKey, cipherText);
-}
-
-async function getRelays() {
-    let profile = await currentProfile();
-    let relays = {};
-    let profileRelays = profile.relays || [];
-    profileRelays.forEach(relay => {
-        relays[relay.url] = { read: relay.read, write: relay.write };
-    });
-    return relays;
-}
-
-async function getRelaysForProfile(profileIndex) {
-    let profiles = await get('profiles');
-    let profile = profiles[profileIndex];
-    return profile.relays || [];
-}
-
-async function saveRelaysForProfile(profileIndex, relays) {
-    let profiles = await get('profiles');
-    let profile = profiles[profileIndex];
-    profile.relays = relays;
-    await storage.set({ profiles });
-}
-
-async function getNameForProfile(profileIndex) {
-    let profiles = await get('profiles');
-    let profile = profiles[profileIndex];
-    return profile.name;
 }
 
 // Utilities
