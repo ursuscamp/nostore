@@ -71,10 +71,10 @@
           <tr>
             <td class="p-2 w-1/3" x-text="relay.url"></td>
             <td class="p-2 text-center">
-              <input class="checkbox" type="checkbox" x-model="relay.read" @change="saveRelays">
+              <input class="checkbox" type="checkbox" x-model="relay.read" @change="await saveRelays()">
             </td>
             <td class="p-2 text-center">
-              <input class="checkbox" type="checkbox" x-model="relay.write" @change="saveRelays">
+              <input class="checkbox" type="checkbox" x-model="relay.write" @change="await saveRelays()">
             </td>
             <td class="p-2 text-center">
               <button class="button" @click="await deleteRelay(index)">Delete</button>

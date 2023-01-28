@@ -6,6 +6,8 @@ import {
     nip19,
 } from 'nostr-tools';
 
+import { getProfileIndex, get, getProfile } from './utils';
+
 const storage = browser.storage.local;
 const log = msg => console.log('Background: ', msg);
 
@@ -116,8 +118,6 @@ async function getPubKey() {
 async function currentProfile() {
     let index = await getProfileIndex();
     let profiles = await get('profiles');
-    let currentProfile = profiles[index];
-    currentProfile.nsecKey = nip19.nsecEncode(currentProfile.privKey);
     return profiles[index];
 }
 
@@ -138,13 +138,14 @@ async function nip04Decrypt({ pubKey, cipherText }) {
     return nip04.decrypt(privKey, pubKey, cipherText);
 }
 
-// Utilities
-
-async function get(item) {
-    return (await storage.get(item))[item];
-}
-
-async function getProfile(index) {
-    let profiles = await get('profiles');
-    return profiles[index];
+async function getRelays() {
+    let profile = await currentProfile();
+    let relays = profile.relays;
+    let relayObj = {};
+    // The getRelays call expects this to be returned as an object, not array
+    relays.forEach(relay => {
+        let { url, read, write } = relay;
+        relayObj[url] = { read, write };
+    });
+    return relayObj;
 }

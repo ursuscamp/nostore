@@ -130,10 +130,8 @@ Alpine.data('options', () => ({
     },
 
     async saveRelays() {
-        console.log(this.relays);
         await saveRelays(this.profileIndex, this.relays);
-        await this.getRelays(this.profileIndex);
-        this.newRelay = '';
+        await this.getRelays();
     },
 
     async addRelay(relayToAdd = null) {
@@ -142,17 +140,16 @@ Alpine.data('options', () => ({
             let url = new URL(newRelay);
             if (url.protocol !== 'wss:') {
                 this.setUrlError('Must be a websocket url');
+                return;
             }
             let urls = this.relays.map(v => v.url);
             if (urls.includes(url.href)) {
                 this.setUrlError('URL already exists');
                 return;
             }
-            this.relays = [
-                ...this.relays,
-                { url: url.href, read: true, write: true },
-            ];
+            this.relays.push({ url: url.href, read: true, write: true });
             await this.saveRelays();
+            this.newRelay = '';
         } catch (error) {
             this.setUrlError('Invalid websocket URL');
         }

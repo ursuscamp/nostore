@@ -12,7 +12,7 @@ export async function getProfiles() {
     return profiles.profiles;
 }
 
-async function getProfile(index) {
+export async function getProfile(index) {
     let profiles = await getProfiles();
     return profiles[index];
 }
@@ -107,8 +107,16 @@ export async function getRelays(profileIndex) {
 }
 
 export async function saveRelays(profileIndex, relays) {
-    let profiles = await getProfile(profileIndex);
-    console.log('saving: ', relays);
-    profile.relays = [...relays];
+    // Having an Alpine proxy object as a sub-object does not serialize correctly in storage,
+    // so we are pre-serializing here before assigning it to the profile, so the proxy
+    // obj doesn't bug out.
+    let fixedRelays = JSON.parse(JSON.stringify(relays));
+    let profiles = await getProfiles();
+    let profile = profiles[profileIndex];
+    profile.relays = fixedRelays;
     await storage.set({ profiles });
+}
+
+export async function get(item) {
+    return (await storage.get(item))[item];
 }
