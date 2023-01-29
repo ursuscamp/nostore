@@ -3,15 +3,19 @@ import {
     getProfileNames,
     setProfileIndex,
     getProfileIndex,
+    getRelays,
+    RECOMMENDED_RELAYS,
+    saveRelays,
 } from './utils';
 import Alpine from 'alpinejs';
 window.Alpine = Alpine;
 
-const log = msg => bglog(msg, 'popup');
+const log = console.log;
 
 Alpine.data('popup', () => ({
     profileNames: ['Default'],
     profileIndex: 0,
+    relayCount: 0,
 
     async init() {
         log('Initializing backend.');
@@ -20,6 +24,7 @@ Alpine.data('popup', () => ({
         this.$watch('profileIndex', async () => {
             await this.loadNames();
             await this.setProfileIndex();
+            await this.countRelays();
         });
 
         // Even though loadProfileIndex will immediately trigger a profile refresh, we still
@@ -29,6 +34,7 @@ Alpine.data('popup', () => ({
         // profile when first loading the popup.
         await this.loadNames();
         await this.loadProfileIndex();
+        await this.countRelays();
     },
 
     async setProfileIndex() {
@@ -50,6 +56,21 @@ Alpine.data('popup', () => ({
     async openOptions() {
         await browser.runtime.openOptionsPage();
         window.close();
+    },
+
+    async countRelays() {
+        let relays = await getRelays(this.profileIndex);
+        this.relayCount = relays.length;
+    },
+
+    async addRelays() {
+        let relays = RECOMMENDED_RELAYS.map(r => ({
+            url: r.href,
+            read: true,
+            write: true,
+        }));
+        await saveRelays(this.profileIndex, relays);
+        await this.countRelays();
     },
 }));
 

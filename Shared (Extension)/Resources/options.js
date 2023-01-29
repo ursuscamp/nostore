@@ -10,14 +10,8 @@ import {
     savePrivateKey,
     saveProfileName,
     saveRelays,
+    RECOMMENDED_RELAYS,
 } from './utils';
-
-const RECOMMENDED_RELAYS = [
-    new URL('wss://relay.damus.io'),
-    new URL('wss://eden.nostr.land'),
-    new URL('wss://nostr-relay.derekross.me'),
-    new URL('wss://relay.snort.social'),
-];
 
 const log = console.log;
 

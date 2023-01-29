@@ -5,61 +5,23 @@
 
 body {
     width: 300px;
-    padding: 10px;
+    padding: 15px;
 
     font-family: system-ui;
 }
 
-label {
-    display: inline-block;
-    width: 200px;
-}
-
-input {
-    width: 100%;
-}
-
-.profile-buttons {
-    width: 100%;
-}
-
-#priv-key, #pub-key {
-    font-family: monospace;
-}
-
-.profiles {
-    margin-bottom: 15px;
-}
-
-.profile-name {
-    margin-bottom: 15px;
-}
-
-.key {
-    margin-bottom: 15px;
-}
-
-.buttons {
-    margin-bottom: 15px;
-}
-
-td:first-child {
-    width: 50px;
-}
-
-td:nth-child(2) {
-    width: 100px;
-}
-
-tr {
-    margin-bottom: 10px;
+.relay {
+    margin-top: 10px;
+    font-size: 80%;
+    color: darkred;
 }
 
 .help {
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .disclaimer {
+    margin-top: 10px;
     font-size: 50%;
     color: green;
 }

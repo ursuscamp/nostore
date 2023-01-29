@@ -20,6 +20,15 @@
         </div>
     </div>
 
+    <div class="relay" x-show="relayCount < 1">
+        <span>
+            You do not have any relays setup for this profile. Would you like to add some recommended
+            relays now?
+        </span>
+        <br>
+        <button @click="await addRelays()">Add Relays</button>
+    </div>
+
     <div class="help">
         <button @click='window.open("https://ursus.camp/nostore", "_blank")'>Get Help</button>
         <button @click="await openOptions()">Advanced</button>

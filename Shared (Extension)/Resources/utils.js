@@ -1,4 +1,16 @@
 const storage = browser.storage.local;
+export const RECOMMENDED_RELAYS = [
+    new URL('wss://relay.damus.io'),
+    new URL('wss://eden.nostr.land'),
+    new URL('wss://nostr-relay.derekross.me'),
+    new URL('wss://relay.snort.social'),
+];
+
+export async function initialize() {
+    await getOrSetDefault('profileIndex', 0);
+    await getOrSetDefault('profiles', [await generateProfile()]);
+    await getOrSetDefault('version', 0);
+}
 
 export async function bglog(msg, module = null) {
     await browser.runtime.sendMessage({
@@ -54,11 +66,6 @@ export async function clearData() {
 
 async function generatePrivateKey() {
     return await browser.runtime.sendMessage({ kind: 'generatePrivateKey' });
-}
-
-export async function initialize() {
-    await getOrSetDefault('profileIndex', 0);
-    await getOrSetDefault('profiles', [await generateProfile()]);
 }
 
 export async function generateProfile(name = 'Default') {
