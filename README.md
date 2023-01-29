@@ -29,7 +29,8 @@ This extension does not collect any user data, or transmit any data over a netwo
 2. Open project folder in terminal.
 3. Run `npm install` to install the dependencies.
 4. Run `npm run watch` to watch and build the necessary extension files.
-5. After every rebuild, execute Run in XCode to deploy the latest changes to Safari.
+5. Run `npm run watch-tailwind` to watch and build the pages with tailwinds CSS.
+6. After every rebuild, execute Run in XCode to deploy the latest changes to Safari.
 
 If you do not see the Nostore extension in your Safari toolbar, you need to activate unsigned extensions and Nostore:
 

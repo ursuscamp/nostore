@@ -6,11 +6,15 @@ import {
     nip19,
 } from 'nostr-tools';
 
+import { getProfileIndex, get, getProfile } from './utils';
+
 const storage = browser.storage.local;
+const log = msg => console.log('Background: ', msg);
 
 browser.runtime.onInstalled.addListener(async ({ reason }) => {
     // I would like to be able to skip this for development purposes
-    let ignoreHook = (await storage.get('ignoreInstallHook')).ignoreInstallHook;
+    let ignoreHook = (await storage.get({ ignoreInstallHook: false }))
+        .ignoreInstallHook;
     if (ignoreHook === true) {
         return;
     }
@@ -23,56 +27,36 @@ browser.runtime.onInstalled.addListener(async ({ reason }) => {
 
 browser.runtime.onMessage.addListener(
     async (message, _sender, sendResponse) => {
-        console.log(message);
+        log(message);
 
         switch (message.kind) {
-            case 'init':
-                await initialize();
+            // General
+            case 'log':
+                console.log(
+                    message.payload.module ? `${module}: ` : '',
+                    message.payload.msg
+                );
                 break;
-            case 'setProfileIndex':
-                await setProfileIndex(message.payload);
+            case 'generatePrivateKey':
+                sendResponse(generatePrivateKey());
                 break;
-            case 'getProfileIndex':
-                let profileIndex = await getProfileIndex();
-                sendResponse(profileIndex);
+            case 'savePrivateKey':
+                await savePrivateKey(message.payload);
                 break;
-            case 'getNsecKey':
-                let nsecKey = await getNsecKey();
-                sendResponse(nsecKey);
+            case 'getNpub':
+                let npub = await getNpub(message.payload);
+                sendResponse(npub);
                 break;
-            case 'getNpubKey':
-                let npubKey = await getNpubKey();
-                sendResponse(npubKey);
+            case 'getNsec':
+                let nsec = await getNsec(message.payload);
+                sendResponse(nsec);
                 break;
             case 'getPubKey':
                 let pubKey = await getPubKey();
                 sendResponse(pubKey);
                 break;
-            case 'getHosts':
-                let hosts = await getHosts();
-                sendResponse(hosts);
-                break;
-            case 'getName':
-                let name = await getName();
-                sendResponse(name);
-                break;
-            case 'getProfileNames':
-                let profileNames = await getProfileNames();
-                sendResponse(profileNames);
-                break;
-            case 'newProfile':
-                let newIndex = await newProfile();
-                sendResponse(newIndex);
-                break;
-            case 'saveProfile':
-                await saveProfile(message.payload);
-                break;
-            case 'clearData':
-                await browser.storage.local.clear();
-                break;
-            case 'deleteProfile':
-                await deleteProfile();
-                break;
+
+            // window.nostr
             case 'signEvent':
                 let event = await signEvent_(message.payload);
                 sendResponse(event);
@@ -86,51 +70,43 @@ browser.runtime.onMessage.addListener(
                 sendResponse(plainText);
                 break;
             case 'getRelays':
-                sendResponse({});
+                let relays = await getRelays();
+                sendResponse(relays);
                 break;
+
             default:
                 break;
         }
+        return false;
     }
 );
 
-async function get(item) {
-    return (await storage.get(item))[item];
-}
-
-async function getOrSetDefault(key, def) {
-    let val = (await storage.get(key))[key];
-    if (val == null || val == undefined) {
-        await storage.set({ [key]: def });
-        return def;
+// Options
+async function savePrivateKey([index, privKey]) {
+    if (privKey.startsWith('nsec')) {
+        privKey = nip19.decode(privKey).data;
     }
-
-    return val;
+    let profiles = await get('profiles');
+    profiles[index].privKey = privKey;
+    await storage.set({ profiles });
 }
 
-async function initialize() {
-    await getOrSetDefault('profileIndex', 0);
-    await getOrSetDefault('profiles', [
-        { name: 'Default', privKey: generatePrivateKey(), hosts: [] },
-    ]);
+async function getNsec(index) {
+    let profile = await getProfile(index);
+    let nsec = nip19.nsecEncode(profile.privKey);
+    return nsec;
 }
 
-async function getNsecKey() {
-    let profile = await currentProfile();
-    return profile.nsecKey;
+async function getNpub(index) {
+    let profile = await getProfile(index);
+    let pubKey = getPublicKey(profile.privKey);
+    let npub = nip19.npubEncode(pubKey);
+    return npub;
 }
 
 async function getPrivKey() {
     let profile = await currentProfile();
     return profile.privKey;
-}
-
-async function getNpubKey() {
-    let pubKey = await getPubKey();
-    console.log('pubKey: ', pubKey);
-    let npubKey = nip19.npubEncode(pubKey);
-    console.log('npub key: ', npubKey);
-    return npubKey;
 }
 
 async function getPubKey() {
@@ -139,65 +115,10 @@ async function getPubKey() {
     return pubKey;
 }
 
-async function getHosts() {
-    let profile = await currentProfile();
-    return profile.hosts;
-}
-
-async function getName() {
-    let profile = await currentProfile();
-    return profile.name;
-}
-
-async function getProfileNames() {
-    let profiles = await get('profiles');
-    return profiles.map(p => p.name);
-}
-
-async function setProfileIndex(profileIndex) {
-    await storage.set({ profileIndex });
-}
-
-async function getProfileIndex() {
-    return await get('profileIndex');
-}
-
 async function currentProfile() {
-    let index = await get('profileIndex');
+    let index = await getProfileIndex();
     let profiles = await get('profiles');
-    let currentProfile = profiles[index];
-    currentProfile.nsecKey = nip19.nsecEncode(currentProfile.privKey);
     return profiles[index];
-}
-
-async function newProfile() {
-    let profiles = await get('profiles');
-    const newProfile = {
-        name: 'New Profile',
-        privKey: generatePrivateKey(),
-        hosts: [],
-    };
-    profiles.push(newProfile);
-    await storage.set({ profiles });
-    return profiles.length - 1;
-}
-
-async function saveProfile(profile) {
-    if (profile.privKey.startsWith('nsec')) {
-        profile.privKey = nip19.decode(profile.privKey).data;
-    }
-    let index = await getProfileIndex();
-    let profiles = await get('profiles');
-    profiles[index] = profile;
-    await storage.set({ profiles });
-}
-
-async function deleteProfile() {
-    let index = await getProfileIndex();
-    let profiles = await get('profiles');
-    profiles.splice(index, 1);
-    let profileIndex = Math.max(index - 1, 0);
-    await storage.set({ profiles, profileIndex });
 }
 
 async function signEvent_(event) {
@@ -215,4 +136,16 @@ async function nip04Encrypt({ pubKey, plainText }) {
 async function nip04Decrypt({ pubKey, cipherText }) {
     let privKey = await getPrivKey();
     return nip04.decrypt(privKey, pubKey, cipherText);
+}
+
+async function getRelays() {
+    let profile = await currentProfile();
+    let relays = profile.relays;
+    let relayObj = {};
+    // The getRelays call expects this to be returned as an object, not array
+    relays.forEach(relay => {
+        let { url, read, write } = relay;
+        relayObj[url] = { read, write };
+    });
+    return relayObj;
 }

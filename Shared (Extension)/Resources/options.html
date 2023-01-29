@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="options.build.css">
+  <script defer src="options.build.js"></script>
+
+</head>
+
+<body x-data="options" class="text-fuchsia-900  p-3.5 lg:p-32">
+  <h1 class="text-3xl lg:text-6xl font-bold md:text-center">Settings</h1>
+
+  <!-- PROFILES -->
+  <div class="mt-6">
+    <label for="profiles">Profile</label>
+    <br>
+    <select class="input" x-model.number="profileIndex" id="profiles">
+      <template x-for="(name, index) in profileNames" :key="index">
+        <option x-text="name" :value="index"></option>
+      </template>
+    </select>
+    <div class="block md:inline p-3 pl-0 md:p-0">
+      <button class="button" @click="await newProfile()">New</button>
+      <button class="button" @click="confirmDelete = true" x-show="!confirmDelete">Delete</button>
+      <button class="button" @click="deleteProfile" x-show="confirmDelete">Confirm Delete</button>
+    </div>
+  </div>
+
+  <!-- KEYS -->
+  <div class="section">
+    <h2 class="section-header">Keys</h2>
+    <p class="text-sm italic">Provide your <code class="not-italic">nsec</code> or legacy (hexadecimal) private keys.
+    </p>
+    <form @submit.prevent="saveProfile">
+      <div class="mt-3">
+        <label for="profile-name">Profile Name</label>
+        <br>
+        <input x-model="profileName" type="text" class="input" autocapitalize="off" autocomplete="off" spellcheck="off">
+      </div>
+
+      <div class="mt-3">
+        <label for="priv-key">Private Key</label>
+        <br>
+        <input x-model="privKey" type="text" class="input" autocapitalize="off" autocomplete="off" spellcheck="off">
+      </div>
+
+      <div class="mt-3">
+        <label for="pub-key">Public Key</label>
+        <br>
+        <input x-model="pubKey" type="text" class="input" disabled>
+      </div>
+
+      <div class="mt-3">
+        <button class="button" :disabled="!needsSave" @click="saveProfile">Save</button>
+      </div>
+    </form>
+
+  </div>
+
+  <!-- RELAYS -->
+  <div class="section">
+    <h2 class="section-header">Relays</h2>
+    <p class="text-sm italic">Add relay suggestions for clients.</p>
+    <template x-if="hasRelays">
+      <table class="mt-3 text-xs md:text-base table-auto md:table-fixed">
+        <thead class="font-bold text-lg">
+          <td class="p-2 text-center">URL</td>
+          <td class="p-2 text-center">Read</td>
+          <td class="p-2 text-center">Write</td>
+          <td class="p-2 text-center">Actions</td>
+        </thead>
+        <template x-for="(relay, index) in relays" :key="index">
+          <tr>
+            <td class="p-2 w-1/3" x-text="relay.url"></td>
+            <td class="p-2 text-center">
+              <input class="checkbox" type="checkbox" x-model="relay.read" @change="await saveRelays()">
+            </td>
+            <td class="p-2 text-center">
+              <input class="checkbox" type="checkbox" x-model="relay.write" @change="await saveRelays()">
+            </td>
+            <td class="p-2 text-center">
+              <button class="button" @click="await deleteRelay(index)">Delete</button>
+            </td>
+          </tr>
+        </template>
+      </table>
+    </template>
+
+    <template x-if="!hasRelays">
+      <div class="mt-3">
+        There are no relays assigned to this profile.
+      </div>
+    </template>
+
+    <div class="mt-3" x-show="hasRecommendedRelays">
+      <select x-model="recommendedRelay" class="input">
+        <option value="" disabled selected>Recommended Relays</option>
+        <template x-for="relay in recommendedRelays">
+          <option :value="relay" x-text="relay"></option>
+        </template>
+      </select>
+    </div>
+
+    <input class="mt-3 input" x-model="newRelay" type="text" @keyup.enter="await addRelay()" placeholder="wss://..."
+      autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="off">
+    <div class="block md:inline p-3 pl-0 md:p-0">
+      <button class="button" @click="await addRelay()">Add</button>
+    </div>
+    <div class="text-red-500 font-bold" x-show="urlError.length > 0" x-text="urlError"></div>
+  </div>
+
+  <div class="mt-6">
+    <button class="button" @click="window.close()">Close</button>
+    <button class="button" @click="confirmClear = true" x-show="!confirmClear">Clear Data</button>
+    <button class="button" @click="clearData" x-show="confirmClear">Confirm Clear</button>
+  </div>
+</body>
+
+</html>

@@ -71,6 +71,18 @@
 		941B04342978CDF900CA291E /* Icon-16.png in Resources */ = {isa = PBXBuildFile; fileRef = 941B042F2978CDF900CA291E /* Icon-16.png */; };
 		941B04352978CDF900CA291E /* Icon-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 941B04302978CDF900CA291E /* Icon-64.png */; };
 		941B04362978CDF900CA291E /* Icon-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 941B04302978CDF900CA291E /* Icon-64.png */; };
+		948C69D9297F887600FB3574 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 948C69D8297F887600FB3574 /* options.html */; };
+		948C69DA297F887600FB3574 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 948C69D8297F887600FB3574 /* options.html */; };
+		948C69DD297F88A200FB3574 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 948C69DB297F88A200FB3574 /* options.css */; };
+		948C69DE297F88A200FB3574 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 948C69DB297F88A200FB3574 /* options.css */; };
+		948C69DF297F88A200FB3574 /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = 948C69DC297F88A200FB3574 /* options.js */; };
+		948C69E0297F88A200FB3574 /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = 948C69DC297F88A200FB3574 /* options.js */; };
+		948C69E2297F891F00FB3574 /* options.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 948C69E1297F891F00FB3574 /* options.build.js */; };
+		948C69E3297F891F00FB3574 /* options.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 948C69E1297F891F00FB3574 /* options.build.js */; };
+		948C69E5297F8BA600FB3574 /* options.build.css in Resources */ = {isa = PBXBuildFile; fileRef = 948C69E4297F8BA600FB3574 /* options.build.css */; };
+		948C69E6297F8BA600FB3574 /* options.build.css in Resources */ = {isa = PBXBuildFile; fileRef = 948C69E4297F8BA600FB3574 /* options.build.css */; };
+		948C69E82982DFE900FB3574 /* background.html in Resources */ = {isa = PBXBuildFile; fileRef = 948C69E72982DFE900FB3574 /* background.html */; };
+		948C69E92982DFE900FB3574 /* background.html in Resources */ = {isa = PBXBuildFile; fileRef = 948C69E72982DFE900FB3574 /* background.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -159,6 +171,12 @@
 		941B042E2978CDF900CA291E /* Icon-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-32.png"; sourceTree = "<group>"; };
 		941B042F2978CDF900CA291E /* Icon-16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-16.png"; sourceTree = "<group>"; };
 		941B04302978CDF900CA291E /* Icon-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-64.png"; sourceTree = "<group>"; };
+		948C69D8297F887600FB3574 /* options.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = options.html; sourceTree = "<group>"; };
+		948C69DB297F88A200FB3574 /* options.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = options.css; sourceTree = "<group>"; };
+		948C69DC297F88A200FB3574 /* options.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = options.js; sourceTree = "<group>"; };
+		948C69E1297F891F00FB3574 /* options.build.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = options.build.js; sourceTree = "<group>"; };
+		948C69E4297F8BA600FB3574 /* options.build.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = options.build.css; sourceTree = "<group>"; };
+		948C69E72982DFE900FB3574 /* background.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = background.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +258,11 @@
 		941B03A2296FA90400CA291E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				948C69E4297F8BA600FB3574 /* options.build.css */,
+				948C69E1297F891F00FB3574 /* options.build.js */,
+				948C69DB297F88A200FB3574 /* options.css */,
+				948C69DC297F88A200FB3574 /* options.js */,
+				948C69D8297F887600FB3574 /* options.html */,
 				941B04162971138F00CA291E /* content.build.js */,
 				941B04152971138F00CA291E /* nostr.build.js */,
 				941B04172971138F00CA291E /* popup.build.js */,
@@ -253,6 +276,7 @@
 				941B03A8296FA90400CA291E /* popup.html */,
 				941B03A9296FA90400CA291E /* popup.css */,
 				941B03AA296FA90400CA291E /* popup.js */,
+				948C69E72982DFE900FB3574 /* background.html */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -475,7 +499,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				941B0413297110F100CA291E /* background.build.js in Resources */,
+				948C69E82982DFE900FB3574 /* background.html in Resources */,
+				948C69DF297F88A200FB3574 /* options.js in Resources */,
+				948C69DD297F88A200FB3574 /* options.css in Resources */,
 				941B03F2296FA90400CA291E /* background.js in Resources */,
+				948C69E2297F891F00FB3574 /* options.build.js in Resources */,
 				941B03F8296FA90400CA291E /* popup.css in Resources */,
 				941B04292977A28700CA291E /* Icon-128.png in Resources */,
 				941B04182971138F00CA291E /* nostr.build.js in Resources */,
@@ -489,6 +517,8 @@
 				941B041C2971139000CA291E /* popup.build.js in Resources */,
 				941B03EC296FA90400CA291E /* _locales in Resources */,
 				941B04222977A25700CA291E /* Icon-512.png in Resources */,
+				948C69E5297F8BA600FB3574 /* options.build.css in Resources */,
+				948C69D9297F887600FB3574 /* options.html in Resources */,
 				941B03F4296FA90400CA291E /* content.js in Resources */,
 				941B04262977A25700CA291E /* Icon-1024.png in Resources */,
 				941B04352978CDF900CA291E /* Icon-64.png in Resources */,
@@ -503,7 +533,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				941B0414297110F100CA291E /* background.build.js in Resources */,
+				948C69E92982DFE900FB3574 /* background.html in Resources */,
+				948C69E0297F88A200FB3574 /* options.js in Resources */,
+				948C69DE297F88A200FB3574 /* options.css in Resources */,
 				941B03F3296FA90400CA291E /* background.js in Resources */,
+				948C69E3297F891F00FB3574 /* options.build.js in Resources */,
 				941B03F9296FA90400CA291E /* popup.css in Resources */,
 				941B042A2977A28700CA291E /* Icon-128.png in Resources */,
 				941B04192971138F00CA291E /* nostr.build.js in Resources */,
@@ -517,6 +551,8 @@
 				941B041D2971139000CA291E /* popup.build.js in Resources */,
 				941B03ED296FA90400CA291E /* _locales in Resources */,
 				941B04232977A25700CA291E /* Icon-512.png in Resources */,
+				948C69E6297F8BA600FB3574 /* options.build.css in Resources */,
+				948C69DA297F887600FB3574 /* options.html in Resources */,
 				941B03F5296FA90400CA291E /* content.js in Resources */,
 				941B04272977A25700CA291E /* Icon-1024.png in Resources */,
 				941B04362978CDF900CA291E /* Icon-64.png in Resources */,
@@ -805,7 +841,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -847,7 +883,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

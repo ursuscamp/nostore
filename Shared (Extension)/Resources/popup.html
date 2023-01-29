@@ -17,50 +17,20 @@
                     <option x-text="prof" :value="index"></option>
                 </template>
             </select>
-            <button @click="newProfile">New</button>
-            <button @click="confirmDelete = true" x-show="!confirmDelete"
-                :disabled="profileNames.length <= 1">Delete</button>
-            <button @click="await deleteProfile()" x-show="confirmDelete">Confirm Delete</button>
         </div>
     </div>
 
-    <div class="profile-name">
-        <label for="profile-name">Profile Name</label>
-        <input type="text" id="profile-name" x-model="name">
-    </div>
-
-    <div class="key">
-        <label for="priv-key">Private Key</label>
-        <input id="priv-key" x-model="privKey" :type="visibleKey ? 'text' : 'password'">
-    </div>
-
-    <div class="buttons">
-        <button @click="visibleKey = !visibleKey" x-text="visibleKey ? 'Hide' : 'Show'"></button>
-        <button @click="await saveProfile()" :disabled="!needsSaving">Save</button>
-        <button @click="confirmClear = true" x-show="!confirmClear">Clear Data</button>
-        <button @click="await clearData()" x-show="confirmClear">Confirm Clear</button>
-    </div>
-
-    <div x-show="hasValidPubKey">
-        <label for="pub-key">Pub Key:</label>
-        <input type="text" id="pub-key" x-model="pubKey" disabled>
-    </div>
-
-    <div class="allowed-sites" x-show="hosts.length > 0">
-        <h3>Allowed Sites</h3>
-        <table>
-            <template x-for="(host, index) in hosts" :key="host.host">
-                <tr>
-                    <td class="allowed" x-text="host.allowed ? 'Yes' : 'No'"></td>
-                    <td x-text="host.host"></td>
-                    <td><button @click="deleteSite(index)">Delete</button></td>
-                </tr>
-            </template>
-        </table>
+    <div class="relay" x-show="relayCount < 1">
+        <span>
+            You do not have any relays setup for this profile. Would you like to add some recommended
+            relays now?
+        </span>
+        <br>
+        <button @click="await addRelays()">Add Relays</button>
     </div>
 
     <div class="help">
-        <button @click='window.open("https://ursus.camp/nostore", "_blank")'>Get Help</button>
+        <button @click="await openOptions()">Settings</button>
     </div>
 
     <div class="disclaimer">

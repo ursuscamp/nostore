@@ -11,16 +11,19 @@
   "scripts": {
     "build": "./build.js",
     "watch": "./build.js watch",
+    "watch-tailwind": "tailwindcss -i './Shared (Extension)/Resources/options.css' -o './Shared (Extension)/Resources/options.build.css' --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "alpinejs": "^3.10.5",
-    "esbuild": "^0.16.17",
     "nostr-tools": "^1.1.1"
   },
   "devDependencies": {
-    "prettier": "^2.8.3"
+    "esbuild": "^0.16.17",
+    "@tailwindcss/forms": "^0.5.3",
+    "prettier": "^2.8.3",
+    "tailwindcss": "^3.2.4"
   }
 }
