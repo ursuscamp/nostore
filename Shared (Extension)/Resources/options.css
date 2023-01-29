@@ -4,19 +4,31 @@
 
 @layer components {
   .button {
-    @apply rounded-lg p-1 lg:p-1.5 bg-fuchsia-900 hover:bg-fuchsia-800  active:bg-fuchsia-700 text-fuchsia-200 w-24 min-w-fit text-center disabled:bg-gray-200 disabled:text-black;
+    /* Colors */
+    @apply bg-fuchsia-900 hover:bg-fuchsia-800  active:bg-fuchsia-700 text-fuchsia-200 disabled:bg-gray-200 disabled:text-black;
+
+    /* Sizing and padding */
+    @apply rounded-lg p-1 md:p-1.5  md:w-24 min-w-fit text-center;
   }
 
   .input {
-    @apply bg-fuchsia-200 text-fuchsia-800 rounded-lg p-1 lg:p-1.5 focus:border-fuchsia-800 w-64;
+    /* Colors */
+    @apply bg-fuchsia-200 text-fuchsia-800 disabled:bg-gray-200 disabled:text-black focus:border-fuchsia-800;
+
+    /* Sizing and padding */
+    @apply rounded-lg p-1 lg:p-1.5  w-full md:w-64;
   }
 
   .checkbox {
-    @apply text-fuchsia-800 bg-fuchsia-200 rounded-full accent-fuchsia-200 w-4 h-4 lg:w-5 lg:h-5;
+    /* Colors */
+    @apply text-fuchsia-800 bg-fuchsia-200 rounded-full accent-fuchsia-200; 
+
+    /* Sizing and padding */
+    @apply w-4 h-4 lg:w-5 lg:h-5;
   }
 
   .section {
-    @apply border-2 border-fuchsia-700 rounded-lg p-5 mt-6 shadow-md;
+    @apply border-2 border-fuchsia-700 rounded-lg p-1 md:p-5 mt-6 shadow-md;
   }
 
   .section-header {

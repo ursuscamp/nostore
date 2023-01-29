@@ -10,7 +10,7 @@
 </head>
 
 <body x-data="options" class="text-fuchsia-900  p-3.5 lg:p-32">
-  <h1 class="text-3xl lg:text-6xl font-bold">Nostore</h1>
+  <h1 class="text-3xl lg:text-6xl font-bold md:text-center">Settings</h1>
 
   <!-- PROFILES -->
   <div class="mt-6">
@@ -21,14 +21,18 @@
         <option x-text="name" :value="index"></option>
       </template>
     </select>
-    <button class="button" @click="await newProfile()">New</button>
-    <button class="button" @click="confirmDelete = true" x-show="!confirmDelete">Delete</button>
-    <button class="button" @click="deleteProfile" x-show="confirmDelete">Confirm Delete</button>
+    <div class="block md:inline p-3 pl-0 md:p-0">
+      <button class="button" @click="await newProfile()">New</button>
+      <button class="button" @click="confirmDelete = true" x-show="!confirmDelete">Delete</button>
+      <button class="button" @click="deleteProfile" x-show="confirmDelete">Confirm Delete</button>
+    </div>
   </div>
 
   <!-- KEYS -->
   <div class="section">
     <h2 class="section-header">Keys</h2>
+    <p class="text-sm italic">Provide your <code class="not-italic">nsec</code> or legacy (hexadecimal) private keys.
+    </p>
     <form @submit.prevent="saveProfile">
       <div class="mt-3">
         <label for="profile-name">Profile Name</label>
@@ -58,9 +62,9 @@
   <!-- RELAYS -->
   <div class="section">
     <h2 class="section-header">Relays</h2>
-
+    <p class="text-sm italic">Add relay suggestions for clients.</p>
     <template x-if="hasRelays">
-      <table class="mt-3">
+      <table class="mt-3 text-xs md:text-base table-auto md:table-fixed">
         <thead class="font-bold text-lg">
           <td class="p-2 text-center">URL</td>
           <td class="p-2 text-center">Read</td>
@@ -101,7 +105,9 @@
 
     <input class="mt-3 input" x-model="newRelay" type="text" @keyup.enter="await addRelay()" placeholder="wss://..."
       autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="off">
-    <button class="button" @click="await addRelay()">Add</button>
+    <div class="block md:inline p-3 pl-0 md:p-0">
+      <button class="button" @click="await addRelay()">Add</button>
+    </div>
     <div class="text-red-500 font-bold" x-show="urlError.length > 0" x-text="urlError"></div>
   </div>
 
