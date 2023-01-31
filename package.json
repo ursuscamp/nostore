@@ -18,11 +18,13 @@
   "license": "ISC",
   "dependencies": {
     "alpinejs": "^3.10.5",
-    "nostr-tools": "^1.1.1"
+    "async-mutex": "^0.4.0",
+    "json-format-highlight": "^1.0.4",
+    "nostr-tools": "^1.2.1"
   },
   "devDependencies": {
-    "esbuild": "^0.16.17",
     "@tailwindcss/forms": "^0.5.3",
+    "esbuild": "^0.16.17",
     "prettier": "^2.8.3",
     "tailwindcss": "^3.2.4"
   }

@@ -11,12 +11,16 @@ import {
     saveProfileName,
     saveRelays,
     RECOMMENDED_RELAYS,
+    getPermissions,
+    setPermission,
+    KINDS,
+    humanPermission,
 } from './utils';
 
 const log = console.log;
 
 Alpine.data('options', () => ({
-    profileNames: ['Poop'],
+    profileNames: ['---'],
     profileIndex: 0,
     profileName: '',
     pristineProfileName: '',
@@ -27,8 +31,11 @@ Alpine.data('options', () => ({
     newRelay: '',
     urlError: '',
     recommendedRelay: '',
-    confirmDelete: false,
-    confirmClear: false,
+    permissions: {},
+    host: '',
+    permHosts: [],
+    hostPerms: [],
+    setPermission,
 
     async init(watch = true) {
         log('Initialize backend.');
@@ -37,6 +44,11 @@ Alpine.data('options', () => ({
         if (watch) {
             this.$watch('profileIndex', async () => {
                 await this.refreshProfile();
+                this.host = '';
+            });
+
+            this.$watch('host', () => {
+                this.calcHostPerms();
             });
 
             this.$watch('recommendedRelay', async () => {
@@ -59,8 +71,7 @@ Alpine.data('options', () => ({
         await this.getNsec();
         await this.getNpub();
         await this.getRelays();
-        this.confirmClear = false;
-        this.confirmDelete = false;
+        await this.getPermissions();
     },
 
     // Profile functions
@@ -87,8 +98,14 @@ Alpine.data('options', () => ({
     },
 
     async deleteProfile() {
-        await deleteProfile(this.profileIndex);
-        await this.init(false);
+        if (
+            confirm(
+                'This will delete this profile and all associated data. Are you sure you wish to continue?'
+            )
+        ) {
+            await deleteProfile(this.profileIndex);
+            await this.init(false);
+        }
     },
 
     // Key functions
@@ -96,9 +113,13 @@ Alpine.data('options', () => ({
     async saveProfile() {
         if (!this.needsSave) return;
 
+        console.log('saving private key');
         await savePrivateKey(this.profileIndex, this.privKey);
+        console.log('saving profile name');
         await saveProfileName(this.profileIndex, this.profileName);
+        console.log('getting profile name');
         await this.getProfileNames();
+        console.log('refreshing profile');
         await this.refreshProfile();
     },
 
@@ -161,11 +182,57 @@ Alpine.data('options', () => ({
         }, 3000);
     },
 
+    // Permissions
+
+    async getPermissions() {
+        this.permissions = await getPermissions(this.profileIndex);
+
+        // Set the convenience variables
+        this.calcPermHosts();
+        this.calcHostPerms();
+    },
+
+    calcPermHosts() {
+        let hosts = Object.keys(this.permissions);
+        hosts.sort();
+        this.permHosts = hosts;
+    },
+
+    calcHostPerms() {
+        let hp = this.permissions[this.host] || {};
+        let keys = Object.keys(hp);
+        keys.sort();
+        this.hostPerms = keys.map(k => [k, humanPermission(k), hp[k]]);
+        console.log(this.hostPerms);
+    },
+
+    permTypes(hostPerms) {
+        let k = Object.keys(hostPerms);
+        k = Object.keys.sort();
+        k = k.map(p => {
+            let e = [p, hostPerms[p]];
+            if (p.startsWith('signEvent')) {
+                let n = parseInt(p.split(':')[1]);
+                let name =
+                    KINDS.find(kind => kind[0] === n) || `Unknown (Kind ${n})`;
+                e = [name, hostPerms[p]];
+            }
+            return e;
+        });
+        return k;
+    },
+
     // General
 
     async clearData() {
-        await clearData();
-        await this.init(false);
+        if (
+            confirm(
+                'This will remove your private keys and all associated data. Are you sure you wish to continue?'
+            )
+        ) {
+            await clearData();
+            await this.init(false);
+        }
     },
 
     // Properties

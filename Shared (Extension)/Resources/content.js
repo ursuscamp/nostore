@@ -13,7 +13,12 @@ window.addEventListener('message', async message => {
     let { kind, reqId, payload } = message.data;
     if (!validEvents.includes(kind)) return;
 
-    payload = await browser.runtime.sendMessage({ kind, payload });
+    payload = await browser.runtime.sendMessage({
+        kind,
+        payload,
+        host: window.location.host,
+    });
+    console.log(payload);
 
     kind = `return_${kind}`;
 

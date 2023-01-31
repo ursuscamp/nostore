@@ -1,3 +1,4 @@
+const DB_VERSION = 1;
 const storage = browser.storage.local;
 export const RECOMMENDED_RELAYS = [
     new URL('wss://relay.damus.io'),
@@ -5,18 +6,41 @@ export const RECOMMENDED_RELAYS = [
     new URL('wss://nostr-relay.derekross.me'),
     new URL('wss://relay.snort.social'),
 ];
+// prettier-ignore
+export const KINDS = [
+    [0,  'Metadata',                    'https://github.com/nostr-protocol/nips/blob/master/01.md'],
+    [1,  'Text',                        'https://github.com/nostr-protocol/nips/blob/master/01.md'],
+    [2,  'Recommend Relay',             'https://github.com/nostr-protocol/nips/blob/master/01.md'],
+    [3,  'Contacts',                    'https://github.com/nostr-protocol/nips/blob/master/02.md'],
+    [4,  'Encrypted Direct Messages',   'https://github.com/nostr-protocol/nips/blob/master/04.md'],
+    [5,  'Event Deletion',              'https://github.com/nostr-protocol/nips/blob/master/09.md'],
+    [7,  'Reaction',                    'https://github.com/nostr-protocol/nips/blob/master/25.md'],
+    [40, 'Channel Creation',            'https://github.com/nostr-protocol/nips/blob/master/28.md'],
+    [41, 'Channel Metadata',            'https://github.com/nostr-protocol/nips/blob/master/28.md'],
+    [42, 'Channel Message',             'https://github.com/nostr-protocol/nips/blob/master/28.md'],
+    [43, 'Channel Hide Message',        'https://github.com/nostr-protocol/nips/blob/master/28.md'],
+    [44, 'Channel Mute User',           'https://github.com/nostr-protocol/nips/blob/master/28.md'],
+];
 
 export async function initialize() {
     await getOrSetDefault('profileIndex', 0);
     await getOrSetDefault('profiles', [await generateProfile()]);
-    await getOrSetDefault('version', 0);
+    let version = (await storage.get({ version: 0 })).version;
+    console.log('DB version: ', version);
+    while (version < DB_VERSION) {
+        version = await migrate(version, DB_VERSION);
+        await storage.set({ version });
+    }
 }
 
-export async function bglog(msg, module = null) {
-    await browser.runtime.sendMessage({
-        kind: 'log',
-        payload: { msg, module },
-    });
+async function migrate(version, goal) {
+    if (version === 0) {
+        console.log('Migrating to version 1.');
+        let profiles = await getProfiles();
+        profiles.forEach(profile => (profile.hosts = {}));
+        await storage.set({ profiles });
+        return version + 1;
+    }
 }
 
 export async function getProfiles() {
@@ -72,7 +96,7 @@ export async function generateProfile(name = 'Default') {
     return {
         name,
         privKey: await generatePrivateKey(),
-        hosts: [],
+        hosts: {},
         relays: [],
     };
 }
@@ -126,4 +150,59 @@ export async function saveRelays(profileIndex, relays) {
 
 export async function get(item) {
     return (await storage.get(item))[item];
+}
+
+export async function getPermissions(index = null) {
+    if (!index) {
+        index = await getProfileIndex();
+    }
+    let profile = await getProfile(index);
+    let hosts = await profile.hosts;
+    return hosts;
+}
+
+export async function getPermission(host, action) {
+    let index = await getProfileIndex();
+    let profile = await getProfile(index);
+    console.log(host, action);
+    console.log('profile: ', profile);
+    return profile.hosts?.[host]?.[action] || 'ask';
+}
+
+export async function setPermission(host, action, perm, index = null) {
+    let profiles = await getProfiles();
+    if (!index) {
+        index = await getProfileIndex();
+    }
+    let profile = profiles[index];
+    let newPerms = profile.hosts[host] || {};
+    newPerms = { ...newPerms, [action]: perm };
+    profile.hosts[host] = newPerms;
+    profiles[index] = profile;
+    await storage.set({ profiles });
+}
+
+export function humanPermission(p) {
+    // Handle special case where event signing includes a kind number
+    if (p.startsWith('signEvent:')) {
+        let [e, n] = p.split(':');
+        n = parseInt(n);
+        let nname = KINDS.find(k => k[0] === n)?.[1] || `Unknown (Kind ${n})`;
+        return `Sign event: ${nname}`;
+    }
+
+    switch (p) {
+        case 'getPubKey':
+            return 'Read public key';
+        case 'signEvent':
+            return 'Sign event';
+        case 'getRelays':
+            return 'Read relay list';
+        case 'nip04.encrypt':
+            return 'Encrypt private message';
+        case 'nip04.decrypt':
+            return 'Decrypt private message';
+        default:
+            return 'Unknown';
+    }
 }

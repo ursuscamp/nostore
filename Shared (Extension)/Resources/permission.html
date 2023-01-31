@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script defer src="permission.build.js"></script>
+  <link rel="stylesheet" href="options.build.css">
+  <title>Permission Requested</title>
+</head>
+
+<body x-data="permission">
+  <div class="text-center">
+
+    <h1 class="section-header mt-5 text-center">App is requesting permission</h1>
+    <p class="mt-6 text-center">
+      The host
+      <span class="text-lg font-bold" x-text="host"></span>
+      is requesting the following permission:
+      <span class="text-lg font-bold" x-text="humanPermission"></span>.
+    </p>
+    <p x-show="isSigningEvent">
+      Event kind is <a :href="eventInfo.nip" class="text-lg font-bold" x-text="eventInfo.desc"
+        @click.prevent="await openNip()"></a>.
+    </p>
+
+    <template x-if="isSigningEvent">
+      <div class="inline-block text-left">
+        <pre class="mt-6" x-html="humanEvent"></pre>
+      </div>
+    </template>
+
+    <div class="mt-6 text-center">
+      <button class="button" @click="await allow()">Allow</button>
+      <button class="button" @click="await deny()">Deny</button>
+      <input class="checkbox" type="checkbox" id="remember" x-model="remember">
+      <label for="remember">Remeber selection<span x-show="isSigningEvent"> (by event kind)</span></label>
+    </div>
+  </div>
+</body>
+
+</html>
