@@ -16,7 +16,7 @@
     @apply bg-fuchsia-200 text-fuchsia-800 disabled:bg-gray-200 disabled:text-black focus:border-fuchsia-800;
 
     /* Sizing and padding */
-    @apply rounded-lg p-1.5 lg:p-1.5  w-full md:w-64;
+    @apply rounded-lg p-1.5 lg:p-1.5 w-full md:w-64;
   }
 
   .checkbox {

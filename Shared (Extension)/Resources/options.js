@@ -15,6 +15,7 @@ import {
     setPermission,
     KINDS,
     humanPermission,
+    validateKey,
 } from './utils';
 
 const log = console.log;
@@ -257,6 +258,16 @@ Alpine.data('options', () => ({
             this.privKey !== this.pristinePrivKey ||
             this.profileName !== this.pristineProfileName
         );
+    },
+
+    get validKey() {
+        return validateKey(this.privKey);
+    },
+
+    get validKeyClass() {
+        return this.validKey
+            ? ''
+            : 'ring-2 ring-rose-500 focus:ring-2 focus:ring-rose-500 border-transparent focus:border-transparent';
     },
 }));
 

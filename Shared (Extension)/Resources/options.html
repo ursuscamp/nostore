@@ -42,7 +42,8 @@
       <div class="mt-3">
         <label for="priv-key">Private Key</label>
         <br>
-        <input x-model="privKey" type="text" class="input" autocapitalize="off" autocomplete="off" spellcheck="off">
+        <input x-model="privKey" type="text" class="input" :class="validKeyClass" autocapitalize="off"
+          autocomplete="off" spellcheck="off">
       </div>
 
       <div class="mt-3">
@@ -52,7 +53,7 @@
       </div>
 
       <div class="mt-3">
-        <button class="button" :disabled="!needsSave" @click.prevent="saveProfile">Save</button>
+        <button class="button" :disabled="!needsSave || !validKey" @click.prevent="saveProfile">Save</button>
       </div>
     </form>
 
