@@ -56,6 +56,6 @@ window.addEventListener('message', message => {
 
     if (!validEvents.includes(kind)) return;
 
-    window.nostr.requests[reqId](payload);
+    window.nostr.requests[reqId]?.(payload);
     delete window.nostr.requests[reqId];
 });

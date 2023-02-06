@@ -71,6 +71,12 @@
 		941B04342978CDF900CA291E /* Icon-16.png in Resources */ = {isa = PBXBuildFile; fileRef = 941B042F2978CDF900CA291E /* Icon-16.png */; };
 		941B04352978CDF900CA291E /* Icon-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 941B04302978CDF900CA291E /* Icon-64.png */; };
 		941B04362978CDF900CA291E /* Icon-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 941B04302978CDF900CA291E /* Icon-64.png */; };
+		944A6DD32988BA200032C2E3 /* permission.html in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DD22988BA200032C2E3 /* permission.html */; };
+		944A6DD42988BA200032C2E3 /* permission.html in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DD22988BA200032C2E3 /* permission.html */; };
+		944A6DD62988BD230032C2E3 /* permission.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DD52988BD230032C2E3 /* permission.js */; };
+		944A6DD72988BD230032C2E3 /* permission.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DD52988BD230032C2E3 /* permission.js */; };
+		944A6DD92988D7900032C2E3 /* permission.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DD82988D7900032C2E3 /* permission.build.js */; };
+		944A6DDA2988D7900032C2E3 /* permission.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DD82988D7900032C2E3 /* permission.build.js */; };
 		948C69D9297F887600FB3574 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 948C69D8297F887600FB3574 /* options.html */; };
 		948C69DA297F887600FB3574 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 948C69D8297F887600FB3574 /* options.html */; };
 		948C69DD297F88A200FB3574 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 948C69DB297F88A200FB3574 /* options.css */; };
@@ -171,6 +177,9 @@
 		941B042E2978CDF900CA291E /* Icon-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-32.png"; sourceTree = "<group>"; };
 		941B042F2978CDF900CA291E /* Icon-16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-16.png"; sourceTree = "<group>"; };
 		941B04302978CDF900CA291E /* Icon-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-64.png"; sourceTree = "<group>"; };
+		944A6DD22988BA200032C2E3 /* permission.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = permission.html; sourceTree = "<group>"; };
+		944A6DD52988BD230032C2E3 /* permission.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = permission.js; sourceTree = "<group>"; };
+		944A6DD82988D7900032C2E3 /* permission.build.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = permission.build.js; sourceTree = "<group>"; };
 		948C69D8297F887600FB3574 /* options.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = options.html; sourceTree = "<group>"; };
 		948C69DB297F88A200FB3574 /* options.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = options.css; sourceTree = "<group>"; };
 		948C69DC297F88A200FB3574 /* options.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = options.js; sourceTree = "<group>"; };
@@ -258,6 +267,9 @@
 		941B03A2296FA90400CA291E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				944A6DD82988D7900032C2E3 /* permission.build.js */,
+				944A6DD52988BD230032C2E3 /* permission.js */,
+				944A6DD22988BA200032C2E3 /* permission.html */,
 				948C69E4297F8BA600FB3574 /* options.build.css */,
 				948C69E1297F891F00FB3574 /* options.build.js */,
 				948C69DB297F88A200FB3574 /* options.css */,
@@ -501,7 +513,9 @@
 				941B0413297110F100CA291E /* background.build.js in Resources */,
 				948C69E82982DFE900FB3574 /* background.html in Resources */,
 				948C69DF297F88A200FB3574 /* options.js in Resources */,
+				944A6DD32988BA200032C2E3 /* permission.html in Resources */,
 				948C69DD297F88A200FB3574 /* options.css in Resources */,
+				944A6DD92988D7900032C2E3 /* permission.build.js in Resources */,
 				941B03F2296FA90400CA291E /* background.js in Resources */,
 				948C69E2297F891F00FB3574 /* options.build.js in Resources */,
 				941B03F8296FA90400CA291E /* popup.css in Resources */,
@@ -512,6 +526,7 @@
 				941B040D296FAD6900CA291E /* nostr.js in Resources */,
 				941B03EE296FA90400CA291E /* images in Resources */,
 				941B03F0296FA90400CA291E /* manifest.json in Resources */,
+				944A6DD62988BD230032C2E3 /* permission.js in Resources */,
 				941B04312978CDF900CA291E /* Icon-32.png in Resources */,
 				941B041A2971139000CA291E /* content.build.js in Resources */,
 				941B041C2971139000CA291E /* popup.build.js in Resources */,
@@ -535,7 +550,9 @@
 				941B0414297110F100CA291E /* background.build.js in Resources */,
 				948C69E92982DFE900FB3574 /* background.html in Resources */,
 				948C69E0297F88A200FB3574 /* options.js in Resources */,
+				944A6DD42988BA200032C2E3 /* permission.html in Resources */,
 				948C69DE297F88A200FB3574 /* options.css in Resources */,
+				944A6DDA2988D7900032C2E3 /* permission.build.js in Resources */,
 				941B03F3296FA90400CA291E /* background.js in Resources */,
 				948C69E3297F891F00FB3574 /* options.build.js in Resources */,
 				941B03F9296FA90400CA291E /* popup.css in Resources */,
@@ -546,6 +563,7 @@
 				941B040E296FAD6900CA291E /* nostr.js in Resources */,
 				941B03EF296FA90400CA291E /* images in Resources */,
 				941B03F1296FA90400CA291E /* manifest.json in Resources */,
+				944A6DD72988BD230032C2E3 /* permission.js in Resources */,
 				941B04322978CDF900CA291E /* Icon-32.png in Resources */,
 				941B041B2971139000CA291E /* content.build.js in Resources */,
 				941B041D2971139000CA291E /* popup.build.js in Resources */,
@@ -764,7 +782,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 5SD834TD9W;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
@@ -795,7 +813,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 5SD834TD9W;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
@@ -830,7 +848,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 5SD834TD9W;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (App)/Info.plist";
@@ -872,7 +890,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 5SD834TD9W;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (App)/Info.plist";
@@ -913,7 +931,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/nostore.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 5SD834TD9W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -945,7 +963,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/nostore.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 5SD834TD9W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -980,7 +998,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/nostore.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 5SD834TD9W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1016,7 +1034,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/nostore.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 5SD834TD9W;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;

@@ -1,11 +1,11 @@
 import {
-    bglog,
     getProfileNames,
     setProfileIndex,
     getProfileIndex,
     getRelays,
     RECOMMENDED_RELAYS,
     saveRelays,
+    initialize,
 } from './utils';
 import Alpine from 'alpinejs';
 window.Alpine = Alpine;
@@ -19,7 +19,7 @@ Alpine.data('popup', () => ({
 
     async init() {
         log('Initializing backend.');
-        await browser.runtime.sendMessage({ kind: 'init' });
+        await initialize();
 
         this.$watch('profileIndex', async () => {
             await this.loadNames();

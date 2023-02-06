@@ -18,6 +18,7 @@ require('esbuild')
             'nostr.build': './Shared (Extension)/Resources/nostr.js',
             'popup.build': './Shared (Extension)/Resources/popup.js',
             'options.build': './Shared (Extension)/Resources/options.js',
+            'permission.build': './Shared (Extension)/Resources/permission.js',
         },
         outdir: './Shared (Extension)/Resources',
         sourcemap: 'inline',
