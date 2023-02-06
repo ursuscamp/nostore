@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="options.build.css">
     <script defer src="popup.build.js"></script>
 </head>
 
@@ -12,7 +13,7 @@
     <div class="profiles">
         <label for="profile">Active Profile</label>
         <div class="profile-buttons">
-            <select x-model.number="profileIndex" name="profile" id="profile">
+            <select x-model.number="profileIndex" name="profile" id="profile" class="input">
                 <template x-for="(prof, index) in profileNames" :key="index">
                     <option x-text="prof" :value="index"></option>
                 </template>
@@ -30,7 +31,7 @@
     </div>
 
     <div class="help">
-        <button @click="await openOptions()">Settings</button>
+        <button class="button p-1.5" @click="await openOptions()">Settings</button>
     </div>
 
     <div class="disclaimer">
