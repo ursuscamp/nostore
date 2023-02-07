@@ -4,6 +4,8 @@ import {
     signEvent,
     nip04,
     nip19,
+    nip26,
+    getEventHash,
 } from 'nostr-tools';
 import { Mutex } from 'async-mutex';
 import {
@@ -12,26 +14,13 @@ import {
     getProfile,
     getPermission,
     setPermission,
+    feature,
 } from './utils';
 
 const storage = browser.storage.local;
 const log = msg => console.log('Background: ', msg);
 const validations = {};
 let prompt = { mutex: new Mutex(), release: null, tabId: null };
-
-browser.runtime.onInstalled.addListener(async ({ reason }) => {
-    // I would like to be able to skip this for development purposes
-    // let ignoreHook = (await storage.get({ ignoreInstallHook: false }))
-    //     .ignoreInstallHook;
-    // if (ignoreHook === true) {
-    //     return;
-    // }
-    // if (['install'].includes(reason)) {
-    //     browser.tabs.create({
-    //         url: 'https://ursus.camp/nostore',
-    //     });
-    // }
-});
 
 browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     log(message);
@@ -57,6 +46,10 @@ browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
             return getNpub(message.payload);
         case 'getNsec':
             return getNsec(message.payload);
+        case 'createDelegation':
+            return createDelegation(message.payload);
+        case 'calcPubKey':
+            return Promise.resolve(getPublicKey(message.payload));
 
         // window.nostr
         case 'getPubKey':
@@ -64,11 +57,9 @@ browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
         case 'nip04.encrypt':
         case 'nip04.decrypt':
         case 'getRelays':
-            console.log('asking');
             validations[uuid] = sendResponse;
-            ask(uuid, message);
+            setDelegation(message).then(() => ask(uuid, message));
             setTimeout(() => {
-                console.log('timeout release');
                 prompt.release?.();
             }, 10_000);
             return true;
@@ -98,9 +89,7 @@ async function ask(uuid, { kind, host, payload }) {
 
     let mKind = kind === 'signEvent' ? `signEvent:${payload.kind}` : kind;
     let permission = await getPermission(host, mKind);
-    console.log('existing permission: ', permission);
     if (permission === 'allow') {
-        console.log('already allowed');
         complete({
             payload: uuid,
             origKind: kind,
@@ -113,13 +102,11 @@ async function ask(uuid, { kind, host, payload }) {
     }
 
     if (permission === 'deny') {
-        console.log('already denied');
         deny({ payload: uuid, origKind: kind, host });
         prompt.release();
         return;
     }
 
-    console.log('creating asking popup');
     let qs = new URLSearchParams({
         uuid,
         kind,
@@ -136,22 +123,18 @@ async function ask(uuid, { kind, host, payload }) {
 }
 
 function complete({ payload, origKind, event, remember, host }) {
-    console.log('complete');
     sendResponse = validations[payload];
 
     if (remember) {
-        console.log('saving permission');
         let mKind =
             origKind === 'signEvent' ? `signEvent:${event.kind}` : origKind;
         setPermission(host, mKind, 'allow');
     }
 
     if (sendResponse) {
-        console.log('sendResponse found');
         switch (origKind) {
             case 'getPubKey':
                 getPubKey().then(pk => {
-                    console.log(pk);
                     sendResponse(pk);
                 });
                 break;
@@ -172,11 +155,9 @@ function complete({ payload, origKind, event, remember, host }) {
 }
 
 function deny({ origKind, host, payload, remember, event }) {
-    console.log('denied');
     sendResponse = validations[payload];
 
     if (remember) {
-        console.log('saving permission');
         let mKind =
             origKind === 'signEvent' ? `signEvent:${event.kind}` : origKind;
         setPermission(host, mKind, 'deny');
@@ -184,17 +165,6 @@ function deny({ origKind, host, payload, remember, event }) {
 
     sendResponse?.(undefined);
     return false;
-}
-
-function keyDeleter(key) {
-    return new Promise(resolver => {
-        setTimeout(() => {
-            console.log('Validations: ', validations);
-            console.log('Deleting key validations: ', key);
-            resolver();
-            delete validations[key];
-        }, 1000);
-    });
 }
 
 // Options
@@ -227,6 +197,11 @@ async function getPrivKey() {
 }
 
 async function getPubKey() {
+    let pi = await getProfileIndex();
+    let profile = await getProfile(pi);
+    if (profile.delegate) {
+        return profile.delegator;
+    }
     let privKey = await getPrivKey();
     let pubKey = getPublicKey(privKey);
     return pubKey;
@@ -239,9 +214,13 @@ async function currentProfile() {
 }
 
 async function signEvent_(event) {
-    event = { ...event };
+    event = JSON.parse(JSON.stringify(event));
     let privKey = await getPrivKey();
+    let pubKey = getPublicKey(privKey);
+    event.pubkey = pubKey;
+    event.id = getEventHash(event);
     event.sig = signEvent(event, privKey);
+    console.log(JSON.stringify(event));
     return event;
 }
 
@@ -265,4 +244,43 @@ async function getRelays() {
         relayObj[url] = { read, write };
     });
     return relayObj;
+}
+
+function createDelegation({
+    kind,
+    delegatorPrivKey,
+    delegateePubKey,
+    until,
+    since,
+}) {
+    delegatorPrivKey = nip19.decode(delegatorPrivKey).data;
+    let delegation = nip26.createDelegation(delegatorPrivKey, {
+        pubkey: delegateePubKey,
+        until,
+        // kind,
+        // since,
+    });
+    return Promise.resolve(delegation);
+}
+
+async function setDelegation({ payload }) {
+    if (!payload) return;
+    let active = await feature('delegation');
+    if (!active) return;
+
+    let { delegate, delegation } = await currentProfile();
+
+    // Nothing to do if this is not a delegate
+    if (!delegate) {
+        return;
+    }
+
+    payload.tags = payload.tags || [];
+
+    payload.tags.push([
+        'delegation',
+        delegation.from,
+        delegation.cond,
+        delegation.sig,
+    ]);
 }

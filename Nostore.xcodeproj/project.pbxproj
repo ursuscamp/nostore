@@ -77,6 +77,18 @@
 		944A6DD72988BD230032C2E3 /* permission.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DD52988BD230032C2E3 /* permission.js */; };
 		944A6DD92988D7900032C2E3 /* permission.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DD82988D7900032C2E3 /* permission.build.js */; };
 		944A6DDA2988D7900032C2E3 /* permission.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DD82988D7900032C2E3 /* permission.build.js */; };
+		944A6DE02991DFC60032C2E3 /* delegation_wizard.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DDC2991DFC60032C2E3 /* delegation_wizard.build.js */; };
+		944A6DE12991DFC60032C2E3 /* delegation_wizard.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DDC2991DFC60032C2E3 /* delegation_wizard.build.js */; };
+		944A6DE22991DFC60032C2E3 /* delegation_wizard.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DDD2991DFC60032C2E3 /* delegation_wizard.js */; };
+		944A6DE32991DFC60032C2E3 /* delegation_wizard.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DDD2991DFC60032C2E3 /* delegation_wizard.js */; };
+		944A6DE52991E4550032C2E3 /* delegation_wizard.html in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DE42991E4550032C2E3 /* delegation_wizard.html */; };
+		944A6DE62991E4550032C2E3 /* delegation_wizard.html in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DE42991E4550032C2E3 /* delegation_wizard.html */; };
+		944A6DEA299682EF0032C2E3 /* experimental.html in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DE7299682EF0032C2E3 /* experimental.html */; };
+		944A6DEB299682EF0032C2E3 /* experimental.html in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DE7299682EF0032C2E3 /* experimental.html */; };
+		944A6DEC299682EF0032C2E3 /* experimental.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DE8299682EF0032C2E3 /* experimental.js */; };
+		944A6DED299682EF0032C2E3 /* experimental.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DE8299682EF0032C2E3 /* experimental.js */; };
+		944A6DEE299682EF0032C2E3 /* experimental.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DE9299682EF0032C2E3 /* experimental.build.js */; };
+		944A6DEF299682EF0032C2E3 /* experimental.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DE9299682EF0032C2E3 /* experimental.build.js */; };
 		948C69D9297F887600FB3574 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 948C69D8297F887600FB3574 /* options.html */; };
 		948C69DA297F887600FB3574 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 948C69D8297F887600FB3574 /* options.html */; };
 		948C69DD297F88A200FB3574 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 948C69DB297F88A200FB3574 /* options.css */; };
@@ -180,6 +192,12 @@
 		944A6DD22988BA200032C2E3 /* permission.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = permission.html; sourceTree = "<group>"; };
 		944A6DD52988BD230032C2E3 /* permission.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = permission.js; sourceTree = "<group>"; };
 		944A6DD82988D7900032C2E3 /* permission.build.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = permission.build.js; sourceTree = "<group>"; };
+		944A6DDC2991DFC60032C2E3 /* delegation_wizard.build.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = delegation_wizard.build.js; sourceTree = "<group>"; };
+		944A6DDD2991DFC60032C2E3 /* delegation_wizard.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = delegation_wizard.js; sourceTree = "<group>"; };
+		944A6DE42991E4550032C2E3 /* delegation_wizard.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = delegation_wizard.html; sourceTree = "<group>"; };
+		944A6DE7299682EF0032C2E3 /* experimental.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = experimental.html; sourceTree = "<group>"; };
+		944A6DE8299682EF0032C2E3 /* experimental.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = experimental.js; sourceTree = "<group>"; };
+		944A6DE9299682EF0032C2E3 /* experimental.build.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = experimental.build.js; sourceTree = "<group>"; };
 		948C69D8297F887600FB3574 /* options.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = options.html; sourceTree = "<group>"; };
 		948C69DB297F88A200FB3574 /* options.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = options.css; sourceTree = "<group>"; };
 		948C69DC297F88A200FB3574 /* options.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = options.js; sourceTree = "<group>"; };
@@ -267,6 +285,12 @@
 		941B03A2296FA90400CA291E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				944A6DE9299682EF0032C2E3 /* experimental.build.js */,
+				944A6DE7299682EF0032C2E3 /* experimental.html */,
+				944A6DE8299682EF0032C2E3 /* experimental.js */,
+				944A6DE42991E4550032C2E3 /* delegation_wizard.html */,
+				944A6DDC2991DFC60032C2E3 /* delegation_wizard.build.js */,
+				944A6DDD2991DFC60032C2E3 /* delegation_wizard.js */,
 				944A6DD82988D7900032C2E3 /* permission.build.js */,
 				944A6DD52988BD230032C2E3 /* permission.js */,
 				944A6DD22988BA200032C2E3 /* permission.html */,
@@ -510,8 +534,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				944A6DEE299682EF0032C2E3 /* experimental.build.js in Resources */,
 				941B0413297110F100CA291E /* background.build.js in Resources */,
+				944A6DE22991DFC60032C2E3 /* delegation_wizard.js in Resources */,
+				944A6DE52991E4550032C2E3 /* delegation_wizard.html in Resources */,
 				948C69E82982DFE900FB3574 /* background.html in Resources */,
+				944A6DEA299682EF0032C2E3 /* experimental.html in Resources */,
 				948C69DF297F88A200FB3574 /* options.js in Resources */,
 				944A6DD32988BA200032C2E3 /* permission.html in Resources */,
 				948C69DD297F88A200FB3574 /* options.css in Resources */,
@@ -524,12 +552,14 @@
 				941B042C2978CD8E00CA291E /* iOS-Icon-1024.png in Resources */,
 				941B03F6296FA90400CA291E /* popup.html in Resources */,
 				941B040D296FAD6900CA291E /* nostr.js in Resources */,
+				944A6DE02991DFC60032C2E3 /* delegation_wizard.build.js in Resources */,
 				941B03EE296FA90400CA291E /* images in Resources */,
 				941B03F0296FA90400CA291E /* manifest.json in Resources */,
 				944A6DD62988BD230032C2E3 /* permission.js in Resources */,
 				941B04312978CDF900CA291E /* Icon-32.png in Resources */,
 				941B041A2971139000CA291E /* content.build.js in Resources */,
 				941B041C2971139000CA291E /* popup.build.js in Resources */,
+				944A6DEC299682EF0032C2E3 /* experimental.js in Resources */,
 				941B03EC296FA90400CA291E /* _locales in Resources */,
 				941B04222977A25700CA291E /* Icon-512.png in Resources */,
 				948C69E5297F8BA600FB3574 /* options.build.css in Resources */,
@@ -547,8 +577,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				944A6DEF299682EF0032C2E3 /* experimental.build.js in Resources */,
 				941B0414297110F100CA291E /* background.build.js in Resources */,
+				944A6DE32991DFC60032C2E3 /* delegation_wizard.js in Resources */,
+				944A6DE62991E4550032C2E3 /* delegation_wizard.html in Resources */,
 				948C69E92982DFE900FB3574 /* background.html in Resources */,
+				944A6DEB299682EF0032C2E3 /* experimental.html in Resources */,
 				948C69E0297F88A200FB3574 /* options.js in Resources */,
 				944A6DD42988BA200032C2E3 /* permission.html in Resources */,
 				948C69DE297F88A200FB3574 /* options.css in Resources */,
@@ -561,12 +595,14 @@
 				941B042D2978CD8E00CA291E /* iOS-Icon-1024.png in Resources */,
 				941B03F7296FA90400CA291E /* popup.html in Resources */,
 				941B040E296FAD6900CA291E /* nostr.js in Resources */,
+				944A6DE12991DFC60032C2E3 /* delegation_wizard.build.js in Resources */,
 				941B03EF296FA90400CA291E /* images in Resources */,
 				941B03F1296FA90400CA291E /* manifest.json in Resources */,
 				944A6DD72988BD230032C2E3 /* permission.js in Resources */,
 				941B04322978CDF900CA291E /* Icon-32.png in Resources */,
 				941B041B2971139000CA291E /* content.build.js in Resources */,
 				941B041D2971139000CA291E /* popup.build.js in Resources */,
+				944A6DED299682EF0032C2E3 /* experimental.js in Resources */,
 				941B03ED296FA90400CA291E /* _locales in Resources */,
 				941B04232977A25700CA291E /* Icon-512.png in Resources */,
 				948C69E6297F8BA600FB3574 /* options.build.css in Resources */,

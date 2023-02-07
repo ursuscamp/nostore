@@ -19,6 +19,10 @@ require('esbuild')
             'popup.build': './Shared (Extension)/Resources/popup.js',
             'options.build': './Shared (Extension)/Resources/options.js',
             'permission.build': './Shared (Extension)/Resources/permission.js',
+            'experimental.build':
+                './Shared (Extension)/Resources/experimental.js',
+            'delegation_wizard.build':
+                './Shared (Extension)/Resources/delegation_wizard.js',
         },
         outdir: './Shared (Extension)/Resources',
         sourcemap: 'inline',

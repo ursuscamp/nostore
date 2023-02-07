@@ -49,7 +49,10 @@
                 "popup.build.js",
                 "options.build.js",
                 "options.build.css",
-                "options.html"
+                "options.html",
+                "delegation_wizard.html",
+                "delegation_wizard.build.js",
+                "delegation_wizard.build.css"
             ],
             "matches": [
                 "<all_urls>"
