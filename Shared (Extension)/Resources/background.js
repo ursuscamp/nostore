@@ -140,7 +140,7 @@ function complete({ payload, origKind, event, remember, host }) {
                 });
                 break;
             case 'signEvent':
-                signEvent_(event).then(e => sendResponse(e));
+                signEvent_(event, host).then(e => sendResponse(e));
                 break;
             case 'nip04.encrypt':
                 nip04Encrypt(event).then(e => sendResponse(e));
@@ -214,14 +214,17 @@ async function currentProfile() {
     return profiles[index];
 }
 
-async function signEvent_(event) {
+async function signEvent_(event, host) {
     event = JSON.parse(JSON.stringify(event));
     let privKey = await getPrivKey();
     let pubKey = getPublicKey(privKey);
     event.pubkey = pubKey;
     event.id = getEventHash(event);
     event.sig = signEvent(event, privKey);
-    saveEvent(event);
+    saveEvent({
+        event,
+        metadata: { host, signed_at: Math.round(Date.now() / 1000) },
+    });
     return event;
 }
 

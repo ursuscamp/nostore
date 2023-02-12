@@ -1,35 +1,21 @@
 import { openDB } from 'idb';
-// export function openDb() {
-//     let openRequest = indexedDB.open('db', 1);
-
-//     openRequest.onupgradeneeded = reqEvent => {
-//         let db = reqEvent.target.result;
-//         db.createObjectStore('events', { keyPath: 'id' });
-//     };
-
-//     return openRequest;
-// }
 
 async function openEventsDb() {
     return await openDB('events', 1, {
         upgrade(db) {
-            db.createObjectStore('events', { keyPath: 'id' });
+            const events = db.createObjectStore('events', {
+                keyPath: 'event.id',
+            });
+            events.createIndex('pubkey', 'event.pubkey');
+            events.createIndex('created_at', 'event.created_at');
+            events.createIndex('kind', 'event.kind');
+            events.createIndex('host', 'metadata.host');
         },
     });
 }
 
 export async function saveEvent(event) {
+    console.log('logging event', event);
     let db = await openEventsDb();
     return db.put('events', event);
 }
-
-// export function saveEvent(event) {
-//     let openRequest = openDb();
-
-//     openRequest.onsuccess = reqEvent => {
-//         let db = reqEvent.target.result;
-//         let transaction = db.transaction('events', 'readwrite');
-//         let events = transaction.objectStore('events');
-//         events.put(event);
-//     };
-// }
