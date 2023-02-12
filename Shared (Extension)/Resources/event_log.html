@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script defer src="event_log.build.js"></script>
+  <link rel="stylesheet" href="options.build.css">
+  <title>Event Log</title>
+</head>
+
+<body class="text-fuchsia-900 p-3.5 lg:p-32" x-data="eventLog">
+  <p>
+    <a href="options.html" class="border-none hover:underline">← Back</a>
+  </p>
+
+  <h1 class="section-header">Event Log</h1>
+
+  <div>
+    <select id="view" class="input" x-model="view" @change="reload">
+      <option value="created_at">created_at</option>
+      <option value="kind">kind</option>
+      <option value="host">host</option>
+      <option value="pubkey">pubkey</option>
+    </select>
+  </div>
+
+  <div>
+    <input type="checkbox" id="asc" class="checkbox" x-model="ascending" @change="reload">
+    <label for="asc">Ascending order</label>
+  </div>
+
+  <template x-for="event in events">
+    <div class="mt-3" x-text="JSON.stringify(event, 2)">
+    </div>
+  </template>
+</body>
+
+</html>

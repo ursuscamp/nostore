@@ -15,7 +15,23 @@ async function openEventsDb() {
 }
 
 export async function saveEvent(event) {
-    console.log('logging event', event);
     let db = await openEventsDb();
     return db.put('events', event);
+}
+
+export async function sortByIndex(index, asc, max) {
+    let db = await openEventsDb();
+    let events = [];
+    let cursor = await db
+        .transaction('events')
+        .store.index(index)
+        .openCursor(null, asc ? 'next' : 'prev');
+    while (cursor) {
+        events.push(cursor.value);
+        if (cursor.length >= max) {
+            break;
+        }
+        cursor = await cursor.continue();
+    }
+    return events;
 }
