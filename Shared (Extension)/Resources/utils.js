@@ -1,4 +1,4 @@
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const storage = browser.storage.local;
 export const RECOMMENDED_RELAYS = [
     new URL('wss://relay.damus.io'),
@@ -38,6 +38,14 @@ async function migrate(version, goal) {
         console.log('Migrating to version 1.');
         let profiles = await getProfiles();
         profiles.forEach(profile => (profile.hosts = {}));
+        await storage.set({ profiles });
+        return version + 1;
+    }
+
+    if (version === 1) {
+        console.log('migrating to version 2.');
+        let profiles = await getProfiles();
+        profiles.forEach(profile => (profile.delegate = false));
         await storage.set({ profiles });
         return version + 1;
     }
@@ -98,6 +106,7 @@ export async function generateProfile(name = 'Default') {
         privKey: await generatePrivateKey(),
         hosts: {},
         relays: [],
+        delegate: false,
     };
 }
 
@@ -212,4 +221,10 @@ export function validateKey(key) {
     const b32Match = /^nsec1[qpzry9x8gf2tvdw0s3jn54khce6mua7l]{58}$/.test(key);
 
     return hexMatch || b32Match;
+}
+
+export async function feature(name) {
+    let fname = `feature:${name}`;
+    let f = await browser.storage.local.get({ [fname]: false });
+    return f[fname];
 }

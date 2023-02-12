@@ -16,6 +16,7 @@ import {
     KINDS,
     humanPermission,
     validateKey,
+    feature,
 } from './utils';
 
 const log = console.log;
@@ -36,6 +37,7 @@ Alpine.data('options', () => ({
     host: '',
     permHosts: [],
     hostPerms: [],
+    delegationActive: false,
     setPermission,
 
     async init(watch = true) {
@@ -63,7 +65,10 @@ Alpine.data('options', () => ({
         // on init to set the correct profile.
         await this.getProfileNames();
         await this.getProfileIndex();
+        this.setProfileIndexFromSearch();
         await this.refreshProfile();
+
+        this.delegationActive = await feature('delegation');
     },
 
     async refreshProfile() {
@@ -76,6 +81,15 @@ Alpine.data('options', () => ({
     },
 
     // Profile functions
+
+    setProfileIndexFromSearch() {
+        let p = new URLSearchParams(window.location.search);
+        let index = p.get('index');
+        if (!index) {
+            return;
+        }
+        this.profileIndex = parseInt(index);
+    },
 
     async getProfileNames() {
         this.profileNames = await getProfileNames();
@@ -96,6 +110,10 @@ Alpine.data('options', () => ({
         let newIndex = await newProfile();
         await this.getProfileNames();
         this.profileIndex = newIndex;
+    },
+
+    newDelegated() {
+        window.location = browser.runtime.getURL('delegation_wizard.html');
     },
 
     async deleteProfile() {
@@ -234,6 +252,11 @@ Alpine.data('options', () => ({
             await clearData();
             await this.init(false);
         }
+    },
+
+    async closeOptions() {
+        const tab = await browser.tabs.getCurrent();
+        await browser.tabs.remove(tab.id);
     },
 
     // Properties
