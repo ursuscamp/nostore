@@ -16,6 +16,7 @@ import {
     setPermission,
     feature,
 } from './utils';
+import { saveEvent } from './db';
 
 const storage = browser.storage.local;
 const log = msg => console.log('Background: ', msg);
@@ -220,7 +221,7 @@ async function signEvent_(event) {
     event.pubkey = pubKey;
     event.id = getEventHash(event);
     event.sig = signEvent(event, privKey);
-    console.log(JSON.stringify(event));
+    saveEvent(event);
     return event;
 }
 
