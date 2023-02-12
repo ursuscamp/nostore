@@ -254,6 +254,11 @@ Alpine.data('options', () => ({
         }
     },
 
+    async closeOptions() {
+        const tab = await browser.tabs.getCurrent();
+        await browser.tabs.remove(tab.id);
+    },
+
     // Properties
 
     get recommendedRelays() {
