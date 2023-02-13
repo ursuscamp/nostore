@@ -19,13 +19,13 @@ export async function saveEvent(event) {
     return db.put('events', event);
 }
 
-export async function sortByIndex(index, asc, max) {
+export async function sortByIndex(index, query, asc, max) {
     let db = await openEventsDb();
     let events = [];
     let cursor = await db
         .transaction('events')
         .store.index(index)
-        .openCursor(null, asc ? 'next' : 'prev');
+        .openCursor(query, asc ? 'next' : 'prev');
     while (cursor) {
         events.push(cursor.value);
         if (cursor.length >= max) {
