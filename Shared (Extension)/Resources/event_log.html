@@ -53,6 +53,16 @@
       </div>
 
       <div x-show="view === 'kind'">
+        <label for="kindShortcut">Quick Select</label>
+        <select id="kindShortcut" class="input" @change="quickKindSelect" x-model="quickKind">
+          <option></option>
+          <template x-for="k in kinds">
+            <option :value="k[0]" x-text="k[1]"></option>
+          </template>
+        </select>
+      </div>
+
+      <div x-show="view === 'kind'">
         <label for="fromKind">From</label>
         <input type="number" id="fromKind" x-model.number="fromKind" class="input" @change="reload">
       </div>

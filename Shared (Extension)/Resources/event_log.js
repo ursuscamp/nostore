@@ -1,7 +1,9 @@
 import Alpine from 'alpinejs';
 import { sortByIndex } from './db';
+import { KINDS } from './utils';
 
 Alpine.data('eventLog', () => ({
+    kinds: KINDS,
     events: [],
     view: 'created_at',
     max: 100,
@@ -12,6 +14,7 @@ Alpine.data('eventLog', () => ({
     toCreatedAt: new Date().toISOString().split('T')[0],
 
     // kind view
+    quickKind: '',
     fromKind: 0,
     toKind: 50000,
 
@@ -28,6 +31,16 @@ Alpine.data('eventLog', () => ({
         );
         this.events = events;
     },
+
+    quickKindSelect() {
+        if (this.quickKind === '') return;
+        const i = parseInt(this.quickKind);
+        this.fromKind = i;
+        this.toKind = i;
+        this.reload();
+    },
+
+    // Properties
 
     get fromTime() {
         let dt = new Date(this.fromCreatedAt);
