@@ -1,6 +1,7 @@
 import Alpine from 'alpinejs';
+import { getPublicKey } from 'nostr-tools';
 import { getHosts, sortByIndex } from './db';
-import { KINDS } from './utils';
+import { getProfiles, KINDS } from './utils';
 
 Alpine.data('eventLog', () => ({
     kinds: KINDS,
@@ -10,6 +11,9 @@ Alpine.data('eventLog', () => ({
     sort: 'asc',
     allHosts: [],
     host: '',
+    allProfiles: [],
+    profile: '',
+    pubkey: '',
 
     // date view
     fromCreatedAt: '2008-10-31',
@@ -33,6 +37,12 @@ Alpine.data('eventLog', () => ({
         );
         this.events = events;
         getHosts().then(hosts => (this.allHosts = hosts));
+        const profiles = await getProfiles();
+        console.log(profiles);
+        this.allProfiles = profiles.map(profile => ({
+            name: profile.name,
+            pubkey: getPublicKey(profile.privKey),
+        }));
     },
 
     quickKindSelect() {
@@ -40,6 +50,13 @@ Alpine.data('eventLog', () => ({
         const i = parseInt(this.quickKind);
         this.fromKind = i;
         this.toKind = i;
+        this.reload();
+    },
+
+    pkFromProfile() {
+        this.pubkey = this.allProfiles.find(
+            ({ name }) => name === this.profile
+        ).pubkey;
         this.reload();
     },
 
@@ -55,6 +72,10 @@ Alpine.data('eventLog', () => ({
         return Math.floor(dt.getTime() / 1000);
     },
 
+    get profileNames() {
+        return this.allProfiles.map(p => p.name);
+    },
+
     get keyRange() {
         switch (this.view) {
             case 'created_at':
@@ -66,6 +87,11 @@ Alpine.data('eventLog', () => ({
             case 'host':
                 if (this.host.length === 0) return null;
                 return IDBKeyRange.only(this.host);
+
+            case 'pubkey':
+                if (this.pubkey.length === 0) return null;
+                return IDBKeyRange.only(this.pubkey);
+
             default:
                 return null;
         }

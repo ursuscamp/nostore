@@ -8,6 +8,12 @@
   <script defer src="event_log.build.js"></script>
   <link rel="stylesheet" href="options.build.css">
   <title>Event Log</title>
+
+  <style>
+    label {
+      display: block;
+    }
+  </style>
 </head>
 
 <body class="text-fuchsia-900 p-3.5 lg:p-32" x-data="eventLog">
@@ -20,7 +26,7 @@
   <div class="section">
     <div class="section-header">Filters</div>
 
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 xl:grid-cols-4 gap-4">
       <div>
         <label for="view">View</label>
         <select id="view" class="input" x-model="view" @change="reload">
@@ -80,6 +86,21 @@
             <option :value="h" x-text="h"></option>
           </template>
         </select>
+      </div>
+
+      <div x-show="view === 'pubkey'">
+        <label for="profiles">Profiles</label>
+        <select id="profiles" class="input" x-model="profile" @change="pkFromProfile">
+          <option value=""></option>
+          <template x-for="p in profileNames">
+            <option :value="p" x-text="p"></option>
+          </template>
+        </select>
+      </div>
+
+      <div x-show="view === 'pubkey'">
+        <label for="pubkey">Pubkey</label>
+        <input type="text" class="input" x-model="pubkey" @input.debounce="reload">
       </div>
     </div>
   </div>
