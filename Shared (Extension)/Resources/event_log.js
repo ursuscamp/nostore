@@ -66,6 +66,10 @@ Alpine.data('eventLog', () => ({
         return jsonFormatHighlight(event);
     },
 
+    formatDate(epochSeconds) {
+        return new Date(epochSeconds * 1000).toUTCString();
+    },
+
     // Properties
 
     get fromTime() {

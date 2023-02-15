@@ -110,7 +110,7 @@
     <div class="mt-3 border-solid border border-fuchsia-700 rounded-lg">
       <div class="select-none flex cursor-pointer text-xl" @click="selected = selected === index ? null : index">
         <div class="flex-none w-14 p-4 font-extrabold" x-text="selected === index ? '-' : '+'"></div>
-        <div class="flex-initial w-64 p-4" x-text="event.metadata.signed_at"></div>
+        <div class="flex-1 w-64 p-4 text-base" x-text="formatDate(event.metadata.signed_at)"></div>
         <div class="flex-initial w-64 p-4" x-text="event.metadata.host"></div>
       </div>
 
