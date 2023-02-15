@@ -1,5 +1,5 @@
 import Alpine from 'alpinejs';
-import { sortByIndex } from './db';
+import { getHosts, sortByIndex } from './db';
 import { KINDS } from './utils';
 
 Alpine.data('eventLog', () => ({
@@ -8,6 +8,8 @@ Alpine.data('eventLog', () => ({
     view: 'created_at',
     max: 100,
     sort: 'asc',
+    allHosts: [],
+    host: '',
 
     // date view
     fromCreatedAt: '2008-10-31',
@@ -30,6 +32,7 @@ Alpine.data('eventLog', () => ({
             this.max
         );
         this.events = events;
+        getHosts().then(hosts => (this.allHosts = hosts));
     },
 
     quickKindSelect() {
@@ -60,6 +63,9 @@ Alpine.data('eventLog', () => ({
             case 'kind':
                 return IDBKeyRange.bound(this.fromKind, this.toKind);
 
+            case 'host':
+                if (this.host.length === 0) return null;
+                return IDBKeyRange.only(this.host);
             default:
                 return null;
         }

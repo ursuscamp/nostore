@@ -35,3 +35,14 @@ export async function sortByIndex(index, query, asc, max) {
     }
     return events;
 }
+
+export async function getHosts() {
+    let db = await openEventsDb();
+    let hosts = new Set();
+    let cursor = await db.transaction('events').store.openCursor();
+    while (cursor) {
+        hosts.add(cursor.value.metadata.host);
+        cursor = await cursor.continue();
+    }
+    return [...hosts];
+}

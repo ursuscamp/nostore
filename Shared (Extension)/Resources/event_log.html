@@ -71,6 +71,16 @@
         <label for="toKind">To</label>
         <input type="number" id="toKind" x-model.number="toKind" class="input" @change="reload">
       </div>
+
+      <div x-show="view === 'host'">
+        <label for="host">Host</label>
+        <select id="host" class="input" x-model="host" @change="reload">
+          <option value=""></option>
+          <template x-for="h in allHosts">
+            <option :value="h" x-text="h"></option>
+          </template>
+        </select>
+      </div>
     </div>
   </div>
 
