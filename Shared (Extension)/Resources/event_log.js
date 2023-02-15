@@ -1,4 +1,5 @@
 import Alpine from 'alpinejs';
+import jsonFormatHighlight from 'json-format-highlight';
 import { getPublicKey } from 'nostr-tools';
 import { getHosts, sortByIndex } from './db';
 import { getProfiles, KINDS } from './utils';
@@ -14,6 +15,7 @@ Alpine.data('eventLog', () => ({
     allProfiles: [],
     profile: '',
     pubkey: '',
+    selected: null,
 
     // date view
     fromCreatedAt: '2008-10-31',
@@ -58,6 +60,10 @@ Alpine.data('eventLog', () => ({
             ({ name }) => name === this.profile
         ).pubkey;
         this.reload();
+    },
+
+    highlight(event) {
+        return jsonFormatHighlight(event);
     },
 
     // Properties
