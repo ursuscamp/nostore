@@ -23,6 +23,7 @@ require('esbuild')
                 './Shared (Extension)/Resources/experimental.js',
             'delegation_wizard.build':
                 './Shared (Extension)/Resources/delegation_wizard.js',
+            'event_log.build': './Shared (Extension)/Resources/event_log.js',
         },
         outdir: './Shared (Extension)/Resources',
         sourcemap: 'inline',

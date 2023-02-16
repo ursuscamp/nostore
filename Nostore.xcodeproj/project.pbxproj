@@ -89,6 +89,12 @@
 		944A6DED299682EF0032C2E3 /* experimental.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DE8299682EF0032C2E3 /* experimental.js */; };
 		944A6DEE299682EF0032C2E3 /* experimental.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DE9299682EF0032C2E3 /* experimental.build.js */; };
 		944A6DEF299682EF0032C2E3 /* experimental.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DE9299682EF0032C2E3 /* experimental.build.js */; };
+		944A6DF3299975A70032C2E3 /* event_log.html in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DF0299975A70032C2E3 /* event_log.html */; };
+		944A6DF4299975A70032C2E3 /* event_log.html in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DF0299975A70032C2E3 /* event_log.html */; };
+		944A6DF5299975A70032C2E3 /* event_log.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DF1299975A70032C2E3 /* event_log.build.js */; };
+		944A6DF6299975A70032C2E3 /* event_log.build.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DF1299975A70032C2E3 /* event_log.build.js */; };
+		944A6DF7299975A70032C2E3 /* event_log.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DF2299975A70032C2E3 /* event_log.js */; };
+		944A6DF8299975A70032C2E3 /* event_log.js in Resources */ = {isa = PBXBuildFile; fileRef = 944A6DF2299975A70032C2E3 /* event_log.js */; };
 		948C69D9297F887600FB3574 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 948C69D8297F887600FB3574 /* options.html */; };
 		948C69DA297F887600FB3574 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 948C69D8297F887600FB3574 /* options.html */; };
 		948C69DD297F88A200FB3574 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 948C69DB297F88A200FB3574 /* options.css */; };
@@ -198,6 +204,9 @@
 		944A6DE7299682EF0032C2E3 /* experimental.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = experimental.html; sourceTree = "<group>"; };
 		944A6DE8299682EF0032C2E3 /* experimental.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = experimental.js; sourceTree = "<group>"; };
 		944A6DE9299682EF0032C2E3 /* experimental.build.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = experimental.build.js; sourceTree = "<group>"; };
+		944A6DF0299975A70032C2E3 /* event_log.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = event_log.html; sourceTree = "<group>"; };
+		944A6DF1299975A70032C2E3 /* event_log.build.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = event_log.build.js; sourceTree = "<group>"; };
+		944A6DF2299975A70032C2E3 /* event_log.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = event_log.js; sourceTree = "<group>"; };
 		948C69D8297F887600FB3574 /* options.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = options.html; sourceTree = "<group>"; };
 		948C69DB297F88A200FB3574 /* options.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = options.css; sourceTree = "<group>"; };
 		948C69DC297F88A200FB3574 /* options.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = options.js; sourceTree = "<group>"; };
@@ -285,6 +294,9 @@
 		941B03A2296FA90400CA291E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				944A6DF1299975A70032C2E3 /* event_log.build.js */,
+				944A6DF0299975A70032C2E3 /* event_log.html */,
+				944A6DF2299975A70032C2E3 /* event_log.js */,
 				944A6DE9299682EF0032C2E3 /* experimental.build.js */,
 				944A6DE7299682EF0032C2E3 /* experimental.html */,
 				944A6DE8299682EF0032C2E3 /* experimental.js */,
@@ -548,17 +560,20 @@
 				948C69E2297F891F00FB3574 /* options.build.js in Resources */,
 				941B03F8296FA90400CA291E /* popup.css in Resources */,
 				941B04292977A28700CA291E /* Icon-128.png in Resources */,
+				944A6DF3299975A70032C2E3 /* event_log.html in Resources */,
 				941B04182971138F00CA291E /* nostr.build.js in Resources */,
 				941B042C2978CD8E00CA291E /* iOS-Icon-1024.png in Resources */,
 				941B03F6296FA90400CA291E /* popup.html in Resources */,
 				941B040D296FAD6900CA291E /* nostr.js in Resources */,
 				944A6DE02991DFC60032C2E3 /* delegation_wizard.build.js in Resources */,
+				944A6DF5299975A70032C2E3 /* event_log.build.js in Resources */,
 				941B03EE296FA90400CA291E /* images in Resources */,
 				941B03F0296FA90400CA291E /* manifest.json in Resources */,
 				944A6DD62988BD230032C2E3 /* permission.js in Resources */,
 				941B04312978CDF900CA291E /* Icon-32.png in Resources */,
 				941B041A2971139000CA291E /* content.build.js in Resources */,
 				941B041C2971139000CA291E /* popup.build.js in Resources */,
+				944A6DF7299975A70032C2E3 /* event_log.js in Resources */,
 				944A6DEC299682EF0032C2E3 /* experimental.js in Resources */,
 				941B03EC296FA90400CA291E /* _locales in Resources */,
 				941B04222977A25700CA291E /* Icon-512.png in Resources */,
@@ -591,17 +606,20 @@
 				948C69E3297F891F00FB3574 /* options.build.js in Resources */,
 				941B03F9296FA90400CA291E /* popup.css in Resources */,
 				941B042A2977A28700CA291E /* Icon-128.png in Resources */,
+				944A6DF4299975A70032C2E3 /* event_log.html in Resources */,
 				941B04192971138F00CA291E /* nostr.build.js in Resources */,
 				941B042D2978CD8E00CA291E /* iOS-Icon-1024.png in Resources */,
 				941B03F7296FA90400CA291E /* popup.html in Resources */,
 				941B040E296FAD6900CA291E /* nostr.js in Resources */,
 				944A6DE12991DFC60032C2E3 /* delegation_wizard.build.js in Resources */,
+				944A6DF6299975A70032C2E3 /* event_log.build.js in Resources */,
 				941B03EF296FA90400CA291E /* images in Resources */,
 				941B03F1296FA90400CA291E /* manifest.json in Resources */,
 				944A6DD72988BD230032C2E3 /* permission.js in Resources */,
 				941B04322978CDF900CA291E /* Icon-32.png in Resources */,
 				941B041B2971139000CA291E /* content.build.js in Resources */,
 				941B041D2971139000CA291E /* popup.build.js in Resources */,
+				944A6DF8299975A70032C2E3 /* event_log.js in Resources */,
 				944A6DED299682EF0032C2E3 /* experimental.js in Resources */,
 				941B03ED296FA90400CA291E /* _locales in Resources */,
 				941B04232977A25700CA291E /* Icon-512.png in Resources */,
