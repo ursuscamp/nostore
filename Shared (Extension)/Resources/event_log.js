@@ -1,4 +1,5 @@
 import Alpine from 'alpinejs';
+import { deleteDB } from 'idb';
 import jsonFormatHighlight from 'json-format-highlight';
 import { getPublicKey } from 'nostr-tools';
 import { downloadAllContents, getHosts, sortByIndex } from './db';
@@ -56,6 +57,13 @@ Alpine.data('eventLog', () => ({
             url: URL.createObjectURL(file),
             active: true,
         });
+    },
+
+    async deleteAll() {
+        if (confirm('Are you sure you want to delete ALL events?')) {
+            await deleteDB('events');
+            await this.reload();
+        }
     },
 
     quickKindSelect() {
