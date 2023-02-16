@@ -46,3 +46,24 @@ export async function getHosts() {
     }
     return [...hosts];
 }
+
+export async function downloadAllContents() {
+    let db = await openEventsDb();
+    let events = [];
+    let cursor = await db.transaction('events').store.openCursor();
+    while (cursor) {
+        events.push(cursor.value.event);
+        cursor = await cursor.continue();
+    }
+    events = events.map(e => JSON.stringify(e));
+    events = events.join('\n');
+    console.log(events);
+
+    const file = new File([events], 'events.jsonl', {
+        type: 'application/octet-stream',
+    });
+
+    const blob = new Blob([events], { type: 'plain/text' });
+
+    return blob;
+}

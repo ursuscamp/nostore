@@ -1,7 +1,7 @@
 import Alpine from 'alpinejs';
 import jsonFormatHighlight from 'json-format-highlight';
 import { getPublicKey } from 'nostr-tools';
-import { getHosts, sortByIndex } from './db';
+import { downloadAllContents, getHosts, sortByIndex } from './db';
 import { getProfiles, KINDS } from './utils';
 
 const TOMORROW = new Date();
@@ -48,6 +48,14 @@ Alpine.data('eventLog', () => ({
             name: profile.name,
             pubkey: getPublicKey(profile.privKey),
         }));
+    },
+
+    async saveAll() {
+        const file = await downloadAllContents();
+        browser.tabs.create({
+            url: URL.createObjectURL(file),
+            active: true,
+        });
     },
 
     quickKindSelect() {
