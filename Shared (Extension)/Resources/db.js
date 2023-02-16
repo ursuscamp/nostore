@@ -28,7 +28,7 @@ export async function sortByIndex(index, query, asc, max) {
         .openCursor(query, asc ? 'next' : 'prev');
     while (cursor) {
         events.push(cursor.value);
-        if (cursor.length >= max) {
+        if (events.length >= max) {
             break;
         }
         cursor = await cursor.continue();

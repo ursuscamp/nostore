@@ -45,7 +45,11 @@
         </select>
       </div>
 
-      <div></div>
+      <div>
+        <label for="max">Max</label>
+        <input type="number" x-model.number="max" @input.debounce.750ms="reload" class="input" min="10">
+      </div>
+
       <div></div>
 
       <div x-show="view === 'created_at'">
