@@ -4,6 +4,9 @@ import { getPublicKey } from 'nostr-tools';
 import { getHosts, sortByIndex } from './db';
 import { getProfiles, KINDS } from './utils';
 
+const TOMORROW = new Date();
+TOMORROW.setDate(TOMORROW.getDate() + 1);
+
 Alpine.data('eventLog', () => ({
     kinds: KINDS,
     events: [],
@@ -19,7 +22,7 @@ Alpine.data('eventLog', () => ({
 
     // date view
     fromCreatedAt: '2008-10-31',
-    toCreatedAt: new Date().toISOString().split('T')[0],
+    toCreatedAt: TOMORROW.toISOString().split('T')[0],
 
     // kind view
     quickKind: '',
@@ -68,6 +71,11 @@ Alpine.data('eventLog', () => ({
 
     formatDate(epochSeconds) {
         return new Date(epochSeconds * 1000).toUTCString();
+    },
+
+    formatKind(kind) {
+        const k = KINDS.find(([kNum, _]) => kNum === kind);
+        return k ? `${k[1]} (${kind})` : `Unknown (${kind})`;
     },
 
     // Properties
