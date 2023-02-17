@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script defer src="permission.build.js"></script>
-  <link rel="stylesheet" href="options.build.css">
+  <link rel="stylesheet" href="/options.build.css">
   <title>Permission Requested</title>
 </head>
 
@@ -35,7 +35,7 @@
       <button class="button" @click="await allow()">Allow</button>
       <button class="button" @click="await deny()">Deny</button>
       <input class="checkbox" type="checkbox" id="remember" x-model="remember">
-      <label for="remember">Remeber selection<span x-show="isSigningEvent"> (by event kind)</span></label>
+      <label for="remember">Remeber selection<span x-show="isSigningEvent" x-cloak> (by event kind)</span></label>
     </div>
   </div>
 </body>

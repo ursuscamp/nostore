@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+[x-cloak] { display: none; }
+
 @layer components {
   .button {
     /* Colors */

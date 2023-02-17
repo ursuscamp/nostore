@@ -23,7 +23,7 @@
     </select>
     <div class="block md:inline p-3 pl-0 md:p-0">
       <button class="button" @click.prevent="newProfile">New</button>
-      <button class="button" @click.prevent="newDelegated" x-show="delegationActive">New Delegate</button>
+      <button class="button" @click.prevent="newDelegated" x-show="delegationActive" x-cloak>New Delegate</button>
       <button class="button" @click.prevent="deleteProfile">Delete</button>
     </div>
   </div>
@@ -40,17 +40,30 @@
         <input x-model="profileName" type="text" class="input" autocapitalize="off" autocomplete="off" spellcheck="off">
       </div>
 
+      <div class="mt-3" x-show="delegate" x-cloak>
+        <div class="mb-1">
+          <span class="text-red-700 font-bold">This is is a delegated profile.</span>
+        </div>
+
+        <label for="delegator-pub-key">Delegator Public Key</label>
+        <br>
+        <input id="delegator-pub-key" x-model="delegator" class="input" autocapitalize="off" autocomplete="off"
+          spellcheck="off" :disabled="delegate">
+      </div>
+
       <div class="mt-3">
         <label for="priv-key">Private Key</label>
         <br>
-        <input x-model="privKey" type="text" class="input" :class="validKeyClass" autocapitalize="off"
-          autocomplete="off" spellcheck="off">
+        <input x-model="privKey" :type="visibilityClass" class="input" :class="validKeyClass" autocapitalize="off"
+          autocomplete="off" spellcheck="off" :disabled="delegate">
+        <a href="" @click.prevent="visible = !visible" x-text="(visible && 'Hide') || 'Show'" class="border-none"></a>
       </div>
 
       <div class="mt-3">
         <label for="pub-key">Public Key</label>
         <br>
         <input x-model="pubKey" type="text" class="input" disabled>
+        <a href="" class="border-none" @click.prevent="copyPubKey" x-text="copied ? 'Copied!' : 'Copy'"></a>
       </div>
 
       <div class="mt-3">
@@ -95,7 +108,7 @@
       </div>
     </template>
 
-    <div class="mt-3" x-show="hasRecommendedRelays">
+    <div class="mt-3" x-show="hasRecommendedRelays" x-cloak>
       <select x-model="recommendedRelay" class="input">
         <option value="" disabled selected>Recommended Relays</option>
         <template x-for="relay in recommendedRelays">
@@ -109,7 +122,7 @@
     <div class="block md:inline p-3 pl-0 md:p-0">
       <button class="button" @click="await addRelay()">Add</button>
     </div>
-    <div class="text-red-500 font-bold" x-show="urlError.length > 0" x-text="urlError"></div>
+    <div class="text-red-500 font-bold" x-show="urlError.length > 0" x-text="urlError" x-cloak></div>
   </div>
 
 
@@ -132,9 +145,9 @@
       </select>
     </div>
 
-    <p x-show="permHosts.length === 0" class="font-bold mt-3">You have not remembered any app requests yet.</p>
+    <p x-show="permHosts.length === 0" x-cloak class="font-bold mt-3">You have not remembered any app requests yet.</p>
 
-    <table class="mt-3 text-xs md:text-base table-fixed" x-show="hostPerms.length > 0">
+    <table class="mt-3 text-xs md:text-base table-fixed" x-show="hostPerms.length > 0" x-cloak>
       <thead class="font-bold text-lg">
         <td class="p-2 text-center">App Request</td>
         <td class="p-2 text-center">Action</td>
@@ -161,9 +174,10 @@
   </div>
 
   <div class="mt-6">
-    <a href="experimental.html" class="border-none hover:underline">Experimental features →</a>
+    <a href="experimental/experimental.html" class="border-none hover:underline">Experimental
+      features →</a>
     <br>
-    <a href="event_log.html" class="border-none hover:underline">Event log →</a>
+    <a href="event_history/event_history.html" class="border-none hover:underline">Event history →</a>
   </div>
 </body>
 

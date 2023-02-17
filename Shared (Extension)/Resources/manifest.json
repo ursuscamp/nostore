@@ -50,9 +50,13 @@
                 "options.build.js",
                 "options.build.css",
                 "options.html",
-                "delegation_wizard.html",
-                "delegation_wizard.build.js",
-                "delegation_wizard.build.css"
+                "wizards/delegation/delegation.html",
+                "wizards/delegation/delegation.build.js",
+                "wizards/delegation/delegation.build.css",
+                "experimental/experimental.html",
+                "experimental/experimental.build.js",
+                "event_history/event_history.html",
+                "event_history/event_history.build.js"
             ],
             "matches": [
                 "<all_urls>"

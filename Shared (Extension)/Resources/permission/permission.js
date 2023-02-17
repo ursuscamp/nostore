@@ -1,6 +1,6 @@
 import Alpine from 'alpinejs';
 import jsonFormatHighlight from 'json-format-highlight';
-import { KINDS } from './utils';
+import { KINDS } from '../utilities/utils';
 
 storage = browser.storage.local;
 
