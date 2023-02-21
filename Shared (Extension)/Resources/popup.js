@@ -6,7 +6,9 @@ import {
     RECOMMENDED_RELAYS,
     saveRelays,
     initialize,
-} from './utils';
+    relayReminder,
+    toggleRelayReminder,
+} from './utilities/utils';
 import Alpine from 'alpinejs';
 window.Alpine = Alpine;
 
@@ -16,6 +18,7 @@ Alpine.data('popup', () => ({
     profileNames: ['Default'],
     profileIndex: 0,
     relayCount: 0,
+    showRelayReminder: true,
 
     async init() {
         log('Initializing backend.');
@@ -25,6 +28,7 @@ Alpine.data('popup', () => ({
             await this.loadNames();
             await this.setProfileIndex();
             await this.countRelays();
+            await this.checkRelayReminder();
         });
 
         // Even though loadProfileIndex will immediately trigger a profile refresh, we still
@@ -35,6 +39,7 @@ Alpine.data('popup', () => ({
         await this.loadNames();
         await this.loadProfileIndex();
         await this.countRelays();
+        await this.checkRelayReminder();
     },
 
     async setProfileIndex() {
@@ -63,6 +68,10 @@ Alpine.data('popup', () => ({
         this.relayCount = relays.length;
     },
 
+    async checkRelayReminder() {
+        this.showRelayReminder = await relayReminder();
+    },
+
     async addRelays() {
         let relays = RECOMMENDED_RELAYS.map(r => ({
             url: r.href,
@@ -71,6 +80,11 @@ Alpine.data('popup', () => ({
         }));
         await saveRelays(this.profileIndex, relays);
         await this.countRelays();
+    },
+
+    async noThanks() {
+        await toggleRelayReminder();
+        this.showRelayReminder = false;
     },
 }));
 

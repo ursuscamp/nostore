@@ -5,9 +5,9 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script defer src="event_log.build.js"></script>
-  <link rel="stylesheet" href="options.build.css">
-  <title>Event Log</title>
+  <script defer src="event_history.build.js"></script>
+  <link rel="stylesheet" href="/options.build.css">
+  <title>Event History</title>
 
   <style>
     label {
@@ -18,10 +18,10 @@
 
 <body class="text-fuchsia-900 p-3.5 lg:p-32" x-data="eventLog">
   <p>
-    <a href="options.html" class="border-none hover:underline">← Back</a>
+    <a href="/options.html" class="border-none hover:underline">← Back</a>
   </p>
 
-  <h1 class="section-header">Event Log</h1>
+  <h1 class="section-header">Event History</h1>
 
   <div class="section">
     <div class="section-header">Filters</div>
@@ -52,17 +52,17 @@
 
       <div></div>
 
-      <div x-show="view === 'created_at'">
+      <div x-show="view === 'created_at'" x-cloak>
         <label for="fromCreatedAt">From</label>
         <input type="date" id="fromCreatedAt" x-model="fromCreatedAt" class="input" @change="reload">
       </div>
 
-      <div x-show="view === 'created_at'">
+      <div x-show="view === 'created_at'" x-cloak>
         <label for="toCreatedAt">To</label>
         <input type="date" id="toCreatedAt" x-model="toCreatedAt" class="input" @change="reload">
       </div>
 
-      <div x-show="view === 'kind'">
+      <div x-show="view === 'kind'" x-cloak>
         <label for="kindShortcut">Quick Select</label>
         <select id="kindShortcut" class="input" @change="quickKindSelect" x-model="quickKind">
           <option></option>
@@ -72,17 +72,17 @@
         </select>
       </div>
 
-      <div x-show="view === 'kind'">
+      <div x-show="view === 'kind'" x-cloak>
         <label for="fromKind">From</label>
         <input type="number" id="fromKind" x-model.number="fromKind" class="input" @change="reload">
       </div>
 
-      <div x-show="view === 'kind'">
+      <div x-show="view === 'kind'" x-cloak>
         <label for="toKind">To</label>
         <input type="number" id="toKind" x-model.number="toKind" class="input" @change="reload">
       </div>
 
-      <div x-show="view === 'host'">
+      <div x-show="view === 'host'" x-cloak>
         <label for="host">Host</label>
         <select id="host" class="input" x-model="host" @change="reload">
           <option value=""></option>
@@ -92,7 +92,7 @@
         </select>
       </div>
 
-      <div x-show="view === 'pubkey'">
+      <div x-show="view === 'pubkey'" x-cloak>
         <label for="profiles">Profiles</label>
         <select id="profiles" class="input" x-model="profile" @change="pkFromProfile">
           <option value=""></option>
@@ -102,7 +102,7 @@
         </select>
       </div>
 
-      <div x-show="view === 'pubkey'">
+      <div x-show="view === 'pubkey'" x-cloak>
         <label for="pubkey">Pubkey</label>
         <input type="text" class="input" x-model="pubkey" @input.debounce="reload">
       </div>
@@ -114,6 +114,7 @@
     </div>
   </div>
 
+  <div class="text-sm italic mt-1 text-right">Click/tap event body to copy the raw event.</div>
 
   <template x-for="(event, index) in events">
     <div class="mt-3 border-solid border border-fuchsia-700 rounded-lg">
@@ -125,11 +126,17 @@
         <div class="flex-1 w-64 p-4" x-text="formatKind(event.event.kind)"></div>
       </div>
 
-      <pre class="rounded-b-lg bg-slate-200 text-sm md:text-xl" x-html="highlight(event)" x-show="selected === index"
-        x-transition:enter.opacity.delay.75ms x-transition:leave.opacity>
-      </pre>
+      <div @click.prevent="copyEvent(index)" class="cursor-pointer">
+        <pre class="rounded-b-lg bg-slate-200 text-sm md:text-xl" x-html="highlight(event)" x-show="selected === index"
+          x-transition:enter.opacity.delay.75ms x-transition:leave.opacity x-cloak>
+        </pre>
+
+      </div>
     </div>
   </template>
+  <div class="fixed top-0 right-0 bg-fuchsia-800 rounded-md p-4 text-white m-8 drop-shadow-md" x-show="copied" x-cloack>
+    Event copied!
+  </div>
 </body>
 
 </html>

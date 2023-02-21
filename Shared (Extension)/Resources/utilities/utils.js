@@ -1,25 +1,31 @@
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 const storage = browser.storage.local;
 export const RECOMMENDED_RELAYS = [
     new URL('wss://relay.damus.io'),
-    new URL('wss://eden.nostr.land'),
-    new URL('wss://nostr-relay.derekross.me'),
     new URL('wss://relay.snort.social'),
+    new URL('wss://nos.lol'),
+    new URL('wss://brb.io'),
+    new URL('wss://nostr.orangepill.dev'),
 ];
 // prettier-ignore
 export const KINDS = [
-    [0,  'Metadata',                    'https://github.com/nostr-protocol/nips/blob/master/01.md'],
-    [1,  'Text',                        'https://github.com/nostr-protocol/nips/blob/master/01.md'],
-    [2,  'Recommend Relay',             'https://github.com/nostr-protocol/nips/blob/master/01.md'],
-    [3,  'Contacts',                    'https://github.com/nostr-protocol/nips/blob/master/02.md'],
-    [4,  'Encrypted Direct Messages',   'https://github.com/nostr-protocol/nips/blob/master/04.md'],
-    [5,  'Event Deletion',              'https://github.com/nostr-protocol/nips/blob/master/09.md'],
-    [7,  'Reaction',                    'https://github.com/nostr-protocol/nips/blob/master/25.md'],
-    [40, 'Channel Creation',            'https://github.com/nostr-protocol/nips/blob/master/28.md'],
-    [41, 'Channel Metadata',            'https://github.com/nostr-protocol/nips/blob/master/28.md'],
-    [42, 'Channel Message',             'https://github.com/nostr-protocol/nips/blob/master/28.md'],
-    [43, 'Channel Hide Message',        'https://github.com/nostr-protocol/nips/blob/master/28.md'],
-    [44, 'Channel Mute User',           'https://github.com/nostr-protocol/nips/blob/master/28.md'],
+    [0,         'Metadata',                    'https://github.com/nostr-protocol/nips/blob/master/01.md'],
+    [1,         'Text',                        'https://github.com/nostr-protocol/nips/blob/master/01.md'],
+    [2,         'Recommend Relay',             'https://github.com/nostr-protocol/nips/blob/master/01.md'],
+    [3,         'Contacts',                    'https://github.com/nostr-protocol/nips/blob/master/02.md'],
+    [4,         'Encrypted Direct Messages',   'https://github.com/nostr-protocol/nips/blob/master/04.md'],
+    [5,         'Event Deletion',              'https://github.com/nostr-protocol/nips/blob/master/09.md'],
+    [7,         'Reaction',                    'https://github.com/nostr-protocol/nips/blob/master/25.md'],
+    [40,        'Channel Creation',            'https://github.com/nostr-protocol/nips/blob/master/28.md'],
+    [41,        'Channel Metadata',            'https://github.com/nostr-protocol/nips/blob/master/28.md'],
+    [42,        'Channel Message',             'https://github.com/nostr-protocol/nips/blob/master/28.md'],
+    [43,        'Channel Hide Message',        'https://github.com/nostr-protocol/nips/blob/master/28.md'],
+    [44,        'Channel Mute User',           'https://github.com/nostr-protocol/nips/blob/master/28.md'],
+    [1984,      'Reporting',                   'https://github.com/nostr-protocol/nips/blob/master/56.md'],
+    [9734,      'Zap Request',                 'https://github.com/nostr-protocol/nips/blob/master/57.md'],
+    [9735,      'Zap',                         'https://github.com/nostr-protocol/nips/blob/master/57.md'],
+    [22242,     'Client Authentication',       'https://github.com/nostr-protocol/nips/blob/master/42.md'],
+    [30023,     'Long-Form Content',           'https://github.com/nostr-protocol/nips/blob/master/23.md'],
 ];
 
 export async function initialize() {
@@ -46,6 +52,14 @@ async function migrate(version, goal) {
         console.log('migrating to version 2.');
         let profiles = await getProfiles();
         profiles.forEach(profile => (profile.delegate = false));
+        await storage.set({ profiles });
+        return version + 1;
+    }
+
+    if (version === 2) {
+        console.log('Migrating to version 3.');
+        let profiles = await getProfiles();
+        profiles.forEach(profile => (profile.relayReminder = true));
         await storage.set({ profiles });
         return version + 1;
     }
@@ -107,6 +121,7 @@ export async function generateProfile(name = 'Default') {
         hosts: {},
         relays: [],
         delegate: false,
+        relayReminder: true,
     };
 }
 
@@ -227,4 +242,24 @@ export async function feature(name) {
     let fname = `feature:${name}`;
     let f = await browser.storage.local.get({ [fname]: false });
     return f[fname];
+}
+
+export async function relayReminder() {
+    let index = await getProfileIndex();
+    let profile = await getProfile(index);
+    return profile.relayReminder;
+}
+
+export async function toggleRelayReminder() {
+    let index = await getProfileIndex();
+    let profiles = await getProfiles();
+    profiles[index].relayReminder = false;
+    await storage.set({ profiles });
+}
+
+export async function getDelegator(index) {
+    let profiles = await getProfiles();
+    let profile = profiles[index];
+    console.log(profile);
+    return [profile.delegate, profile.delegator];
 }

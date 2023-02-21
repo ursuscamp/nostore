@@ -21,13 +21,14 @@
         </div>
     </div>
 
-    <div class="relay" x-show="relayCount < 1">
+    <div class="relay" x-show="relayCount < 1 && showRelayReminder" x-cloak>
         <span>
             You do not have any relays setup for this profile. Would you like to add some recommended
             relays now?
         </span>
         <br>
         <button class="button" @click="await addRelays()">Add Relays</button>
+        <button class="button" @click="noThanks">No Thanks</button>
     </div>
 
     <div class="help">

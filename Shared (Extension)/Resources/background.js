@@ -15,8 +15,8 @@ import {
     getPermission,
     setPermission,
     feature,
-} from './utils';
-import { saveEvent } from './db';
+} from './utilities/utils';
+import { saveEvent } from './utilities/db';
 
 const storage = browser.storage.local;
 const log = msg => console.log('Background: ', msg);
@@ -51,6 +51,8 @@ browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
             return createDelegation(message.payload);
         case 'calcPubKey':
             return Promise.resolve(getPublicKey(message.payload));
+        case 'npubEncode':
+            return Promise.resolve(nip19.npubEncode(message.payload));
 
         // window.nostr
         case 'getPubKey':
@@ -116,7 +118,7 @@ async function ask(uuid, { kind, host, payload }) {
     });
     let tab = await browser.tabs.getCurrent();
     let p = await browser.tabs.create({
-        url: `/permission.html?${qs.toString()}`,
+        url: `/permission/permission.html?${qs.toString()}`,
         openerTabId: tab.id,
     });
     prompt.tabId = p.id;

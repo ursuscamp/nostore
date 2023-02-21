@@ -18,12 +18,14 @@ require('esbuild')
             'nostr.build': './Shared (Extension)/Resources/nostr.js',
             'popup.build': './Shared (Extension)/Resources/popup.js',
             'options.build': './Shared (Extension)/Resources/options.js',
-            'permission.build': './Shared (Extension)/Resources/permission.js',
-            'experimental.build':
-                './Shared (Extension)/Resources/experimental.js',
-            'delegation_wizard.build':
-                './Shared (Extension)/Resources/delegation_wizard.js',
-            'event_log.build': './Shared (Extension)/Resources/event_log.js',
+            'permission/permission.build':
+                './Shared (Extension)/Resources/permission/permission.js',
+            'experimental/experimental.build':
+                './Shared (Extension)/Resources/experimental/experimental.js',
+            'wizards/delegation/delegation.build':
+                './Shared (Extension)/Resources/wizards/delegation/delegation.js',
+            'event_history/event_history.build':
+                './Shared (Extension)/Resources/event_history/event_history.js',
         },
         outdir: './Shared (Extension)/Resources',
         sourcemap: 'inline',

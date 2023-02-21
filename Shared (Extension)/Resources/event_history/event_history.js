@@ -1,9 +1,8 @@
 import Alpine from 'alpinejs';
 import { deleteDB } from 'idb';
 import jsonFormatHighlight from 'json-format-highlight';
-import { getPublicKey } from 'nostr-tools';
-import { downloadAllContents, getHosts, sortByIndex } from './db';
-import { getProfiles, KINDS } from './utils';
+import { downloadAllContents, getHosts, sortByIndex } from '../utilities/db';
+import { getProfiles, KINDS } from '../utilities/utils';
 
 const TOMORROW = new Date();
 TOMORROW.setDate(TOMORROW.getDate() + 1);
@@ -20,6 +19,7 @@ Alpine.data('eventLog', () => ({
     profile: '',
     pubkey: '',
     selected: null,
+    copied: false,
 
     // date view
     fromCreatedAt: '2008-10-31',
@@ -41,14 +41,19 @@ Alpine.data('eventLog', () => ({
             this.sort === 'asc',
             this.max
         );
-        this.events = events;
+        this.events = events.map(e => ({ ...e, copied: false }));
         getHosts().then(hosts => (this.allHosts = hosts));
         const profiles = await getProfiles();
         console.log(profiles);
-        this.allProfiles = profiles.map(profile => ({
-            name: profile.name,
-            pubkey: getPublicKey(profile.privKey),
-        }));
+        this.allProfiles = await Promise.all(
+            profiles.map(async profile => ({
+                name: profile.name,
+                pubkey: await browser.runtime.sendMessage({
+                    kind: 'calcPubKey',
+                    payload: profile.privKey,
+                }),
+            }))
+        );
     },
 
     async saveAll() {
@@ -92,6 +97,13 @@ Alpine.data('eventLog', () => ({
     formatKind(kind) {
         const k = KINDS.find(([kNum, _]) => kNum === kind);
         return k ? `${k[1]} (${kind})` : `Unknown (${kind})`;
+    },
+
+    async copyEvent(index) {
+        let event = JSON.stringify(this.events[index]);
+        this.copied = true;
+        setTimeout(() => (this.copied = false), 1000);
+        await navigator.clipboard.writeText(event);
     },
 
     // Properties

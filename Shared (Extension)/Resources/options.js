@@ -17,9 +17,14 @@ import {
     humanPermission,
     validateKey,
     feature,
-} from './utils';
+    getDelegator,
+} from './utilities/utils';
 
 const log = console.log;
+
+function go(url) {
+    browser.tabs.update({ url: browser.runtime.getURL(url) });
+}
 
 Alpine.data('options', () => ({
     profileNames: ['---'],
@@ -38,7 +43,12 @@ Alpine.data('options', () => ({
     permHosts: [],
     hostPerms: [],
     delegationActive: false,
+    visible: false,
+    delegate: false,
+    delegator: '',
+    copied: false,
     setPermission,
+    go,
 
     async init(watch = true) {
         log('Initialize backend.');
@@ -78,6 +88,7 @@ Alpine.data('options', () => ({
         await this.getNpub();
         await this.getRelays();
         await this.getPermissions();
+        await this.getDelegate();
     },
 
     // Profile functions
@@ -106,6 +117,15 @@ Alpine.data('options', () => ({
         this.profileIndex = await getProfileIndex();
     },
 
+    async getDelegate() {
+        let [delegate, delegator] = await getDelegator(this.profileIndex);
+        this.delegate = delegate;
+        this.delegator = await browser.runtime.sendMessage({
+            kind: 'npubEncode',
+            payload: delegator,
+        });
+    },
+
     async newProfile() {
         let newIndex = await newProfile();
         await this.getProfileNames();
@@ -113,7 +133,9 @@ Alpine.data('options', () => ({
     },
 
     newDelegated() {
-        window.location = browser.runtime.getURL('delegation_wizard.html');
+        window.location = browser.runtime.getURL(
+            'wizards/delegation/delegation.html'
+        );
     },
 
     async deleteProfile() {
@@ -125,6 +147,14 @@ Alpine.data('options', () => ({
             await deleteProfile(this.profileIndex);
             await this.init(false);
         }
+    },
+
+    async copyPubKey() {
+        await navigator.clipboard.writeText(this.pubKey);
+        this.copied = true;
+        setTimeout(() => {
+            this.copied = false;
+        }, 1500);
     },
 
     // Key functions
@@ -291,6 +321,10 @@ Alpine.data('options', () => ({
         return this.validKey
             ? ''
             : 'ring-2 ring-rose-500 focus:ring-2 focus:ring-rose-500 border-transparent focus:border-transparent';
+    },
+
+    get visibilityClass() {
+        return this.visible ? 'text' : 'password';
     },
 }));
 

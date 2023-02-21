@@ -1,5 +1,9 @@
 import Alpine from 'alpinejs';
-import { generateProfile, getProfiles, validateKey } from './utils';
+import {
+    generateProfile,
+    getProfiles,
+    validateKey,
+} from '../../utilities/utils';
 import { getPublicKey, nip26, nip19 } from 'nostr-tools';
 
 const storage = browser.storage.local;
