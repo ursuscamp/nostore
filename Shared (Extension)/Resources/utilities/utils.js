@@ -263,3 +263,11 @@ export async function getDelegator(index) {
     console.log(profile);
     return [profile.delegate, profile.delegator];
 }
+
+export async function getNpub() {
+    let index = await getProfileIndex();
+    return await browser.runtime.sendMessage({
+        kind: 'getNpub',
+        payload: index,
+    });
+}
