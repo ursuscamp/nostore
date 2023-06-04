@@ -40,7 +40,8 @@
         "page": "options.html"
     },
     "permissions": [
-        "storage"
+        "storage",
+        "clipboardWrite"
     ],
     "web_accessible_resources": [
         {

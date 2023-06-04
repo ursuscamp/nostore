@@ -53,6 +53,8 @@ browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
             return Promise.resolve(getPublicKey(message.payload));
         case 'npubEncode':
             return Promise.resolve(nip19.npubEncode(message.payload));
+        case 'copy':
+            return navigator.clipboard.writeText(message.payload);
 
         // window.nostr
         case 'getPubKey':

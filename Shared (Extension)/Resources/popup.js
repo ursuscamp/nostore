@@ -8,6 +8,7 @@ import {
     initialize,
     relayReminder,
     toggleRelayReminder,
+    getNpub,
 } from './utilities/utils';
 import Alpine from 'alpinejs';
 window.Alpine = Alpine;
@@ -85,6 +86,11 @@ Alpine.data('popup', () => ({
     async noThanks() {
         await toggleRelayReminder();
         this.showRelayReminder = false;
+    },
+
+    async copyNpub() {
+        let npub = await getNpub();
+        await browser.runtime.sendMessage({ kind: 'copy', payload: npub });
     },
 }));
 
