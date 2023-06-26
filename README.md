@@ -13,7 +13,7 @@ This is a [NIP-07][nip07] compatible extension for signing nostr events.
 
 Available at the official [Mac App Store](https://apps.apple.com/us/app/nostore/id1666553677).
 
-<p style="text-align: center;">
+<p align="center">
   <a href="https://apps.apple.com/us/app/nostore/id1666553677">
     <img src="/extras/app-store-badge.svg" alt="App Store Download" />
   </a>
