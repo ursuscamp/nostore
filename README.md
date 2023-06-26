@@ -15,7 +15,7 @@ Available at the official [Mac App Store](https://apps.apple.com/us/app/nostore/
 
 <p align="center">
   <a href="https://apps.apple.com/us/app/nostore/id1666553677">
-    <img src="https://github.com/ursuscamp/nostore/assets/954902/f009b6c4-5b54-4ee4-bcd9-9b4daf70588f" alt="App Store Download" />
+    <img src="/extras/mac-app-store-badge-small.svg" alt="App Store Download" />
   </a>
 </p>
 
