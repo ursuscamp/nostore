@@ -9,6 +9,16 @@ This is a [NIP-07][nip07] compatible extension for signing nostr events.
 * Encrypted direct messages (`nip04.encrypt` and `nip04.decrypt`).
 * Multiple profiles.
 
+## Installation
+
+Available at the official [Mac App Store](https://apps.apple.com/us/app/nostore/id1666553677).
+
+<p align="center">
+  <a href="https://apps.apple.com/us/app/nostore/id1666553677">
+    <img src="/extras/mac-app-store-badge-small.svg" alt="App Store Download" />
+  </a>
+</p>
+
 ## Usage
 
 Click the Nostore extension icon in the Safari toolbar, there should be a default profile with a new, random private key.
