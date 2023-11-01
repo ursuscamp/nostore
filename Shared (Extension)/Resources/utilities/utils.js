@@ -15,7 +15,7 @@ export const KINDS = [
     [3,         'Contacts',                    'https://github.com/nostr-protocol/nips/blob/master/02.md'],
     [4,         'Encrypted Direct Messages',   'https://github.com/nostr-protocol/nips/blob/master/04.md'],
     [5,         'Event Deletion',              'https://github.com/nostr-protocol/nips/blob/master/09.md'],
-    [6,         'Repost'                       'https://github.com/nostr-protocol/nips/blob/master/18.md'],
+    [6,         'Repost',                      'https://github.com/nostr-protocol/nips/blob/master/18.md'],
     [7,         'Reaction',                    'https://github.com/nostr-protocol/nips/blob/master/25.md'],
     [8,         'Badge Award',                 'https://github.com/nostr-protocol/nips/blob/master/58.md'],
     [16,        'Generic Repost',              'https://github.com/nostr-protocol/nips/blob/master/18.md'],
