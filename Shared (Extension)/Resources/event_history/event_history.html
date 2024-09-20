@@ -1,142 +1,228 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script defer src="event_history.build.js"></script>
+        <link rel="stylesheet" href="/options.build.css" />
+        <title>Event History</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script defer src="event_history.build.js"></script>
-  <link rel="stylesheet" href="/options.build.css">
-  <title>Event History</title>
+        <style>
+            label {
+                display: block;
+            }
+        </style>
+    </head>
 
-  <style>
-    label {
-      display: block;
-    }
-  </style>
-</head>
+    <body class="text-fuchsia-900 p-3.5 lg:p-32" x-data="eventLog">
+        <p>
+            <a href="/options.html" class="border-none hover:underline"
+                >← Back</a
+            >
+        </p>
 
-<body class="text-fuchsia-900 p-3.5 lg:p-32" x-data="eventLog">
-  <p>
-    <a href="/options.html" class="border-none hover:underline">← Back</a>
-  </p>
+        <h1 class="section-header">Event History</h1>
 
-  <h1 class="section-header">Event History</h1>
+        <div class="section">
+            <div class="section-header">Filters</div>
 
-  <div class="section">
-    <div class="section-header">Filters</div>
+            <div class="grid grid-cols-2 xl:grid-cols-4 gap-4">
+                <div>
+                    <label for="view">View</label>
+                    <select
+                        id="view"
+                        class="input"
+                        x-model="view"
+                        @change="reload"
+                    >
+                        <option value="created_at">created_at</option>
+                        <option value="kind">kind</option>
+                        <option value="host">host</option>
+                        <option value="pubkey">pubkey</option>
+                    </select>
+                </div>
 
-    <div class="grid grid-cols-2 xl:grid-cols-4 gap-4">
-      <div>
-        <label for="view">View</label>
-        <select id="view" class="input" x-model="view" @change="reload">
-          <option value="created_at">created_at</option>
-          <option value="kind">kind</option>
-          <option value="host">host</option>
-          <option value="pubkey">pubkey</option>
-        </select>
-      </div>
+                <div>
+                    <label for="sort">Order</label>
+                    <select
+                        id="sort"
+                        x-model="sort"
+                        class="input"
+                        @change="reload"
+                    >
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
 
-      <div>
-        <label for="sort">Order</label>
-        <select id="sort" x-model="sort" class="input" @change="reload">
-          <option value="asc">Ascending</option>
-          <option value="desc">Descending</option>
-        </select>
-      </div>
+                <div>
+                    <label for="max">Max</label>
+                    <input
+                        type="number"
+                        x-model.number="max"
+                        @input.debounce.750ms="reload"
+                        class="input"
+                        min="10"
+                    />
+                </div>
 
-      <div>
-        <label for="max">Max</label>
-        <input type="number" x-model.number="max" @input.debounce.750ms="reload" class="input" min="10">
-      </div>
+                <div></div>
 
-      <div></div>
+                <div x-show="view === 'created_at'" x-cloak>
+                    <label for="fromCreatedAt">From</label>
+                    <input
+                        type="date"
+                        id="fromCreatedAt"
+                        x-model="fromCreatedAt"
+                        class="input"
+                        @change="reload"
+                    />
+                </div>
 
-      <div x-show="view === 'created_at'" x-cloak>
-        <label for="fromCreatedAt">From</label>
-        <input type="date" id="fromCreatedAt" x-model="fromCreatedAt" class="input" @change="reload">
-      </div>
+                <div x-show="view === 'created_at'" x-cloak>
+                    <label for="toCreatedAt">To</label>
+                    <input
+                        type="date"
+                        id="toCreatedAt"
+                        x-model="toCreatedAt"
+                        class="input"
+                        @change="reload"
+                    />
+                </div>
 
-      <div x-show="view === 'created_at'" x-cloak>
-        <label for="toCreatedAt">To</label>
-        <input type="date" id="toCreatedAt" x-model="toCreatedAt" class="input" @change="reload">
-      </div>
+                <div x-show="view === 'kind'" x-cloak>
+                    <label for="kindShortcut">Quick Select</label>
+                    <select
+                        id="kindShortcut"
+                        class="input"
+                        @change="quickKindSelect"
+                        x-model="quickKind"
+                    >
+                        <option></option>
+                        <template x-for="k in kinds">
+                            <option :value="k[0]" x-text="k[1]"></option>
+                        </template>
+                    </select>
+                </div>
 
-      <div x-show="view === 'kind'" x-cloak>
-        <label for="kindShortcut">Quick Select</label>
-        <select id="kindShortcut" class="input" @change="quickKindSelect" x-model="quickKind">
-          <option></option>
-          <template x-for="k in kinds">
-            <option :value="k[0]" x-text="k[1]"></option>
-          </template>
-        </select>
-      </div>
+                <div x-show="view === 'kind'" x-cloak>
+                    <label for="fromKind">From</label>
+                    <input
+                        type="number"
+                        id="fromKind"
+                        x-model.number="fromKind"
+                        class="input"
+                        @change="reload"
+                    />
+                </div>
 
-      <div x-show="view === 'kind'" x-cloak>
-        <label for="fromKind">From</label>
-        <input type="number" id="fromKind" x-model.number="fromKind" class="input" @change="reload">
-      </div>
+                <div x-show="view === 'kind'" x-cloak>
+                    <label for="toKind">To</label>
+                    <input
+                        type="number"
+                        id="toKind"
+                        x-model.number="toKind"
+                        class="input"
+                        @change="reload"
+                    />
+                </div>
 
-      <div x-show="view === 'kind'" x-cloak>
-        <label for="toKind">To</label>
-        <input type="number" id="toKind" x-model.number="toKind" class="input" @change="reload">
-      </div>
+                <div x-show="view === 'host'" x-cloak>
+                    <label for="host">Host</label>
+                    <select
+                        id="host"
+                        class="input"
+                        x-model="host"
+                        @change="reload"
+                    >
+                        <option value=""></option>
+                        <template x-for="h in allHosts">
+                            <option :value="h" x-text="h"></option>
+                        </template>
+                    </select>
+                </div>
 
-      <div x-show="view === 'host'" x-cloak>
-        <label for="host">Host</label>
-        <select id="host" class="input" x-model="host" @change="reload">
-          <option value=""></option>
-          <template x-for="h in allHosts">
-            <option :value="h" x-text="h"></option>
-          </template>
-        </select>
-      </div>
+                <div x-show="view === 'pubkey'" x-cloak>
+                    <label for="profiles">Profiles</label>
+                    <select
+                        id="profiles"
+                        class="input"
+                        x-model="profile"
+                        @change="pkFromProfile"
+                    >
+                        <option value=""></option>
+                        <template x-for="p in profileNames">
+                            <option :value="p" x-text="p"></option>
+                        </template>
+                    </select>
+                </div>
 
-      <div x-show="view === 'pubkey'" x-cloak>
-        <label for="profiles">Profiles</label>
-        <select id="profiles" class="input" x-model="profile" @change="pkFromProfile">
-          <option value=""></option>
-          <template x-for="p in profileNames">
-            <option :value="p" x-text="p"></option>
-          </template>
-        </select>
-      </div>
+                <div x-show="view === 'pubkey'" x-cloak>
+                    <label for="pubkey">Pubkey</label>
+                    <input
+                        type="text"
+                        class="input"
+                        x-model="pubkey"
+                        @input.debounce="reload"
+                    />
+                </div>
+            </div>
 
-      <div x-show="view === 'pubkey'" x-cloak>
-        <label for="pubkey">Pubkey</label>
-        <input type="text" class="input" x-model="pubkey" @input.debounce="reload">
-      </div>
-    </div>
+            <div>
+                <button class="button mt-3" @click="saveAll">Save all</button>
+                <button class="button mt-3" @click="deleteAll">
+                    Delete all
+                </button>
+            </div>
+        </div>
 
-    <div>
-      <button class="button mt-3" @click="saveAll">Save all</button>
-      <button class="button mt-3" @click="deleteAll">Delete all</button>
-    </div>
-  </div>
+        <div class="text-sm italic mt-1 text-right">
+            Click/tap event body to copy the raw event.
+        </div>
 
-  <div class="text-sm italic mt-1 text-right">Click/tap event body to copy the raw event.</div>
+        <template x-for="(event, index) in events">
+            <div class="mt-3 border-solid border border-fuchsia-700 rounded-lg">
+                <div
+                    class="select-none flex cursor-pointer text-sm md:text-xl"
+                    @click="selected = selected === index ? null : index"
+                >
+                    <div
+                        class="flex-none w-14 p-4 font-extrabold"
+                        x-text="selected === index ? '-' : '+'"
+                    ></div>
+                    <div
+                        class="flex-1 w-64 p-4"
+                        x-text="formatDate(event.metadata.signed_at)"
+                    ></div>
+                    <div
+                        class="flex-1 w-64 p-4"
+                        x-text="event.metadata.host"
+                    ></div>
+                    <div
+                        class="flex-1 w-64 p-4"
+                        x-text="formatKind(event.event.kind)"
+                    ></div>
+                </div>
 
-  <template x-for="(event, index) in events">
-    <div class="mt-3 border-solid border border-fuchsia-700 rounded-lg">
-      <div class="select-none flex cursor-pointer text-sm md:text-xl"
-        @click="selected = selected === index ? null : index">
-        <div class="flex-none w-14 p-4 font-extrabold" x-text="selected === index ? '-' : '+'"></div>
-        <div class="flex-1 w-64 p-4" x-text="formatDate(event.metadata.signed_at)"></div>
-        <div class="flex-1 w-64 p-4" x-text="event.metadata.host"></div>
-        <div class="flex-1 w-64 p-4" x-text="formatKind(event.event.kind)"></div>
-      </div>
-
-      <div @click.prevent="copyEvent(index)" class="cursor-pointer">
-        <pre class="rounded-b-lg bg-slate-200 text-sm md:text-xl" x-html="highlight(event)" x-show="selected === index"
-          x-transition:enter.opacity.delay.75ms x-transition:leave.opacity x-cloak>
-        </pre>
-
-      </div>
-    </div>
-  </template>
-  <div class="fixed top-0 right-0 bg-fuchsia-800 rounded-md p-4 text-white m-8 drop-shadow-md" x-show="copied" x-cloack>
-    Event copied!
-  </div>
-</body>
-
+                <div @click.prevent="copyEvent(index)" class="cursor-pointer">
+                    <pre
+                        class="rounded-b-lg bg-slate-200 text-sm md:text-xl"
+                        x-html="highlight(event)"
+                        x-show="selected === index"
+                        x-transition:enter.opacity.delay.75ms
+                        x-transition:leave.opacity
+                        x-cloak
+                    ></pre>
+                </div>
+            </div>
+        </template>
+        <div
+            class="fixed top-0 right-0 bg-fuchsia-800 rounded-md p-4 text-white m-8 drop-shadow-md"
+            x-show="copied"
+            x-cloack
+        >
+            Event copied!
+        </div>
+    </body>
 </html>

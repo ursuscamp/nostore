@@ -1,32 +1,33 @@
 {
-  "name": "nostore",
-  "version": "1.2.0",
-  "description": "",
-  "source": [
-    "background.js",
-    "content.js",
-    "nostr.js",
-    "popup.html"
-  ],
-  "scripts": {
-    "build": "./build.js",
-    "watch": "./build.js watch",
-    "watch-tailwind": "tailwindcss -i './Shared (Extension)/Resources/options.css' -o './Shared (Extension)/Resources/options.build.css' --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "alpinejs": "^3.10.5",
-    "async-mutex": "^0.4.0",
-    "idb": "^7.1.1",
-    "json-format-highlight": "^1.0.4",
-    "nostr-tools": "^1.3.0"
-  },
-  "devDependencies": {
-    "@tailwindcss/forms": "^0.5.3",
-    "esbuild": "^0.16.17",
-    "prettier": "^2.8.3",
-    "tailwindcss": "^3.2.4"
-  }
+    "name": "nostore",
+    "version": "1.2.0",
+    "description": "",
+    "source": [
+        "background.js",
+        "content.js",
+        "nostr.js",
+        "popup.html"
+    ],
+    "scripts": {
+        "build": "tailwindcss -i './Shared (Extension)/Resources/options.css' -o './Shared (Extension)/Resources/options.build.css' && ./build.js",
+        "watch": "./build.js watch",
+        "watch-tailwind": "tailwindcss -i './Shared (Extension)/Resources/options.css' -o './Shared (Extension)/Resources/options.build.css' --watch",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@alpinejs/csp": "^3.14.1",
+        "alpinejs": "^3.14.1",
+        "async-mutex": "^0.5.0",
+        "idb": "^8.0.0",
+        "json-format-highlight": "^1.0.4",
+        "nostr-tools": "^2.7.2"
+    },
+    "devDependencies": {
+        "@tailwindcss/forms": "^0.5.9",
+        "esbuild": "^0.23.1",
+        "prettier": "^3.3.3",
+        "tailwindcss": "^3.4.12"
+    }
 }

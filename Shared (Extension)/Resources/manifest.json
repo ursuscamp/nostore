@@ -17,12 +17,8 @@
     },
     "content_scripts": [
         {
-            "js": [
-                "content.build.js"
-            ],
-            "matches": [
-                "<all_urls>"
-            ]
+            "js": ["content.build.js"],
+            "matches": ["<all_urls>"]
         }
     ],
     "action": {
@@ -39,10 +35,7 @@
     "options_ui": {
         "page": "options.html"
     },
-    "permissions": [
-        "storage",
-        "clipboardWrite"
-    ],
+    "permissions": ["storage", "clipboardWrite"],
     "web_accessible_resources": [
         {
             "resources": [
@@ -51,21 +44,16 @@
                 "options.build.js",
                 "options.build.css",
                 "options.html",
-                "wizards/delegation/delegation.html",
-                "wizards/delegation/delegation.build.js",
-                "wizards/delegation/delegation.build.css",
                 "experimental/experimental.html",
                 "experimental/experimental.build.js",
                 "event_history/event_history.html",
                 "event_history/event_history.build.js"
             ],
-            "matches": [
-                "<all_urls>"
-            ]
+            "matches": ["<all_urls>"]
         }
     ],
     "content_security_policy": {
-        "extension_pages": "script-src 'self' 'unsafe-eval'"
+        "extension_pages": "object-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-src 'self'; font-src 'self'; media-src 'self'; child-src 'self';"
     },
     "browser_specific_settings": {
         "safari": {

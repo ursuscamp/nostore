@@ -2,9 +2,9 @@ import Alpine from 'alpinejs';
 
 const FEATURES = [
     [
-        'delegation',
-        'NIP-26 Delegation Profiles',
-        'Allow user to create delegated profiles that obey the NIP-26 standard. Requires client support.',
+        'none',
+        'NIP-XX: None',
+        'Reserved for the future use.',
     ],
 ];
 

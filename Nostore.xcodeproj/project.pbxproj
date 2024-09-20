@@ -188,7 +188,6 @@
 		941B042F2978CDF900CA291E /* Icon-16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-16.png"; sourceTree = "<group>"; };
 		941B04302978CDF900CA291E /* Icon-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-64.png"; sourceTree = "<group>"; };
 		944A6E02299F2FBB0032C2E3 /* experimental */ = {isa = PBXFileReference; lastKnownFileType = folder; path = experimental; sourceTree = "<group>"; };
-		944A6E0D299F32070032C2E3 /* wizards */ = {isa = PBXFileReference; lastKnownFileType = folder; path = wizards; sourceTree = "<group>"; };
 		944A6E12299F39D30032C2E3 /* permission */ = {isa = PBXFileReference; lastKnownFileType = folder; path = permission; sourceTree = "<group>"; };
 		944A6E38299F46270032C2E3 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		944A6E3E299F46D30032C2E3 /* NostoreApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NostoreApp.swift; sourceTree = "<group>"; };
@@ -294,7 +293,6 @@
 			children = (
 				9471E91E29A470C700EA623B /* event_history */,
 				944A6E12299F39D30032C2E3 /* permission */,
-				944A6E0D299F32070032C2E3 /* wizards */,
 				944A6E02299F2FBB0032C2E3 /* experimental */,
 				948C69E4297F8BA600FB3574 /* options.build.css */,
 				948C69E1297F891F00FB3574 /* options.build.js */,
@@ -461,7 +459,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					941B03AE296FA90400CA291E = {
 						CreatedOnToolsVersion = 14.2;
@@ -503,7 +501,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				944A6E0E299F32070032C2E3 /* wizards in Resources */,
 				941B03E0296FA90400CA291E /* Icon.png in Resources */,
 				944A6E03299F2FBB0032C2E3 /* experimental in Resources */,
 				941B03DE296FA90400CA291E /* Main.html in Resources */,
@@ -520,7 +517,6 @@
 			files = (
 				941B03E1296FA90400CA291E /* Icon.png in Resources */,
 				941B03E3296FA90400CA291E /* Style.css in Resources */,
-				944A6E0F299F32070032C2E3 /* wizards in Resources */,
 				941B03E5296FA90400CA291E /* Script.js in Resources */,
 				944A6E14299F39D30032C2E3 /* permission in Resources */,
 				941B03E9296FA90400CA291E /* Assets.xcassets in Resources */,
@@ -534,7 +530,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9471E91F29A470C700EA623B /* event_history in Resources */,
-				944A6E10299F32070032C2E3 /* wizards in Resources */,
 				941B0413297110F100CA291E /* background.build.js in Resources */,
 				944A6E15299F39D30032C2E3 /* permission in Resources */,
 				948C69E82982DFE900FB3574 /* background.html in Resources */,
@@ -572,7 +567,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9471E92029A470C700EA623B /* event_history in Resources */,
-				944A6E11299F32070032C2E3 /* wizards in Resources */,
 				941B0414297110F100CA291E /* background.build.js in Resources */,
 				944A6E16299F39D30032C2E3 /* permission in Resources */,
 				948C69E92982DFE900FB3574 /* background.html in Resources */,
@@ -860,7 +854,6 @@
 		941B0403296FA90400CA291E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -902,7 +895,6 @@
 		941B0404296FA90400CA291E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -960,7 +952,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -993,7 +985,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2.0;
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1011,7 +1003,6 @@
 		941B040A296FA90400CA291E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/nostore.entitlements";
@@ -1048,7 +1039,6 @@
 		941B040B296FA90400CA291E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/nostore.entitlements";

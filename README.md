@@ -4,10 +4,10 @@ This is a [NIP-07][nip07] compatible extension for signing nostr events.
 
 ## Features
 
-* Login with nostr (`getPublicKey`).
-* Post nostr event (`signEvent`).
-* Encrypted direct messages (`nip04.encrypt` and `nip04.decrypt`).
-* Multiple profiles.
+- Login with nostr (`getPublicKey`).
+- Post nostr event (`signEvent`).
+- Encrypted direct messages (`nip04.encrypt` and `nip04.decrypt`).
+- Multiple profiles.
 
 ## Installation
 
