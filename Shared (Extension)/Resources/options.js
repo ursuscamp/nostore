@@ -16,8 +16,6 @@ import {
     KINDS,
     humanPermission,
     validateKey,
-    feature,
-    getDelegator,
 } from './utilities/utils';
 
 const log = console.log;
@@ -42,10 +40,7 @@ Alpine.data('options', () => ({
     host: '',
     permHosts: [],
     hostPerms: [],
-    delegationActive: false,
     visible: false,
-    delegate: false,
-    delegator: '',
     copied: false,
     setPermission,
     go,
@@ -77,8 +72,6 @@ Alpine.data('options', () => ({
         await this.getProfileIndex();
         this.setProfileIndexFromSearch();
         await this.refreshProfile();
-
-        this.delegationActive = await feature('delegation');
     },
 
     async refreshProfile() {
@@ -88,7 +81,6 @@ Alpine.data('options', () => ({
         await this.getNpub();
         await this.getRelays();
         await this.getPermissions();
-        await this.getDelegate();
     },
 
     // Profile functions
@@ -117,25 +109,10 @@ Alpine.data('options', () => ({
         this.profileIndex = await getProfileIndex();
     },
 
-    async getDelegate() {
-        let [delegate, delegator] = await getDelegator(this.profileIndex);
-        this.delegate = delegate;
-        this.delegator = await browser.runtime.sendMessage({
-            kind: 'npubEncode',
-            payload: delegator,
-        });
-    },
-
     async newProfile() {
         let newIndex = await newProfile();
         await this.getProfileNames();
         this.profileIndex = newIndex;
-    },
-
-    newDelegated() {
-        window.location = browser.runtime.getURL(
-            'wizards/delegation/delegation.html'
-        );
     },
 
     async deleteProfile() {

@@ -1,12 +1,11 @@
 import {
-    generatePrivateKey,
-    getPublicKey,
-    signEvent,
     nip04,
     nip19,
-    nip26,
-    getEventHash,
+    generateSecretKey,
+    getPublicKey,
+    finalizeEvent,
 } from 'nostr-tools';
+import { bytesToHex, hexToBytes } from '@noble/hashes/utils';
 import { Mutex } from 'async-mutex';
 import {
     getProfileIndex,
@@ -14,7 +13,6 @@ import {
     getProfile,
     getPermission,
     setPermission,
-    feature,
 } from './utilities/utils';
 import { saveEvent } from './utilities/db';
 
@@ -40,15 +38,13 @@ browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
             deny(message);
             return Promise.resolve(true);
         case 'generatePrivateKey':
-            return Promise.resolve(generatePrivateKey());
+            return Promise.resolve(generatePrivateKey_());
         case 'savePrivateKey':
             return savePrivateKey(message.payload);
         case 'getNpub':
             return getNpub(message.payload);
         case 'getNsec':
             return getNsec(message.payload);
-        case 'createDelegation':
-            return createDelegation(message.payload);
         case 'calcPubKey':
             return Promise.resolve(getPublicKey(message.payload));
         case 'npubEncode':
@@ -63,7 +59,7 @@ browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
         case 'nip04.decrypt':
         case 'getRelays':
             validations[uuid] = sendResponse;
-            setDelegation(message).then(() => ask(uuid, message));
+            ask(uuid, message);
             setTimeout(() => {
                 prompt.release?.();
             }, 10_000);
@@ -86,6 +82,11 @@ async function forceRelease() {
             prompt.tabId = null;
         }
     }
+}
+
+async function generatePrivateKey_() {
+    const sk = generateSecretKey();
+    return bytesToHex(sk);
 }
 
 async function ask(uuid, { kind, host, payload }) {
@@ -178,35 +179,32 @@ async function savePrivateKey([index, privKey]) {
         privKey = nip19.decode(privKey).data;
     }
     let profiles = await get('profiles');
-    profiles[index].privKey = privKey;
+    profiles[index].privKey = bytesToHex(privKey);
     await storage.set({ profiles });
     return true;
 }
 
 async function getNsec(index) {
     let profile = await getProfile(index);
-    let nsec = nip19.nsecEncode(profile.privKey);
+    let nsec = nip19.nsecEncode(hexToBytes(profile.privKey));
     return nsec;
 }
 
 async function getNpub(index) {
     let profile = await getProfile(index);
-    let pubKey = getPublicKey(profile.privKey);
+    let pubKey = getPublicKey(hexToBytes(profile.privKey));
     let npub = nip19.npubEncode(pubKey);
     return npub;
 }
 
 async function getPrivKey() {
     let profile = await currentProfile();
-    return profile.privKey;
+    return hexToBytes(profile.privKey);
 }
 
 async function getPubKey() {
     let pi = await getProfileIndex();
     let profile = await getProfile(pi);
-    if (profile.delegate) {
-        return profile.delegator;
-    }
     let privKey = await getPrivKey();
     let pubKey = getPublicKey(privKey);
     return pubKey;
@@ -220,11 +218,8 @@ async function currentProfile() {
 
 async function signEvent_(event, host) {
     event = JSON.parse(JSON.stringify(event));
-    let privKey = await getPrivKey();
-    let pubKey = getPublicKey(privKey);
-    event.pubkey = pubKey;
-    event.id = getEventHash(event);
-    event.sig = signEvent(event, privKey);
+    let sk = await getPrivKey();
+    event = finalizeEvent(event, sk);
     saveEvent({
         event,
         metadata: { host, signed_at: Math.round(Date.now() / 1000) },
@@ -252,43 +247,4 @@ async function getRelays() {
         relayObj[url] = { read, write };
     });
     return relayObj;
-}
-
-function createDelegation({
-    kind,
-    delegatorPrivKey,
-    delegateePubKey,
-    until,
-    since,
-}) {
-    delegatorPrivKey = nip19.decode(delegatorPrivKey).data;
-    let delegation = nip26.createDelegation(delegatorPrivKey, {
-        pubkey: delegateePubKey,
-        until,
-        // kind,
-        // since,
-    });
-    return Promise.resolve(delegation);
-}
-
-async function setDelegation({ payload }) {
-    if (!payload) return;
-    let active = await feature('delegation');
-    if (!active) return;
-
-    let { delegate, delegation } = await currentProfile();
-
-    // Nothing to do if this is not a delegate
-    if (!delegate) {
-        return;
-    }
-
-    payload.tags = payload.tags || [];
-
-    payload.tags.push([
-        'delegation',
-        delegation.from,
-        delegation.cond,
-        delegation.sig,
-    ]);
 }
