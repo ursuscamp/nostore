@@ -1,5 +1,7 @@
 # Nostore
 
+**WARNING**: This app is no longer in support. I haven't been a Nostr or Safari user for some time and no longer have the will to maintain this application. When the Apple developer license expires, this app will drop off the App Store. If anyone wishes to fork this app and restart it, you have my blessing. Sorry for any inconvenience.
+
 This is a [NIP-07][nip07] compatible extension for signing nostr events.
 
 ## Features
